@@ -1,0 +1,79 @@
+package com.kliachenko.presentation.load
+
+import org.junit.Before
+import org.junit.Test
+
+
+class MainViewModelTest {
+
+    private lateinit var viewModel: MainViewModel
+    private lateinit var runAsync: FakeRunAsync
+    private lateinit var observable: FakeUiObservable
+    private lateinit var repository: FakeRepository
+    private lateinit var navigation: FakeNavigation
+    private lateinit var clear: FakeClear
+
+    @Before
+    fun setup() {
+        runAsync = FakeRunAsync()
+        observable = FakeUiObservable()
+        repository = FakeRepository()
+        navigation = FakeNavigation()
+        clear = FakeClear()
+        viewModel = MainViewModel(
+            observable = observable,
+            repository = repository,
+            navigation = navigation,
+            clear = clear,
+            runAsync = runAsync
+        )
+    }
+
+    @Test
+    fun testFirstRunError() {
+        repository.noCacheData()
+        viewModel.init()
+        observable.checkProgress()
+        runAsync.returnLoadResult()
+        observable.checkError()
+
+        viewModel.retry()
+        observable.checkProgress()
+        runAsync.returnLoadResult()
+        repository.checkLoadData()
+        navigation.checkNavigateToDashBoardScreen()
+        clear.checkCalled(MainViewModel::class.java)
+    }
+
+    @Test
+    fun testFirstRunSuccess() {
+        repository.noCacheData()
+        viewModel.init()
+        observable.checkProgress()
+        runAsync.returnLoadResult()
+        repository.checkLoadData()
+        navigation.checkNavigateToDashBoardScreen()
+        clear.checkCalled(MainViewModel::class.java)
+    }
+
+    @Test
+    fun testHasLoadData() {
+        repository.hasCacheData()
+        viewModel.init()
+        observable.checkProgress()
+        navigation.checkNavigateToDashBoardScreen()
+        clear.checkCalled(MainViewModel::class.java)
+    }
+
+    @Test
+    fun lifeCycle() {
+        val observer: UpdateUI<LoadingUiSate> = object : UpdateUi<LoadingUiSate> {
+            override fun updateUi(uiState: LoadingUiSate) = Unit
+        }
+        viewModel.startGettingUpdates(observer = observer)
+        observable.checkObserver(observer)
+
+        viewModel.stopGettingUpdates()
+        observer.checkEmpty(observer)
+    }
+}
