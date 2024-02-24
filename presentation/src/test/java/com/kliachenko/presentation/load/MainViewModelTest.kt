@@ -40,7 +40,7 @@ class MainViewModelTest {
         viewModel.retry()
         observable.checkProgress()
         runAsync.returnLoadResult()
-        repository.checkLoadData()
+        repository.checkLoadData(listOf("A", "B", "C"))
         navigation.checkNavigateToDashBoardScreen()
         clear.checkCalled(MainViewModel::class.java)
     }
@@ -51,7 +51,7 @@ class MainViewModelTest {
         viewModel.init()
         observable.checkProgress()
         runAsync.returnLoadResult()
-        repository.checkLoadData()
+        repository.checkLoadData(listOf("A", "B", "C"))
         navigation.checkNavigateToDashBoardScreen()
         clear.checkCalled(MainViewModel::class.java)
     }
@@ -67,8 +67,8 @@ class MainViewModelTest {
 
     @Test
     fun lifeCycle() {
-        val observer: UpdateUI<LoadingUiSate> = object : UpdateUi<LoadingUiSate> {
-            override fun updateUi(uiState: LoadingUiSate) = Unit
+        val observer: UpdateUI<LoadingUiState> = object : UpdateUi<LoadingUiState> {
+            override fun updateUi(uiState: LoadingUiState) = Unit
         }
         viewModel.startGettingUpdates(observer = observer)
         observable.checkObserver(observer)
