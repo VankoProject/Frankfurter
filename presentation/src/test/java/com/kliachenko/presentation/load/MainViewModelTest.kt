@@ -6,7 +6,7 @@ import org.junit.Test
 
 class MainViewModelTest {
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: LoadViewModel
     private lateinit var runAsync: FakeRunAsync
     private lateinit var observable: FakeUiObservable
     private lateinit var repository: FakeRepository
@@ -20,7 +20,7 @@ class MainViewModelTest {
         repository = FakeRepository()
         navigation = FakeNavigation()
         clear = FakeClear()
-        viewModel = MainViewModel(
+        viewModel = LoadViewModel(
             observable = observable,
             repository = repository,
             navigation = navigation,
@@ -42,7 +42,7 @@ class MainViewModelTest {
         runAsync.returnLoadResult()
         repository.checkLoadData(listOf("A", "B", "C"))
         navigation.checkNavigateToDashBoardScreen()
-        clear.checkCalled(MainViewModel::class.java)
+        clear.checkCalled(LoadViewModel::class.java)
     }
 
     @Test
@@ -53,7 +53,7 @@ class MainViewModelTest {
         runAsync.returnLoadResult()
         repository.checkLoadData(listOf("A", "B", "C"))
         navigation.checkNavigateToDashBoardScreen()
-        clear.checkCalled(MainViewModel::class.java)
+        clear.checkCalled(LoadViewModel::class.java)
     }
 
     @Test
@@ -62,7 +62,7 @@ class MainViewModelTest {
         viewModel.init()
         observable.checkProgress()
         navigation.checkNavigateToDashBoardScreen()
-        clear.checkCalled(MainViewModel::class.java)
+        clear.checkCalled(LoadViewModel::class.java)
     }
 
     @Test
