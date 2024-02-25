@@ -1,26 +1,31 @@
 package com.kliachenko.presentation.load
 
+import com.kliachenko.domain.LoadResult
 import com.kliachenko.domain.MainRepository
 import org.junit.Assert
 
 class FakeRepository: MainRepository {
 
-    private var actualCacheData: List<String> = emptyList()
-
-    override fun currencies(): List<String> {
-        actualCacheData = listOf("A", "B", "C")
-        return actualCacheData
-    }
+    private var actualCacheData: LoadResult = LoadResult.Empty
 
     fun noCacheData() {
-        actualCacheData = emptyList()
+        actualCacheData = LoadResult.Empty
     }
 
-    fun checkLoadData(expected: List<String>) {
+    fun checkLoadData(expected: LoadResult.Success) {
         Assert.assertEquals(expected, actualCacheData)
     }
 
-    fun hasCacheData(): List<String> {
+    fun hasCacheData(): LoadResult {
+        return LoadResult.Success
+    }
+
+    override suspend fun loadCurrencies(): LoadResult {
+        actualCacheData = LoadResult.Success
         return actualCacheData
+    }
+
+    override suspend fun hasCurrencies(): Boolean {
+        return true
     }
 }

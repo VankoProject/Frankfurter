@@ -6,6 +6,7 @@ import com.kliachenko.presentation.core.BaseViewModel
 import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.Navigation
 import com.kliachenko.presentation.core.RunAsync
+import com.kliachenko.presentation.core.Screen
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.dashboard.DashBoardScreen
 
@@ -20,11 +21,15 @@ class LoadViewModel(
 
     fun init() {
         observable.updateUi(LoadUiState.Progress)
-        if (repository.loadCurrencies().isEmpty()) {
-            load()
+        runAsync({
+            repository.hasCurrencies()
+        }) { hasCurrencies ->
+            if (!hasCurrencies) {
+                observable.updateUi(LoadUiState.Progress)
+                load()
+            }
             navigation.updateUi(DashBoardScreen.Initial)
-        } else {
-            navigation.updateUi(DashBoardScreen.Initial)
+            clear.clear(LoadViewModel::class.java)
         }
     }
 
@@ -40,12 +45,14 @@ class LoadViewModel(
         }
     }
 
-    fun startGettingUpdates(observer: UpdateUi<LoadUiState>) {
+    fun startGettingUpdates(observer: UpdateUi<LoadUiState>, navigation: UpdateUi<Screen>) {
         observable.updateObserver(observer)
+        this.navigation.updateObserver(navigation)
     }
 
     fun stopGettingUpdates() {
-        observable.updateUi(LoadUiState.Empty)
+        observable.updateObserver(UpdateUi.Empty())
+        navigation.updateObserver(UpdateUi.Empty())
     }
 
 }

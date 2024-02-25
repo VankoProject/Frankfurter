@@ -13,6 +13,7 @@ import java.net.UnknownHostException
 
 class BaseMainRepository(
     private val cloudDataSource: CloudDataSource,
+    private val cacheDataSource: CacheDataSource.Mutable
 ) : MainRepository {
 
     constructor(
@@ -31,7 +32,8 @@ class BaseMainRepository(
                 .build()
                 .create(CurrencyService::class.java),
             cacheDataSource = cacheDataSource
-        )
+        ),
+        cacheDataSource = cacheDataSource
     )
 
     override suspend fun loadCurrencies(): LoadResult = try {
@@ -42,5 +44,9 @@ class BaseMainRepository(
             LoadResult.Error("No internet connection")
         else
             LoadResult.Error("Service unavailable")
+    }
+
+    override suspend fun hasCurrencies(): Boolean {
+        return cacheDataSource.currencies().isNotEmpty()
     }
 }

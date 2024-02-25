@@ -4,7 +4,7 @@ interface MainRepository {
 
     suspend fun loadCurrencies(): LoadResult
 
-
+    suspend fun hasCurrencies(): Boolean
 
 }
 
@@ -27,6 +27,9 @@ interface LoadResult {
         override fun map(mapper: Mapper) {
             mapper.mapError(message)
         }
+    }
 
+    object Empty: LoadResult {
+        override fun map(mapper: Mapper) = Unit
     }
 }
