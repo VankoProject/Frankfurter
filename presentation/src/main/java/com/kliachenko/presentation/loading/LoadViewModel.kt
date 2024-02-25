@@ -3,14 +3,15 @@ package com.kliachenko.presentation.loading
 import com.kliachenko.presentation.core.BaseViewModel
 import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.RunAsync
+import com.kliachenko.presentation.core.UpdateUi
 
 class LoadViewModel(
     private val observable: LoadUiObservable,
     private val repository: MainRepository,
     private val navigation: Navigation,
     private val clear: Clear,
-    runAsync: RunAsync
-): BaseViewModel(runAsync) {
+    runAsync: RunAsync,
+) : BaseViewModel(runAsync) {
 
     fun init() {
 
@@ -21,12 +22,11 @@ class LoadViewModel(
     }
 
     fun startGettingUpdates(observer: UpdateUi<LoadUiState>) {
-
+        observable.updateObserver(observer)
     }
 
     fun stopGettingUpdates() {
-
+        observable.updateUi(LoadUiState.Empty)
     }
-
 
 }
