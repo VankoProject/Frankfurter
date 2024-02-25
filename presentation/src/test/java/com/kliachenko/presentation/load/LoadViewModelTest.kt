@@ -1,10 +1,11 @@
 package com.kliachenko.presentation.load
 
+import com.kliachenko.presentation.loading.LoadViewModel
 import org.junit.Before
 import org.junit.Test
 
 
-class MainViewModelTest {
+class LoadViewModelTest {
 
     private lateinit var viewModel: LoadViewModel
     private lateinit var runAsync: FakeRunAsync
@@ -67,8 +68,8 @@ class MainViewModelTest {
 
     @Test
     fun lifeCycle() {
-        val observer: UpdateUI<LoadingUiState> = object : UpdateUi<LoadingUiState> {
-            override fun updateUi(uiState: LoadingUiState) = Unit
+        val observer: UpdateUI<LoadUiState> = object : UpdateUi<LoadUiState> {
+            override fun updateUi(uiState: LoadUiState) = Unit
         }
         viewModel.startGettingUpdates(observer = observer)
         observable.checkObserver(observer)
