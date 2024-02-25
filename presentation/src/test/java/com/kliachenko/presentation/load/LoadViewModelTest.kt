@@ -40,6 +40,8 @@ class LoadViewModelTest {
         runAsync.returnLoadResult()
         observable.checkError()
 
+        viewModel.load()
+
         viewModel.retry()
         observable.checkProgress()
         runAsync.returnLoadResult()

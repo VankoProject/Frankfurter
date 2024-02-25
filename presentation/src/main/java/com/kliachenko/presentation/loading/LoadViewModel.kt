@@ -1,5 +1,7 @@
 package com.kliachenko.presentation.loading
 
+import com.kliachenko.domain.LoadResult
+import com.kliachenko.domain.MainRepository
 import com.kliachenko.presentation.core.BaseViewModel
 import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.Navigation
@@ -13,15 +15,16 @@ class LoadViewModel(
     private val navigation: Navigation,
     private val clear: Clear,
     runAsync: RunAsync,
+    private val mapper: LoadResult.Mapper = BaseLoadResultMapper(observable),
 ) : BaseViewModel(runAsync) {
 
     fun init() {
         observable.updateUi(LoadUiState.Progress)
-        if(repository.categories().isEmpty) {
+        if (repository.loadCurrencies().isEmpty()) {
             load()
-            navigation.updateUi(DashBoardScreen)
+            navigation.updateUi(DashBoardScreen.Initial)
         } else {
-            navigation.updateUi(DashBoardScreen)
+            navigation.updateUi(DashBoardScreen.Initial)
         }
     }
 
@@ -29,12 +32,11 @@ class LoadViewModel(
         load()
     }
 
-    private fun load() {
-        observable.updateUi(LoadUiState.Progress)
+    fun load() {
         runAsync({
-            repository.loadData()
-        }) { loadResult ->
-            loadResult.handle(observable)
+            repository.loadCurrencies()
+        }) {
+            it.map(mapper)
         }
     }
 

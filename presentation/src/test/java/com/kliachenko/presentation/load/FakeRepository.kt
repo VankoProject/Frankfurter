@@ -1,6 +1,6 @@
 package com.kliachenko.presentation.load
 
-import com.kliachenko.data.MainRepository
+import com.kliachenko.domain.MainRepository
 import org.junit.Assert
 
 class FakeRepository: MainRepository {
