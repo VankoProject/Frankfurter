@@ -1,5 +1,6 @@
 package com.kliachenko.presentation.load
 
+import com.kliachenko.presentation.core.CustomViewModel
 import org.junit.Assert
 
 class FakeClear : Clear() {
@@ -16,4 +17,3 @@ class FakeClear : Clear() {
 }
 
 object FakeViewModel : CustomViewModel
-interface CustomViewModel

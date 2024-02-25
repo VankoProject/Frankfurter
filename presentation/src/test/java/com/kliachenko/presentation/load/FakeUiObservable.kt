@@ -4,29 +4,29 @@ import org.junit.Assert
 
 class FakeUiObservable : LoadUiObservable {
 
-    private var actualUiState: LoadingUiState = LoadingUiState.Empty
-    private var actualObserver: UpdateUi<LoadingUiState> = UpdateUi.Empty
+    private var actualUiState: LoadUiState = LoadUiState.Empty
+    private var actualObserver: UpdateUi<LoadUiState> = UpdateUi.Empty
 
-    override fun updateUi(uiState: LoadingUiState) {
+    override fun updateUi(uiState: LoadUiState) {
         actualUiState = uiState
     }
 
-    override fun updateObserver(observer: UpdateUi<LoadingUiState>) {
+    override fun updateObserver(observer: UpdateUi<LoadUiState>) {
         actualObserver = observer
     }
 
     fun checkProgress() {
-        val expected: LoadingUiState = LoadingUiState.Progress
+        val expected: LoadUiState = LoadUiState.Progress
         Assert.assertEquals(expected, actualUiState)
 
     }
 
-    fun checkObserver(expected: UpdateUi<LoadingUiState>) {
+    fun checkObserver(expected: UpdateUi<LoadUiState>) {
         Assert.assertEquals(expected, actualObserver)
     }
 
     fun checkError() {
-        val expected: LoadingUiState = LoadingUiState.Error(message = "No internet connection")
+        val expected: LoadUiState = LoadUiState.Error(message = "No internet connection")
         Assert.assertEquals(expected, actualUiState)
     }
 
