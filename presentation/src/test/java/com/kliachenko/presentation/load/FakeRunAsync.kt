@@ -1,5 +1,6 @@
 package com.kliachenko.presentation.load
 
+import com.kliachenko.presentation.core.RunAsync
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 
@@ -19,7 +20,6 @@ class FakeRunAsync : RunAsync {
         actualCacheUiBlock = uiBlock as (Any) -> Unit
     }
 
-    fun
     fun returnLoadResult() {
         actualCacheUiBlock.invoke(actualCacheResult)
     }

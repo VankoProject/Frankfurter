@@ -1,5 +1,7 @@
 package com.kliachenko.presentation.load
 
+import com.kliachenko.presentation.core.UpdateUi
+import com.kliachenko.presentation.loading.LoadUiState
 import com.kliachenko.presentation.loading.LoadViewModel
 import org.junit.Before
 import org.junit.Test
@@ -68,13 +70,13 @@ class LoadViewModelTest {
 
     @Test
     fun lifeCycle() {
-        val observer: UpdateUI<LoadUiState> = object : UpdateUi<LoadUiState> {
+        val observer: UpdateUi<LoadUiState> = object : UpdateUi<LoadUiState> {
             override fun updateUi(uiState: LoadUiState) = Unit
         }
         viewModel.startGettingUpdates(observer = observer)
         observable.checkObserver(observer)
 
         viewModel.stopGettingUpdates()
-        observer.checkEmpty(observer)
+        observable.checkEmpty(observer)
     }
 }

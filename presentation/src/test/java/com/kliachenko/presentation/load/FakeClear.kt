@@ -1,9 +1,10 @@
 package com.kliachenko.presentation.load
 
+import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.CustomViewModel
 import org.junit.Assert
 
-class FakeClear : Clear() {
+class FakeClear : Clear {
 
     private var actual: Class<out CustomViewModel> = FakeViewModel::class.java
 
