@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ProgressBar
+    <com.kliachenko.presentation.core.views.CustomProgressBar
         android:id="@+id/progressBar"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
@@ -16,21 +16,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.kliachenko.presentation.core.views.CustomTextView
         android:id="@+id/errorTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="#FFF00000"
         android:textSize="@dimen/title_size_24sp"
-        android:freezesText="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="No internet connection" />
 
-    <com.google.android.material.button.MaterialButton
+    <com.kliachenko.presentation.core.views.CustomButton
         android:id="@+id/retryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

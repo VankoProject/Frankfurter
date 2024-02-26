@@ -28,7 +28,7 @@ class LoadViewModelTest {
             observable = observable,
             repository = repository,
             navigation = navigation,
-            clear = clear,
+//            clear = clear,
             runAsync = runAsync
         )
     }
