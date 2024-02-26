@@ -27,7 +27,10 @@ class LoadFragment : BaseFragment<FragmentLoadBinding>() {
                     textView = binding.errorTextView
                 )
             }
+        }
 
+        binding.retryButton.setOnClickListener {
+            viewModel.retry()
         }
     }
 

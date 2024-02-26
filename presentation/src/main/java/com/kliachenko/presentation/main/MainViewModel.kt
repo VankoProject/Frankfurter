@@ -1,10 +1,9 @@
 package com.kliachenko.presentation.main
 
-import com.kliachenko.presentation.core.BaseViewModel
-import com.kliachenko.presentation.core.RunAsync
-import com.kliachenko.presentation.core.UiObservable
+import com.kliachenko.presentation.core.CustomViewModel
+import com.kliachenko.presentation.core.Screen
+import com.kliachenko.presentation.core.UpdateUi
 
 class MainViewModel(
-    private val observable: UiObservable<Any>,
-    runAsync: RunAsync,
-) : BaseViewModel(runAsync)
+    private val observable: UpdateUi<Screen>,
+) : CustomViewModel
