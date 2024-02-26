@@ -1,6 +1,6 @@
 package com.kliachenko.presentation.loading
 
-import com.kliachenko.domain.LoadResult
+import com.kliachenko.domain.LoadCurrenciesResult
 import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.Screen
 import com.kliachenko.presentation.core.UpdateUi
@@ -10,7 +10,7 @@ class BaseLoadResultMapper(
     private val observable: UpdateUi<LoadUiState>,
     private val navigation: UpdateUi<Screen>,
     private val clear: Clear,
-) : LoadResult.Mapper {
+) : LoadCurrenciesResult.Mapper {
 
     override fun mapSuccess() {
         navigation.updateUi(DashBoardScreen.Initial)

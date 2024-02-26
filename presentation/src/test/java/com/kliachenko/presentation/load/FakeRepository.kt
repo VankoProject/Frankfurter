@@ -1,35 +1,27 @@
 package com.kliachenko.presentation.load
 
-import com.kliachenko.domain.LoadResult
-import com.kliachenko.domain.MainRepository
+import com.kliachenko.domain.LoadCurrenciesRepository
+import com.kliachenko.domain.LoadCurrenciesResult
 import org.junit.Assert
 
-class FakeRepository: MainRepository {
+class FakeRepository: LoadCurrenciesRepository {
 
-    private var actualCacheData: LoadResult = LoadResult.Empty
+    private var actualCacheData: LoadCurrenciesResult = LoadCurrenciesResult.Empty
 
     fun noCacheData() {
-        actualCacheData = LoadResult.Empty
+        actualCacheData = LoadCurrenciesResult.Empty
     }
 
-    fun checkLoadData(expected: LoadResult.Success) {
+    fun checkLoadData(expected: LoadCurrenciesResult.Success) {
         Assert.assertEquals(expected, actualCacheData)
     }
 
-    fun hasCacheData(): LoadResult {
-        return LoadResult.Success(listOf(CurrencyModel("A", "A")))
+    fun hasCacheData(): LoadCurrenciesResult {
+        return LoadCurrenciesResult.Success
     }
 
-    override suspend fun loadCurrencies(): LoadResult {
-        actualCacheData = LoadResult.Success(listOf(CurrencyModel("A", "A")))
+    override suspend fun loadCurrencies(): LoadCurrenciesResult {
+        actualCacheData = LoadCurrenciesResult.Success
         return actualCacheData
-    }
-
-    override suspend fun hasCurrencies(): Boolean {
-        return true
-    }
-
-    override suspend fun currencies(): List<CurrencyModel> {
-        return listOf(CurrencyModel("A", "A"))
     }
 }

@@ -1,6 +1,6 @@
 package com.kliachenko.presentation.load
 
-import com.kliachenko.domain.LoadResult
+import com.kliachenko.domain.LoadCurrenciesResult
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.loading.BaseLoadResultMapper
 import com.kliachenko.presentation.loading.LoadUiState
@@ -36,17 +36,16 @@ class LoadViewModelTest {
     @Test
     fun testFirstRunError() {
         repository.noCacheData()
-        viewModel.init()
+        viewModel.init(firstRun = true)
         observable.checkProgress()
         runAsync.returnLoadResult()
         observable.checkError()
 
         viewModel.load()
 
-        viewModel.retry()
         observable.checkProgress()
         runAsync.returnLoadResult()
-        repository.checkLoadData(LoadResult.Success(listOf(CurrencyModel("A", "A"))))
+        repository.checkLoadData(LoadCurrenciesResult.Success)
         navigation.checkNavigateToDashBoardScreen()
         clear.checkCalled(LoadViewModel::class.java)
     }
@@ -54,19 +53,10 @@ class LoadViewModelTest {
     @Test
     fun testFirstRunSuccess() {
         repository.noCacheData()
-        viewModel.init()
+        viewModel.init(firstRun = true)
         observable.checkProgress()
         runAsync.returnLoadResult()
-        repository.checkLoadData(LoadResult.Success(listOf(CurrencyModel("A", "A"))))
-        navigation.checkNavigateToDashBoardScreen()
-        clear.checkCalled(LoadViewModel::class.java)
-    }
-
-    @Test
-    fun testHasLoadData() {
-        repository.hasCacheData()
-        viewModel.init()
-        observable.checkProgress()
+        repository.checkLoadData(LoadCurrenciesResult.Success)
         navigation.checkNavigateToDashBoardScreen()
         clear.checkCalled(LoadViewModel::class.java)
     }

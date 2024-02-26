@@ -1,16 +1,16 @@
 package com.kliachenko.presentation.loading
 
-import com.kliachenko.domain.LoadResult
-import com.kliachenko.domain.MainRepository
+import com.kliachenko.domain.LoadCurrenciesRepository
+import com.kliachenko.domain.LoadCurrenciesResult
 import com.kliachenko.presentation.core.BaseViewModel
 import com.kliachenko.presentation.core.RunAsync
 import com.kliachenko.presentation.core.UpdateUi
 
 class LoadViewModel(
     private val observable: LoadUiObservable,
-    private val repository: MainRepository,
+    private val repository: LoadCurrenciesRepository,
     runAsync: RunAsync,
-    private val mapper: LoadResult.Mapper,
+    private val mapper: LoadCurrenciesResult.Mapper,
 ) : BaseViewModel(runAsync) {
 
     fun init(firstRun: Boolean) {

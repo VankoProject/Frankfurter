@@ -4,18 +4,18 @@ import com.kliachenko.data.cache.CacheDataSource
 import com.kliachenko.data.cache.CurrencyCache
 import com.kliachenko.data.cloud.CloudDataSource
 import com.kliachenko.data.cloud.CurrencyService
-import com.kliachenko.domain.LoadResult
-import com.kliachenko.domain.MainRepository
+import com.kliachenko.domain.LoadCurrenciesRepository
+import com.kliachenko.domain.LoadCurrenciesResult
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.UnknownHostException
 
-class BaseMainRepository(
+class BaseLoadCurrenciesRepository(
     private val cloudDataSource: CloudDataSource,
     private val cacheDataSource: CacheDataSource.Mutable,
-) : MainRepository {
+) : LoadCurrenciesRepository {
 
     constructor(
         cacheDataSource: CacheDataSource.Mutable,
@@ -36,18 +36,18 @@ class BaseMainRepository(
         cacheDataSource = cacheDataSource
     )
 
-    override suspend fun loadCurrencies(): LoadResult = try {
+    override suspend fun loadCurrencies(): LoadCurrenciesResult = try {
         if (cacheDataSource.currencies().isEmpty()) {
             val result = cloudDataSource.load().map {
                 CurrencyCache(it.key, it.value)
             }
             cacheDataSource.saveCurrency(result)
         }
-        LoadResult.Success
+        LoadCurrenciesResult.Success
     } catch (e: Exception) {
         if (e is UnknownHostException)
-            LoadResult.Error("No internet connection")
+            LoadCurrenciesResult.Error("No internet connection")
         else
-            LoadResult.Error("Service unavailable")
+            LoadCurrenciesResult.Error("Service unavailable")
     }
 }

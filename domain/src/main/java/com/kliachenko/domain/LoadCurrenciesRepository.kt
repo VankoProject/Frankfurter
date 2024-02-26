@@ -1,11 +1,11 @@
 package com.kliachenko.domain
 
-interface MainRepository {
+interface LoadCurrenciesRepository {
 
-    suspend fun loadCurrencies(): LoadResult
+    suspend fun loadCurrencies(): LoadCurrenciesResult
 }
 
-interface LoadResult {
+interface LoadCurrenciesResult {
 
     fun map(mapper: Mapper)
 
@@ -16,19 +16,15 @@ interface LoadResult {
         fun mapError(message: String)
     }
 
-    object Success : LoadResult {
+    object Success : LoadCurrenciesResult {
         override fun map(mapper: Mapper) {
             mapper.mapSuccess()
         }
     }
 
-    data class Error(private val message: String) : LoadResult {
+    data class Error(private val message: String) : LoadCurrenciesResult {
         override fun map(mapper: Mapper) {
             mapper.mapError(message)
         }
-    }
-
-    object Empty: LoadResult {
-        override fun map(mapper: Mapper) = Unit
     }
 }
