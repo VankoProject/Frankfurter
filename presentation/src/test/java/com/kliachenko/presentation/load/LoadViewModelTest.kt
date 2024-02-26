@@ -2,6 +2,7 @@ package com.kliachenko.presentation.load
 
 import com.kliachenko.domain.LoadResult
 import com.kliachenko.presentation.core.UpdateUi
+import com.kliachenko.presentation.loading.BaseLoadResultMapper
 import com.kliachenko.presentation.loading.LoadUiState
 import com.kliachenko.presentation.loading.LoadViewModel
 import org.junit.Before
@@ -27,9 +28,8 @@ class LoadViewModelTest {
         viewModel = LoadViewModel(
             observable = observable,
             repository = repository,
-            navigation = navigation,
-            clear = clear,
-            runAsync = runAsync
+            runAsync = runAsync,
+            mapper = BaseLoadResultMapper(observable, navigation, clear)
         )
     }
 
