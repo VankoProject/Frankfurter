@@ -1,4 +1,4 @@
-package com.kliachenko.data.cache
+package com.kliachenko.data.loading.cache
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

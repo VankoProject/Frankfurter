@@ -1,18 +1,18 @@
 package com.kliachenko.frankfurter.core
 
-import com.kliachenko.data.cache.CacheDataSource
-import com.kliachenko.data.main.BaseLoadCurrenciesRepository
+import com.kliachenko.data.loading.BaseLoadCurrencyRepository
+import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
 import com.kliachenko.domain.LoadCurrenciesRepository
 
 interface ProvideInstance {
 
     fun provideRepository(
-        cacheDataSource: CacheDataSource.Mutable,
+        currencyCacheDataSource: CurrencyCacheDataSource.Mutable,
     ): LoadCurrenciesRepository
 
     class Base : ProvideInstance {
-        override fun provideRepository(cacheDataSource: CacheDataSource.Mutable): LoadCurrenciesRepository {
-            return BaseLoadCurrenciesRepository(cacheDataSource)
+        override fun provideRepository(currencyCacheDataSource: CurrencyCacheDataSource.Mutable): LoadCurrenciesRepository {
+            return BaseLoadCurrencyRepository(currencyCacheDataSource)
         }
     }
 }
