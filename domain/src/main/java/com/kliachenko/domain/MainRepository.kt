@@ -6,6 +6,8 @@ interface MainRepository {
 
     suspend fun hasCurrencies(): Boolean
 
+    suspend fun currencies(): List<CurrencyModel>
+
 }
 
 interface LoadResult {
@@ -19,8 +21,10 @@ interface LoadResult {
         fun mapError(message: String)
     }
 
-    object Success : LoadResult {
-        override fun map(mapper: Mapper) = Unit
+    data class Success(private val data: List<CurrencyModel>) : LoadResult {
+        override fun map(mapper: Mapper) {
+            mapper.mapSuccess(data)
+        }
     }
 
     data class Error(private val message: String) : LoadResult {

@@ -1,8 +1,10 @@
 package com.kliachenko.data.main
 
+import android.util.Log
 import com.kliachenko.data.cache.CacheDataSource
 import com.kliachenko.data.cloud.CloudDataSource
 import com.kliachenko.data.cloud.CurrencyService
+import com.kliachenko.domain.CurrencyModel
 import com.kliachenko.domain.LoadResult
 import com.kliachenko.domain.MainRepository
 import okhttp3.OkHttpClient
@@ -13,7 +15,7 @@ import java.net.UnknownHostException
 
 class BaseMainRepository(
     private val cloudDataSource: CloudDataSource,
-    private val cacheDataSource: CacheDataSource.Mutable
+    private val cacheDataSource: CacheDataSource.Mutable,
 ) : MainRepository {
 
     constructor(
@@ -37,8 +39,10 @@ class BaseMainRepository(
     )
 
     override suspend fun loadCurrencies(): LoadResult = try {
+        Log.d("KIA", "Loading data from network")
         cloudDataSource.load()
-        LoadResult.Success
+        Log.d("KIA", "Loaded data from network")
+        LoadResult.Success(currencies())
     } catch (e: Exception) {
         if (e is UnknownHostException)
             LoadResult.Error("No internet connection")
@@ -48,5 +52,13 @@ class BaseMainRepository(
 
     override suspend fun hasCurrencies(): Boolean {
         return cacheDataSource.currencies().isNotEmpty()
+    }
+
+    override suspend fun currencies(): List<CurrencyModel> {
+        val currencyModel = mutableListOf<CurrencyModel>()
+        cacheDataSource.currencies().forEach {
+            currencyModel.add(CurrencyModel(it.code, it.fullName))
+        }
+        return currencyModel
     }
 }

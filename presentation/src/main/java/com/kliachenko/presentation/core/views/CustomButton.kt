@@ -28,6 +28,6 @@ class CustomButton @JvmOverloads constructor(
     }
 
     override fun hide() {
-       visibility = GONE
+        visibility = GONE
     }
 }

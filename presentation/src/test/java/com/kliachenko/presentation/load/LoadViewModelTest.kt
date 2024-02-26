@@ -1,5 +1,6 @@
 package com.kliachenko.presentation.load
 
+import com.kliachenko.domain.CurrencyModel
 import com.kliachenko.domain.LoadResult
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.loading.LoadUiState
@@ -28,7 +29,7 @@ class LoadViewModelTest {
             observable = observable,
             repository = repository,
             navigation = navigation,
-//            clear = clear,
+            clear = clear,
             runAsync = runAsync
         )
     }
@@ -39,14 +40,14 @@ class LoadViewModelTest {
         viewModel.init()
         observable.checkProgress()
         runAsync.returnLoadResult()
-//        observable.checkError()
+        observable.checkError()
 
         viewModel.load()
 
         viewModel.retry()
         observable.checkProgress()
         runAsync.returnLoadResult()
-        repository.checkLoadData(LoadResult.Success)
+        repository.checkLoadData(LoadResult.Success(listOf(CurrencyModel("A", "A"))))
         navigation.checkNavigateToDashBoardScreen()
         clear.checkCalled(LoadViewModel::class.java)
     }
@@ -57,7 +58,7 @@ class LoadViewModelTest {
         viewModel.init()
         observable.checkProgress()
         runAsync.returnLoadResult()
-        repository.checkLoadData(LoadResult.Success)
+        repository.checkLoadData(LoadResult.Success(listOf(CurrencyModel("A", "A"))))
         navigation.checkNavigateToDashBoardScreen()
         clear.checkCalled(LoadViewModel::class.java)
     }

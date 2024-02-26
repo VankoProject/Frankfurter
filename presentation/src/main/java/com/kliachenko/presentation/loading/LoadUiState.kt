@@ -33,9 +33,9 @@ interface LoadUiState {
             progressBar: ChangeVisibility,
             textView: CustomTextView,
         ) {
-            progressBar.show()
             retryButton.hide()
             textView.hide()
+            progressBar.show()
         }
     }
 

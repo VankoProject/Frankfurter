@@ -11,7 +11,9 @@ interface Screen {
 
         override fun showScreen(container: Int, supportFragmentManager: FragmentManager) {
             supportFragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
                 .replace(container, clazz.getDeclaredConstructor().newInstance())
+                .commit()
         }
     }
 

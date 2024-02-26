@@ -1,5 +1,6 @@
 package com.kliachenko.presentation.load
 
+import com.kliachenko.domain.CurrencyModel
 import com.kliachenko.domain.LoadResult
 import com.kliachenko.domain.MainRepository
 import org.junit.Assert
@@ -17,15 +18,19 @@ class FakeRepository: MainRepository {
     }
 
     fun hasCacheData(): LoadResult {
-        return LoadResult.Success
+        return LoadResult.Success(listOf(CurrencyModel("A", "A")))
     }
 
     override suspend fun loadCurrencies(): LoadResult {
-        actualCacheData = LoadResult.Success
+        actualCacheData = LoadResult.Success(listOf(CurrencyModel("A", "A")))
         return actualCacheData
     }
 
     override suspend fun hasCurrencies(): Boolean {
         return true
+    }
+
+    override suspend fun currencies(): List<CurrencyModel> {
+        return listOf(CurrencyModel("A", "A"))
     }
 }

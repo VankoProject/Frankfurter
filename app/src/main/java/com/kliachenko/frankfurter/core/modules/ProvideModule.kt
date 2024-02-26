@@ -5,6 +5,7 @@ import com.kliachenko.frankfurter.core.ProvideInstance
 import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.CustomViewModel
 import com.kliachenko.presentation.loading.LoadViewModel
+import com.kliachenko.presentation.main.MainViewModel
 
 interface ProvideModule {
 
@@ -18,6 +19,7 @@ interface ProvideModule {
         override fun <T : CustomViewModel> module(clazz: Class<T>): Module<T> {
             return when (clazz) {
                 LoadViewModel::class.java -> LoadModule(core, provideInstance, clear)
+                MainViewModel::class.java -> MainModule(core, clear)
                 else -> throw IllegalStateException("unknown viewModel $clazz")
             } as Module<T>
         }

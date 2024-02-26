@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.kliachenko.presentation.core.BaseFragment
+import com.kliachenko.presentation.core.ProvideViewModel
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.databinding.FragmentLoadBinding
 
@@ -19,6 +20,7 @@ class LoadFragment : BaseFragment<FragmentLoadBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = (activity as ProvideViewModel).viewModel(LoadViewModel::class.java)
         updateUi = object : UpdateUi<LoadUiState> {
             override fun updateUi(uiState: LoadUiState) {
                 uiState.update(
@@ -28,6 +30,7 @@ class LoadFragment : BaseFragment<FragmentLoadBinding>() {
                 )
             }
         }
+        viewModel.init()
 
         binding.retryButton.setOnClickListener {
             viewModel.retry()

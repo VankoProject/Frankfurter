@@ -34,6 +34,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/retry_button"
+        android:padding="8dp"
+        android:textColor="#FFFFFF"
         android:layout_marginTop="@dimen/common_app_margin_16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

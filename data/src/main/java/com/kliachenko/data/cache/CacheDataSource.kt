@@ -11,8 +11,6 @@ interface CacheDataSource {
 
     interface Read {
         suspend fun currencies(): List<CurrencyCache>
-
-        fun hasData(): Boolean
     }
 
     interface Mutable : Save, Read
@@ -35,10 +33,6 @@ interface CacheDataSource {
 
         override suspend fun currencies(): List<CurrencyCache> {
             return currencyDao.currencies()
-        }
-
-        override fun hasData(): Boolean {
-            TODO("Not yet implemented")
         }
     }
 }

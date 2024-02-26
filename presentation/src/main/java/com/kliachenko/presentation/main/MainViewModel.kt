@@ -1,9 +1,10 @@
 package com.kliachenko.presentation.main
 
+import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.CustomViewModel
-import com.kliachenko.presentation.core.Screen
-import com.kliachenko.presentation.core.UpdateUi
+import com.kliachenko.presentation.core.Navigation
 
 class MainViewModel(
-    private val observable: UpdateUi<Screen>,
+    private val navigation: Navigation,
+    private val clear: Clear
 ) : CustomViewModel
