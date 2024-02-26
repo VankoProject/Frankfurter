@@ -9,8 +9,9 @@ import org.junit.Assert
 class FakeNavigation: Navigation {
 
     private var actualScreen: Screen = Screen.Empty
+    private var observer: UpdateUi<Screen> = UpdateUi.Empty()
     override fun clear() {
-        TODO("Not yet implemented")
+        // TODO:  
     }
 
     override fun updateUi(uiState: Screen) {
@@ -18,7 +19,7 @@ class FakeNavigation: Navigation {
     }
 
     override fun updateObserver(observer: UpdateUi<Screen>) {
-        TODO("Not yet implemented")
+        this.observer = observer
     }
 
     fun checkNavigateToDashBoardScreen() {

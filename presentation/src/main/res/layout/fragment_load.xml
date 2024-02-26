@@ -23,6 +23,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="#FFF00000"
         android:textSize="@dimen/title_size_24sp"
+        android:freezesText="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
