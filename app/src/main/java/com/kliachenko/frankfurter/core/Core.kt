@@ -1,7 +1,7 @@
 package com.kliachenko.frankfurter.core
 
 import android.content.Context
-import com.kliachenko.data.cache.CacheDataSource
+import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
 import com.kliachenko.presentation.core.Navigation
 import com.kliachenko.presentation.core.RunAsync
 
@@ -11,12 +11,12 @@ interface Core {
 
     fun provideRunAsync(): RunAsync
 
-    fun provideCacheDataSource(): CacheDataSource.Mutable
+    fun provideCacheDataSource(): CurrencyCacheDataSource.Mutable
 
     class Base(private val context: Context) : Core {
 
-        private val cacheDataSource: CacheDataSource.Mutable by lazy {
-            CacheDataSource.Base(context = context)
+        private val currencyCacheDataSource: CurrencyCacheDataSource.Mutable by lazy {
+            CurrencyCacheDataSource.Base(context = context)
         }
         private val navigation: Navigation by lazy {
             Navigation.Base()
@@ -29,6 +29,6 @@ interface Core {
 
         override fun provideRunAsync() = runAsync
 
-        override fun provideCacheDataSource() = cacheDataSource
+        override fun provideCacheDataSource() = currencyCacheDataSource
     }
 }

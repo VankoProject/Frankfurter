@@ -1,4 +1,4 @@
-package com.kliachenko.data.cache
+package com.kliachenko.data.loading.cache
 
 import androidx.room.Dao
 import androidx.room.Insert
