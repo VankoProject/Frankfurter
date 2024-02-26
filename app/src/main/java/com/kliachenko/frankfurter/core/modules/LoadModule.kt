@@ -3,6 +3,8 @@ package com.kliachenko.frankfurter.core.modules
 import com.kliachenko.frankfurter.core.Core
 import com.kliachenko.frankfurter.core.ProvideInstance
 import com.kliachenko.presentation.core.Clear
+import com.kliachenko.presentation.loading.BaseLoadResultMapper
+import com.kliachenko.presentation.loading.LoadUiObservable
 import com.kliachenko.presentation.loading.LoadViewModel
 
 class LoadModule(
@@ -10,13 +12,14 @@ class LoadModule(
     private val provideInstance: ProvideInstance,
     private val clear: Clear,
 ) : Module<LoadViewModel> {
+
     override fun viewModel(): LoadViewModel {
+        val observable = LoadUiObservable.Base()
         return LoadViewModel(
-            observable = core.provideObservable(),
+            observable = observable,
             repository = provideInstance.provideRepository(core.provideCacheDataSource()),
-            navigation = core.provideNavigation(),
             runAsync = core.provideRunAsync(),
-            clear = clear
+            mapper = BaseLoadResultMapper(observable, core.provideNavigation(), clear),
         )
     }
 }

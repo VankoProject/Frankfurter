@@ -30,10 +30,10 @@ class LoadFragment : BaseFragment<FragmentLoadBinding>() {
                 )
             }
         }
-        viewModel.init()
+        viewModel.init(savedInstanceState == null)
 
         binding.retryButton.setOnClickListener {
-            viewModel.retry()
+            viewModel.load()
         }
     }
 

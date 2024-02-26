@@ -31,8 +31,6 @@ interface CacheDataSource {
             currencyDao.saveCurrencies(currencies)
         }
 
-        override suspend fun currencies(): List<CurrencyCache> {
-            return currencyDao.currencies()
-        }
+        override suspend fun currencies() =  currencyDao.currencies()
     }
 }

@@ -3,37 +3,19 @@ package com.kliachenko.presentation.loading
 import com.kliachenko.domain.LoadResult
 import com.kliachenko.domain.MainRepository
 import com.kliachenko.presentation.core.BaseViewModel
-import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.RunAsync
-import com.kliachenko.presentation.core.Screen
 import com.kliachenko.presentation.core.UpdateUi
-import com.kliachenko.presentation.dashboard.DashBoardScreen
 
 class LoadViewModel(
     private val observable: LoadUiObservable,
     private val repository: MainRepository,
-    private val navigation: UpdateUi<Screen>,
-    private val clear: Clear,
     runAsync: RunAsync,
-    private val mapper: LoadResult.Mapper = BaseLoadResultMapper(observable),
+    private val mapper: LoadResult.Mapper,
 ) : BaseViewModel(runAsync) {
 
-    fun init() {
-        observable.updateUi(LoadUiState.Progress)
-        runAsync({
-            repository.hasCurrencies()
-        }) { hasCurrencies ->
-            if (!hasCurrencies) {
-                load()
-                navigation.updateUi(DashBoardScreen.Initial)
-            }
-
-            clear.clear(LoadViewModel::class.java)
-        }
-    }
-
-    fun retry() {
-       load()
+    fun init(firstRun: Boolean) {
+        if(firstRun)
+            load()
     }
 
     fun load() {

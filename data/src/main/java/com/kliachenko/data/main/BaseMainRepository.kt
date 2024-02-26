@@ -1,10 +1,9 @@
 package com.kliachenko.data.main
 
-import android.util.Log
 import com.kliachenko.data.cache.CacheDataSource
+import com.kliachenko.data.cache.CurrencyCache
 import com.kliachenko.data.cloud.CloudDataSource
 import com.kliachenko.data.cloud.CurrencyService
-import com.kliachenko.domain.CurrencyModel
 import com.kliachenko.domain.LoadResult
 import com.kliachenko.domain.MainRepository
 import okhttp3.OkHttpClient
@@ -33,32 +32,22 @@ class BaseMainRepository(
                 )
                 .build()
                 .create(CurrencyService::class.java),
-            cacheDataSource = cacheDataSource
         ),
         cacheDataSource = cacheDataSource
     )
 
     override suspend fun loadCurrencies(): LoadResult = try {
-        Log.d("KIA", "Loading data from network")
-        cloudDataSource.load()
-        Log.d("KIA", "Loaded data from network")
-        LoadResult.Success(currencies())
+        if (cacheDataSource.currencies().isEmpty()) {
+            val result = cloudDataSource.load().map {
+                CurrencyCache(it.key, it.value)
+            }
+            cacheDataSource.saveCurrency(result)
+        }
+        LoadResult.Success
     } catch (e: Exception) {
         if (e is UnknownHostException)
             LoadResult.Error("No internet connection")
         else
             LoadResult.Error("Service unavailable")
-    }
-
-    override suspend fun hasCurrencies(): Boolean {
-        return cacheDataSource.currencies().isNotEmpty()
-    }
-
-    override suspend fun currencies(): List<CurrencyModel> {
-        val currencyModel = mutableListOf<CurrencyModel>()
-        cacheDataSource.currencies().forEach {
-            currencyModel.add(CurrencyModel(it.code, it.fullName))
-        }
-        return currencyModel
     }
 }

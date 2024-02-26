@@ -4,7 +4,6 @@ import android.content.Context
 import com.kliachenko.data.cache.CacheDataSource
 import com.kliachenko.presentation.core.Navigation
 import com.kliachenko.presentation.core.RunAsync
-import com.kliachenko.presentation.loading.LoadUiObservable
 
 interface Core {
 
@@ -14,13 +13,8 @@ interface Core {
 
     fun provideCacheDataSource(): CacheDataSource.Mutable
 
-    fun provideObservable(): LoadUiObservable
-
     class Base(private val context: Context) : Core {
 
-        private val observable: LoadUiObservable by lazy {
-            LoadUiObservable.Base()
-        }
         private val cacheDataSource: CacheDataSource.Mutable by lazy {
             CacheDataSource.Base(context = context)
         }
@@ -36,8 +30,5 @@ interface Core {
         override fun provideRunAsync() = runAsync
 
         override fun provideCacheDataSource() = cacheDataSource
-
-        override fun provideObservable() = observable
-
     }
 }

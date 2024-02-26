@@ -3,11 +3,6 @@ package com.kliachenko.domain
 interface MainRepository {
 
     suspend fun loadCurrencies(): LoadResult
-
-    suspend fun hasCurrencies(): Boolean
-
-    suspend fun currencies(): List<CurrencyModel>
-
 }
 
 interface LoadResult {
@@ -16,14 +11,14 @@ interface LoadResult {
 
     interface Mapper {
 
-        fun mapSuccess(data: List<CurrencyModel>)
+        fun mapSuccess()
 
         fun mapError(message: String)
     }
 
-    data class Success(private val data: List<CurrencyModel>) : LoadResult {
+    object Success : LoadResult {
         override fun map(mapper: Mapper) {
-            mapper.mapSuccess(data)
+            mapper.mapSuccess()
         }
     }
 

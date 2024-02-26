@@ -1,6 +1,5 @@
 package com.kliachenko.presentation.load
 
-import com.kliachenko.domain.CurrencyModel
 import com.kliachenko.domain.LoadResult
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.loading.LoadUiState

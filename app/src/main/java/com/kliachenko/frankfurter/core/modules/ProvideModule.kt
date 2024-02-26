@@ -19,7 +19,7 @@ interface ProvideModule {
         override fun <T : CustomViewModel> module(clazz: Class<T>): Module<T> {
             return when (clazz) {
                 LoadViewModel::class.java -> LoadModule(core, provideInstance, clear)
-                MainViewModel::class.java -> MainModule(core, clear)
+                MainViewModel::class.java -> MainModule(core)
                 else -> throw IllegalStateException("unknown viewModel $clazz")
             } as Module<T>
         }

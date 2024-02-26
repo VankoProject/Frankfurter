@@ -19,14 +19,6 @@ interface LoadUiState {
         }
     }
 
-    object Success : LoadUiState {
-        override fun update(
-            retryButton: ChangeVisibility,
-            progressBar: ChangeVisibility,
-            textView: CustomTextView,
-        ) = Unit
-    }
-
     object Progress : LoadUiState {
         override fun update(
             retryButton: ChangeVisibility,
