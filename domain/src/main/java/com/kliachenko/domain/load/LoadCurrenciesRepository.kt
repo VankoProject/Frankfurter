@@ -1,4 +1,4 @@
-package com.kliachenko.domain
+package com.kliachenko.domain.load
 
 interface LoadCurrenciesRepository {
 

@@ -1,7 +1,7 @@
 package com.kliachenko.presentation.load
 
-import com.kliachenko.domain.LoadCurrenciesRepository
-import com.kliachenko.domain.LoadCurrenciesResult
+import com.kliachenko.domain.load.LoadCurrenciesRepository
+import com.kliachenko.domain.load.LoadCurrenciesResult
 
 class FakeCurrenciesRepository : LoadCurrenciesRepository {
 

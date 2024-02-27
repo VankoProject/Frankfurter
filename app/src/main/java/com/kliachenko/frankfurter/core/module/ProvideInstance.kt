@@ -4,7 +4,7 @@ import com.kliachenko.data.ProvideResources
 import com.kliachenko.data.loading.BaseLoadCurrencyRepository
 import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
 import com.kliachenko.data.loading.cloud.LoadCurrencyCloudDataSource
-import com.kliachenko.domain.LoadCurrenciesRepository
+import com.kliachenko.domain.load.LoadCurrenciesRepository
 
 interface ProvideInstance {
 
