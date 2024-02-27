@@ -11,14 +11,14 @@ class CustomButton @JvmOverloads constructor(
 
     override fun onSaveInstanceState(): Parcelable {
         super.onSaveInstanceState().let {
-            val state = VisibilitySaveState(it)
+            val state = VisibilitySavedState(it)
             state.save(this)
             return state
         }
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        val restoredState = state as VisibilitySaveState?
+        val restoredState = state as VisibilitySavedState?
         super.onRestoreInstanceState(restoredState?.superState)
         state?.restore(this)
     }

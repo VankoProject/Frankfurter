@@ -11,14 +11,14 @@ class CustomProgressBar @JvmOverloads constructor(
 
     override fun onSaveInstanceState(): Parcelable? {
         return super.onSaveInstanceState()?.let {
-            val state = VisibilitySaveState(it)
+            val state = VisibilitySavedState(it)
             state.save(this)
             return state
         }
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        val restoreState = state as VisibilitySaveState?
+        val restoreState = state as VisibilitySavedState?
         super.onRestoreInstanceState(restoreState?.superState)
         state?.restore(this)
     }

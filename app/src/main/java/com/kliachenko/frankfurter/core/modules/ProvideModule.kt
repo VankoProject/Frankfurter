@@ -14,11 +14,11 @@ interface ProvideModule {
     class Base(
         private val core: Core,
         private val provideInstance: ProvideInstance,
-        private val clear: Clear,
+        private val clearViewModel: Clear,
     ) : ProvideModule {
         override fun <T : CustomViewModel> module(clazz: Class<T>): Module<T> {
             return when (clazz) {
-                LoadViewModel::class.java -> LoadModule(core, provideInstance, clear)
+                LoadViewModel::class.java -> LoadModule(core, provideInstance, clearViewModel)
                 MainViewModel::class.java -> MainModule(core)
                 else -> throw IllegalStateException("unknown viewModel $clazz")
             } as Module<T>

@@ -12,7 +12,7 @@ class App : Application(), ProvideViewModel {
 
     override fun onCreate() {
         super.onCreate()
-        val clear = object : Clear {
+        val clearViewModel = object : Clear {
             override fun clear(clazz: Class<out CustomViewModel>) {
                 factory.clear(clazz)
             }
@@ -22,7 +22,7 @@ class App : Application(), ProvideViewModel {
                 ProvideModule.Base(
                     core = Core.Base(this),
                     provideInstance = ProvideInstance.Base(),
-                    clear = clear
+                    clearViewModel = clearViewModel
                 )
             )
         )

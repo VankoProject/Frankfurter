@@ -43,5 +43,3 @@ interface RunAsync {
         }
     }
 }
-
-interface CustomViewModel

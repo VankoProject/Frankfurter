@@ -1,4 +1,4 @@
-package com.kliachenko.presentation.load
+package com.kliachenko.presentation.fake
 
 import com.kliachenko.presentation.core.RunAsync
 import kotlinx.coroutines.CoroutineScope

@@ -27,4 +27,9 @@ interface LoadCurrenciesResult {
             mapper.mapError(message)
         }
     }
+
+    object Empty : LoadCurrenciesResult {
+        override fun map(mapper: Mapper) = Unit
+    }
+
 }
