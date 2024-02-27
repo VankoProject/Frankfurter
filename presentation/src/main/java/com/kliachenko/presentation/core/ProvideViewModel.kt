@@ -22,3 +22,5 @@ interface ProvideViewModel {
         }
     }
 }
+
+interface CustomViewModel

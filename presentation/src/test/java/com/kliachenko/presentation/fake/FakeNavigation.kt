@@ -1,12 +1,13 @@
-package com.kliachenko.presentation.load
+package com.kliachenko.presentation.fake
 
 import com.kliachenko.presentation.core.Navigation
 import com.kliachenko.presentation.core.Screen
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.dashboard.DashBoardScreen
-import org.junit.Assert
+import com.kliachenko.presentation.loading.LoadScreen
+import org.junit.Assert.assertEquals
 
-class FakeNavigation: Navigation {
+class FakeNavigation : Navigation {
 
     private var actualScreen: Screen = Screen.Empty
     private var observer: UpdateUi<Screen> = UpdateUi.Empty()
@@ -24,6 +25,24 @@ class FakeNavigation: Navigation {
 
     fun checkNavigateToDashBoardScreen() {
         val expected: Screen = DashBoardScreen.Initial
-        Assert.assertEquals(expected, actualScreen)
+        assertEquals(expected, actualScreen)
     }
+
+    fun checkNavigateToLoadScreen() {
+        val expected: Screen = LoadScreen
+        assertEquals(expected, actualScreen)
+    }
+
+    fun checkNotCalled() {
+        assertEquals(actualScreen, Screen.Empty)
+    }
+
+    fun checkObserver(expected: UpdateUi<Screen>) {
+        assertEquals(expected, actualScreen)
+    }
+
+    fun checkEmpty(expected: UpdateUi<Screen>) {
+        assertEquals(expected, Screen.Empty)
+    }
+
 }

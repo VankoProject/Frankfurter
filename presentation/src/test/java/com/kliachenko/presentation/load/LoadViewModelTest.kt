@@ -1,7 +1,10 @@
 package com.kliachenko.presentation.load
 
-import com.kliachenko.domain.LoadCurrenciesResult
 import com.kliachenko.presentation.core.UpdateUi
+import com.kliachenko.presentation.fake.FakeClear
+import com.kliachenko.presentation.fake.FakeNavigation
+import com.kliachenko.presentation.fake.FakeRunAsync
+import com.kliachenko.presentation.fake.FakeUiObservable
 import com.kliachenko.presentation.loading.BaseLoadResultMapper
 import com.kliachenko.presentation.loading.LoadUiState
 import com.kliachenko.presentation.loading.LoadViewModel
@@ -14,7 +17,7 @@ class LoadViewModelTest {
     private lateinit var viewModel: LoadViewModel
     private lateinit var runAsync: FakeRunAsync
     private lateinit var observable: FakeUiObservable
-    private lateinit var repository: FakeRepository
+    private lateinit var repository: FakeCurrenciesRepository
     private lateinit var navigation: FakeNavigation
     private lateinit var clear: FakeClear
 
@@ -22,7 +25,7 @@ class LoadViewModelTest {
     fun setup() {
         runAsync = FakeRunAsync()
         observable = FakeUiObservable()
-        repository = FakeRepository()
+        repository = FakeCurrenciesRepository()
         navigation = FakeNavigation()
         clear = FakeClear()
         viewModel = LoadViewModel(
@@ -34,31 +37,30 @@ class LoadViewModelTest {
     }
 
     @Test
-    fun testFirstRunError() {
-        repository.noCacheData()
+    fun testFirstRunErrorThenSuccess() {
+        repository.expectError()
         viewModel.init(firstRun = true)
         observable.checkProgress()
         runAsync.returnLoadResult()
         observable.checkError()
 
+        repository.expectSuccess()
         viewModel.load()
 
         observable.checkProgress()
         runAsync.returnLoadResult()
-        repository.checkLoadData(LoadCurrenciesResult.Success)
         navigation.checkNavigateToDashBoardScreen()
         clear.checkCalled(LoadViewModel::class.java)
     }
 
     @Test
     fun testFirstRunSuccess() {
-        repository.noCacheData()
+        repository.expectSuccess()
         viewModel.init(firstRun = true)
         observable.checkProgress()
         runAsync.returnLoadResult()
-        repository.checkLoadData(LoadCurrenciesResult.Success)
-        navigation.checkNavigateToDashBoardScreen()
         clear.checkCalled(LoadViewModel::class.java)
+        navigation.checkNavigateToDashBoardScreen()
     }
 
     @Test

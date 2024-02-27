@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.view.View
 
-class VisibilitySaveState: View.BaseSavedState {
+class VisibilitySavedState: View.BaseSavedState {
 
     private var visibility: Int = View.VISIBLE
 
@@ -29,8 +29,8 @@ class VisibilitySaveState: View.BaseSavedState {
 
     override fun describeContents() = 0
 
-    companion object CREATOR : Parcelable.Creator<VisibilitySaveState> {
-        override fun createFromParcel(parcel: Parcel): VisibilitySaveState = VisibilitySaveState(parcel)
-        override fun newArray(size: Int): Array<VisibilitySaveState?> = arrayOfNulls(size)
+    companion object CREATOR : Parcelable.Creator<VisibilitySavedState> {
+        override fun createFromParcel(parcel: Parcel): VisibilitySavedState = VisibilitySavedState(parcel)
+        override fun newArray(size: Int): Array<VisibilitySavedState?> = arrayOfNulls(size)
     }
 }

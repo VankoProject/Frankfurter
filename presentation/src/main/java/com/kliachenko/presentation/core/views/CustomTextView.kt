@@ -8,20 +8,20 @@ class CustomTextView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
 ) : androidx.appcompat.widget.AppCompatTextView(context, attrs, defStyleAttr), ErrorText {
 
-        init {
-            freezesText = true
-        }
+    init {
+        freezesText = true
+    }
 
     override fun onSaveInstanceState(): Parcelable? {
         return super.onSaveInstanceState()?.let {
-            val state = VisibilitySaveState(it)
+            val state = VisibilitySavedState(it)
             state.save(this)
-            return state
+            state
         }
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        val restoreState = state as VisibilitySaveState?
+        val restoreState = state as VisibilitySavedState?
         super.onRestoreInstanceState(restoreState?.superState)
         state?.restore(this)
     }
@@ -43,4 +43,4 @@ interface ChangeText {
     fun change(text: String)
 }
 
-interface ErrorText: ChangeVisibility, ChangeText
+interface ErrorText : ChangeVisibility, ChangeText

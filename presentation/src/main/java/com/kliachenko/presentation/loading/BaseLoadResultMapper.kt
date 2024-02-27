@@ -9,12 +9,12 @@ import com.kliachenko.presentation.dashboard.DashBoardScreen
 class BaseLoadResultMapper(
     private val observable: UpdateUi<LoadUiState>,
     private val navigation: UpdateUi<Screen>,
-    private val clear: Clear,
+    private val clearViewModel: Clear,
 ) : LoadCurrenciesResult.Mapper {
 
     override fun mapSuccess() {
         navigation.updateUi(DashBoardScreen.Initial)
-        clear.clear(LoadViewModel::class.java)
+        clearViewModel.clear(LoadViewModel::class.java)
     }
 
     override fun mapError(message: String) {
