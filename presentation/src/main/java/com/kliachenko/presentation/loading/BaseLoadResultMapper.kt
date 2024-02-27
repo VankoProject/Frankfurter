@@ -1,6 +1,6 @@
 package com.kliachenko.presentation.loading
 
-import com.kliachenko.domain.LoadCurrenciesResult
+import com.kliachenko.domain.load.LoadCurrenciesResult
 import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.Screen
 import com.kliachenko.presentation.core.UpdateUi

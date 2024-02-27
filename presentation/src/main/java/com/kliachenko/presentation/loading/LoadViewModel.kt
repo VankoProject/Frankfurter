@@ -1,7 +1,7 @@
 package com.kliachenko.presentation.loading
 
-import com.kliachenko.domain.LoadCurrenciesRepository
-import com.kliachenko.domain.LoadCurrenciesResult
+import com.kliachenko.domain.load.LoadCurrenciesRepository
+import com.kliachenko.domain.load.LoadCurrenciesResult
 import com.kliachenko.presentation.core.BaseViewModel
 import com.kliachenko.presentation.core.RunAsync
 import com.kliachenko.presentation.core.UpdateUi

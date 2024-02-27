@@ -4,7 +4,7 @@ import com.kliachenko.data.loading.BaseLoadCurrencyRepository
 import com.kliachenko.data.loading.cache.CurrencyCache
 import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
 import com.kliachenko.data.loading.cloud.LoadCurrencyCloudDataSource
-import com.kliachenko.domain.LoadCurrenciesResult
+import com.kliachenko.domain.load.LoadCurrenciesResult
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before

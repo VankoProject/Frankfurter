@@ -4,8 +4,8 @@ import com.kliachenko.data.ProvideResources
 import com.kliachenko.data.loading.cache.CurrencyCache
 import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
 import com.kliachenko.data.loading.cloud.LoadCurrencyCloudDataSource
-import com.kliachenko.domain.LoadCurrenciesRepository
-import com.kliachenko.domain.LoadCurrenciesResult
+import com.kliachenko.domain.load.LoadCurrenciesRepository
+import com.kliachenko.domain.load.LoadCurrenciesResult
 import java.net.UnknownHostException
 
 class BaseLoadCurrencyRepository(
