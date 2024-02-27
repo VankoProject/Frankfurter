@@ -1,7 +1,6 @@
-package com.kliachenko.frankfurter.core.modules
+package com.kliachenko.frankfurter.core.module
 
 import com.kliachenko.frankfurter.core.Core
-import com.kliachenko.frankfurter.core.ProvideInstance
 import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.CustomViewModel
 import com.kliachenko.presentation.loading.LoadViewModel
@@ -14,15 +13,18 @@ interface ProvideModule {
     class Base(
         private val core: Core,
         private val provideInstance: ProvideInstance,
-        private val clearViewModel: Clear,
+        private val clear: Clear,
     ) : ProvideModule {
         override fun <T : CustomViewModel> module(clazz: Class<T>): Module<T> {
             return when (clazz) {
-                LoadViewModel::class.java -> LoadModule(core, provideInstance, clearViewModel)
-                MainViewModel::class.java -> MainModule(core)
-                else -> throw IllegalStateException("unknown viewModel $clazz")
+                MainViewModel::class.java -> MainModule(core = core)
+                LoadViewModel::class.java -> LoadModule(
+                    core = core, provideInstance = provideInstance,
+                    clear = clear
+                )
+
+                else -> throw IllegalStateException("unknown module $clazz")
             } as Module<T>
         }
     }
-
 }

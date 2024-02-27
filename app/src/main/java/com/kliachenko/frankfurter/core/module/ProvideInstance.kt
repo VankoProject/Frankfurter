@@ -1,4 +1,4 @@
-package com.kliachenko.frankfurter.core
+package com.kliachenko.frankfurter.core.module
 
 import com.kliachenko.data.ProvideResources
 import com.kliachenko.data.loading.BaseLoadCurrencyRepository
@@ -8,22 +8,20 @@ import com.kliachenko.domain.LoadCurrenciesRepository
 
 interface ProvideInstance {
 
-    fun provideRepository(
-        loadCurrencyCloudDataSource: LoadCurrencyCloudDataSource,
-        currencyCacheDataSource: CurrencyCacheDataSource.Mutable,
+    fun provideLoadRepository(
+        cacheDataSource: CurrencyCacheDataSource.Mutable,
+        cloudDataSource: LoadCurrencyCloudDataSource,
         provideResources: ProvideResources,
     ): LoadCurrenciesRepository
 
     class Base : ProvideInstance {
-        override fun provideRepository(
-            loadCurrencyCloudDataSource: LoadCurrencyCloudDataSource,
-            currencyCacheDataSource: CurrencyCacheDataSource.Mutable,
+        override fun provideLoadRepository(
+            cacheDataSource: CurrencyCacheDataSource.Mutable,
+            cloudDataSource: LoadCurrencyCloudDataSource,
             provideResources: ProvideResources,
         ): LoadCurrenciesRepository {
             return BaseLoadCurrencyRepository(
-                loadCurrencyCloudDataSource,
-                currencyCacheDataSource,
-                provideResources
+                cloudDataSource, cacheDataSource, provideResources
             )
         }
     }
