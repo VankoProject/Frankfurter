@@ -18,16 +18,10 @@ interface Core {
 
     class Base(context: Context) : Core {
 
-        private val navigation: Navigation by lazy {
-            Navigation.Base()
-        }
-        private val runAsync: RunAsync by lazy {
-            RunAsync.Base()
-        }
-
-        private val provideCurrencyDataBase = ProvideCurrencyDataBase.Base(context)
-
-        private val provideResources = BaseProvideResources(context)
+        private val navigation: Navigation by lazy { Navigation.Base() }
+        private val provideResources by lazy { BaseProvideResources(context) }
+        private val runAsync by lazy { RunAsync.Base() }
+        private val provideCurrencyDataBase by lazy { ProvideCurrencyDataBase.Base(context) }
 
         override fun provideNavigation() = navigation
 
