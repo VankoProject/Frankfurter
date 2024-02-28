@@ -1,6 +1,6 @@
 package com.kliachenko.frankfurter.core.module
 
-import com.kliachenko.data.ProvideResources
+import com.kliachenko.data.core.ProvideResources
 import com.kliachenko.data.loading.BaseLoadCurrencyRepository
 import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
 import com.kliachenko.data.loading.cloud.LoadCurrencyCloudDataSource
