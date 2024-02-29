@@ -18,7 +18,8 @@ class BaseDashboardRepository(
             DashboardResult.Empty
         } else {
             try {
-                val updatePair: List<DashBoardItem> = dashBoardItemsDataSource.dashboardItems(favoritePairs)
+                val updatePair: List<DashBoardItem> =
+                    dashBoardItemsDataSource.dashboardItems(favoritePairs)
                 DashboardResult.Success(updatePair)
             } catch (e: Exception) {
                 DashboardResult.Error(handleError.handle(e))
