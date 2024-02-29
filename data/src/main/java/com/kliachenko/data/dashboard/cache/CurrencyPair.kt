@@ -3,7 +3,7 @@ package com.kliachenko.data.dashboard.cache
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 
-@Entity(tableName = "currency_pair", primaryKeys = ["from_currency", "toCurrency"])
+@Entity(tableName = "currency_pair", primaryKeys = ["from_currency", "to_currency"])
 data class CurrencyPair(
     @ColumnInfo(name = "from_currency")
     val fromCurrency: String,
