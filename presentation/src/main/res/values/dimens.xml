@@ -2,4 +2,5 @@
 <resources>
     <dimen name="common_app_margin_16dp">16dp</dimen>
     <dimen name="title_size_24sp">24sp</dimen>
+    <dimen name="common_app_margin_16dp">16dp</dimen>
 </resources>

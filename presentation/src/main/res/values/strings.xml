@@ -2,4 +2,8 @@
 <resources>
     <string name="retry_button">Retry</string>
     <string name="go_to_settings_and_add_new_pair">Go to settings and add new pair</string>
+    <string name="usd_eur_tools">USD / EUR</string>
+    <string name="_1_01_tools">1.01</string>
+    <string name="settings_content_description">settings</string>
+    <string name="retry">Retry</string>
 </resources>
