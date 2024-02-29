@@ -1,5 +1,6 @@
 package com.kliachenko.data
 
+import com.kliachenko.data.core.ProvideResources
 import com.kliachenko.data.loading.BaseLoadCurrencyRepository
 import com.kliachenko.data.loading.cache.CurrencyCache
 import com.kliachenko.data.loading.cache.CurrencyCacheDataSource

@@ -1,7 +1,7 @@
 package com.kliachenko.frankfurter.core
 
 import android.content.Context
-import com.kliachenko.data.ProvideResources
+import com.kliachenko.data.core.ProvideResources
 import com.kliachenko.data.loading.cache.ProvideCurrencyDataBase
 import com.kliachenko.presentation.core.Navigation
 import com.kliachenko.presentation.core.RunAsync

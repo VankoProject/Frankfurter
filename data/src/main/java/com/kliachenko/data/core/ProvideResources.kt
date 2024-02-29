@@ -1,4 +1,4 @@
-package com.kliachenko.data
+package com.kliachenko.data.core
 
 interface ProvideResources {
 
