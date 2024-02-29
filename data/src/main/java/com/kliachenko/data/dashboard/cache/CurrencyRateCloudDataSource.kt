@@ -12,7 +12,7 @@ interface CurrencyRateCloudDataSource {
         override suspend fun rate(fromCurrency: String, toCurrency: String): Double {
             val currencyPair: CurrencyPairCloud =
                 service.currencyValue(fromCurrency, toCurrency).execute().body()!!
-            return currencyPair.rate(fromCurrency)
+            return currencyPair.rate(toCurrency)
         }
 
     }

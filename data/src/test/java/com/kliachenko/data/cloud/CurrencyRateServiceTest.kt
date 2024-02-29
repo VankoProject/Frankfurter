@@ -1,5 +1,6 @@
 package com.kliachenko.data.cloud
 
+import com.kliachenko.data.dashboard.cache.CurrencyRateCloudDataSource
 import com.kliachenko.data.dashboard.cloud.CurrencyRateService
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -28,6 +29,13 @@ class CurrencyRateServiceTest {
         val response = apiService.currencyValue("USD", "AUD").execute()
         Assert.assertTrue(response.isSuccessful)
 
+    }
+
+    @Test
+    fun cloudDataSource() = runBlocking {
+        val dataSource = CurrencyRateCloudDataSource.Base(apiService)
+        val actual: Double = dataSource.rate("USD", "AUD")
+        Assert.assertNotEquals(0.01, actual, 0.01)
     }
 }
 

@@ -12,7 +12,7 @@ data class CurrencyPair(
     @ColumnInfo(name = "rate")
     val rate: Double = 0.0,
     @ColumnInfo(name = "time")
-    val time: Long,
+    val time: Long = -1,
 ) {
 
     fun isInvalid(currentTimeInMillis: CurrentTimeInMillis): Boolean {
