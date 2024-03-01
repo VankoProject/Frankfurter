@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.kliachenko.presentation.core.BaseFragment
-import com.kliachenko.presentation.core.ProvideViewModel
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.databinding.FragmentLoadBinding
 
-class LoadFragment : BaseFragment<FragmentLoadBinding>() {
+class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>() {
 
-    private lateinit var viewModel: LoadViewModel
+    override val viewModelClass = LoadViewModel::class.java
     private lateinit var updateUi: UpdateUi<LoadUiState>
 
     override fun inflate(inflater: LayoutInflater, container: ViewGroup?): FragmentLoadBinding {
@@ -20,7 +19,6 @@ class LoadFragment : BaseFragment<FragmentLoadBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as ProvideViewModel).viewModel(LoadViewModel::class.java)
         updateUi = object : UpdateUi<LoadUiState> {
             override fun updateUi(uiState: LoadUiState) {
                 uiState.update(

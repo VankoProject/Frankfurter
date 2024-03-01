@@ -2,7 +2,5 @@ package com.kliachenko.presentation.dashboard
 
 import com.kliachenko.presentation.core.Screen
 
-interface DashBoardScreen {
+object DashBoardScreen: Screen.Replace(DashBoardFragment::class.java)
 
-    object Initial: Screen.Replace(DashBoardFragment::class.java)
-}

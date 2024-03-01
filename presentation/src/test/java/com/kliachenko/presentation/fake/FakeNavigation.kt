@@ -5,6 +5,7 @@ import com.kliachenko.presentation.core.Screen
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.dashboard.DashBoardScreen
 import com.kliachenko.presentation.loading.LoadScreen
+import com.kliachenko.presentation.settings.SettingsScreen
 import org.junit.Assert.assertEquals
 
 class FakeNavigation : Navigation {
@@ -24,7 +25,7 @@ class FakeNavigation : Navigation {
     }
 
     fun checkNavigateToDashBoardScreen() {
-        val expected: Screen = DashBoardScreen.Initial
+        val expected: Screen = DashBoardScreen
         assertEquals(expected, actualScreen)
     }
 
@@ -43,6 +44,11 @@ class FakeNavigation : Navigation {
 
     fun checkEmpty(expected: UpdateUi<Screen>) {
         assertEquals(expected, Screen.Empty)
+    }
+
+    fun checkNavigateToSettings() {
+        val expected: Screen = SettingsScreen.Initial
+        assertEquals(expected, actualScreen)
     }
 
 }

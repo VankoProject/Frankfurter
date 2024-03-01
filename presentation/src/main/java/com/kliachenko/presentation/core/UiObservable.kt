@@ -16,7 +16,6 @@ interface UiObservable<UiState : Any> : UpdateUi<UiState>, UpdateObserver<UiStat
             observer.updateUi(cache)
         }
     }
-
 }
 
 interface UpdateObserver<UiState : Any> {

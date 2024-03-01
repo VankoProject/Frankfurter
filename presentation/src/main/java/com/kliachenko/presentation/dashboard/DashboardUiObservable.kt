@@ -2,7 +2,8 @@ package com.kliachenko.presentation.dashboard
 
 import com.kliachenko.presentation.core.UiObservable
 
-interface DashboardUiObservable: UiObservable<SettingsUiState> {
+interface DashboardUiObservable : UiObservable<DashboardUiState> {
 
-    class Base: UiObservable.Abstract<SettingsUiState>(SettingsUiState.Empty), DashboardUiObservable
+    class Base :
+        UiObservable.Abstract<DashboardUiState>(DashboardUiState.Empty), DashboardUiObservable
 }
