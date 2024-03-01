@@ -30,4 +30,8 @@ class FakeFavoritePairCacheDataSource : FavoritePairCacheDataSource.Mutable {
         Assert.assertEquals(updatePair, actualListCurrencyPair[0])
     }
 
+    fun checkSaved(expected: List<CurrencyPair>) {
+        Assert.assertEquals(expected, actualListCurrencyPair)
+    }
+
 }
