@@ -13,7 +13,7 @@ class BaseLoadResultMapper(
 ) : LoadCurrenciesResult.Mapper {
 
     override fun mapSuccess() {
-        navigation.updateUi(DashBoardScreen.Initial)
+        navigation.updateUi(DashBoardScreen)
         clearViewModel.clear(LoadViewModel::class.java)
     }
 
