@@ -6,4 +6,6 @@
     <string name="_1_01_tools">1.01</string>
     <string name="settings_content_description">settings</string>
     <string name="retry">Retry</string>
+    <string name="content_button_save">Save</string>
+    <string name="save_button">Save</string>
 </resources>
