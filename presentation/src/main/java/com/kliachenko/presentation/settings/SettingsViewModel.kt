@@ -30,6 +30,26 @@ class SettingsViewModel(
         }
     }
 
+    fun backDashBoard() {
+        navigation.updateUi(DashBoardScreen)
+        clear.clear(SettingsViewModel::class.java)
+    }
+
+    override fun chooseCurrency(currency: String) {
+        runAsync({
+            SettingsUiState.ToCurrency(
+                fromCurrency = repository.allCurrencies().map {
+                    CurrencyChoiceUi.Base(isSelected = it == currency, currency = it)
+                },
+                toCurrency = repository.availableCurrenciesDestinations(currency).map {
+                    CurrencyChoiceUi.Base(isSelected = false, currency = it)
+                }
+            )
+        }) {
+            observable.updateUi(it)
+        }
+    }
+
     fun save(fromCurrency: String, toCurrency: String) {
         runAsync({
             repository.save(from = fromCurrency, to = toCurrency)
@@ -37,16 +57,6 @@ class SettingsViewModel(
             backDashBoard()
         }
     }
-
-    override fun chooseCurrency(currency: String) {
-
-    }
-
-    fun backDashBoard() {
-        navigation.updateUi(DashBoardScreen)
-        clear.clear(SettingsViewModel::class.java)
-    }
-
 
     fun startGettingUpdates(observer: UpdateUi<SettingsUiState>) {
         observable.updateObserver(observer)
