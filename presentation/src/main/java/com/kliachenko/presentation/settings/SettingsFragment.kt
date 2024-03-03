@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import com.kliachenko.presentation.core.BaseFragment
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.databinding.FragmentSettingsBinding
+import com.kliachenko.presentation.settings.adapter.SettingsAdapter
 
 class SettingsFragment :
     BaseFragment<FragmentSettingsBinding, SettingsViewModel>() {
@@ -17,20 +19,45 @@ class SettingsFragment :
     override fun inflate(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSettingsBinding.inflate(inflater, container, false)
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val fromCurrencyAdapter = SettingsAdapter(clickListener = viewModel)
+        val toCurrencyAdapter = SettingsAdapter(clickListener = viewModel)
+
+        with(binding) {
+            recycleViewFrom.adapter = fromCurrencyAdapter
+            recycleViewTo.adapter = toCurrencyAdapter
+        }
+
         observer = object : UpdateUi<SettingsUiState> {
             override fun updateUi(uiState: SettingsUiState) {
-
+                uiState.update(
+                    fromCurrencyAdapter = fromCurrencyAdapter,
+                    toCurrencyAdapter = toCurrencyAdapter
+                )
+                uiState.update(binding.saveButton)
             }
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    viewModel.backDashBoard()
+                }
+            })
 
         viewModel.init()
 
         binding.saveButton.setOnClickListener {
-            viewModel.save()
+            val selectedCurrencyFrom = fromCurrencyAdapter.selectedCurrency()
+            val selectedCurrencyTo = fromCurrencyAdapter.selectedCurrency()
+            viewModel.save(selectedCurrencyFrom, selectedCurrencyTo)
+        }
+
+        binding.backButton.setOnClickListener {
+            viewModel.backDashBoard()
         }
     }
 

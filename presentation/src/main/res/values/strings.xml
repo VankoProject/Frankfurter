@@ -8,4 +8,6 @@
     <string name="retry">Retry</string>
     <string name="content_button_save">Save</string>
     <string name="save_button">Save</string>
+    <string name="settings_stub_text">NO MORE CURRENCIES</string>
+    <string name="go_to_dashboard">Go to dashboard</string>
 </resources>
