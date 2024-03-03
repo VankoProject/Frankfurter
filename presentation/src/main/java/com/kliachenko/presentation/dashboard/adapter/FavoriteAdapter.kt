@@ -4,6 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.kliachenko.presentation.core.MainDiffUtil
+import com.kliachenko.presentation.core.ShowList
 import com.kliachenko.presentation.dashboard.ClickActions
 import com.kliachenko.presentation.databinding.EmptyLayoutBinding
 import com.kliachenko.presentation.databinding.ErrorLayoutBinding
@@ -18,7 +20,7 @@ class FavoriteAdapter(
         TypeUi.Progress,
         TypeUi.FavoritePair
     ),
-) : RecyclerView.Adapter<DashboardViewHolder>(), ShowList {
+) : RecyclerView.Adapter<DashboardViewHolder>(), ShowList<FavoritePairUi> {
 
     private val listPairs = mutableListOf<FavoritePairUi>()
 
@@ -28,6 +30,15 @@ class FavoriteAdapter(
         if (index == -1)
             throw IllegalStateException("Type $type isn't included in the typeList $types")
         return index
+    }
+
+    override fun show(list: List<FavoritePairUi>) {
+        val diffUtil =
+            MainDiffUtil(oldList = listPairs, newList = list, itemId = { it.id() })
+        val diffResult = DiffUtil.calculateDiff(diffUtil)
+        listPairs.clear()
+        listPairs.addAll(list)
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardViewHolder {
@@ -40,32 +51,6 @@ class FavoriteAdapter(
 
     override fun getItemCount() = listPairs.size
 
-    override fun show(list: List<FavoritePairUi>) {
-        val diffResult = DiffUtil.calculateDiff(PairDiffUtil(oldList = listPairs, newList = list))
-        listPairs.clear()
-        listPairs.addAll(list)
-        diffResult.dispatchUpdatesTo(this)
-    }
-}
-
-interface ShowList {
-
-    fun show(list: List<FavoritePairUi>)
-}
-
-private class PairDiffUtil(
-    private val oldList: List<FavoritePairUi>,
-    private val newList: List<FavoritePairUi>,
-) : DiffUtil.Callback() {
-    override fun getOldListSize() = oldList.size
-
-    override fun getNewListSize() = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-        oldList[oldItemPosition].id() == newList[newItemPosition].id()
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-        oldList[oldItemPosition] == newList[newItemPosition]
 }
 
 abstract class DashboardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
