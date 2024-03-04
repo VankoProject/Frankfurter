@@ -24,7 +24,7 @@ class SettingsAdapter(
     }
 
     override fun show(list: List<CurrencyChoiceUi>) {
-        val diffUtil = MainDiffUtil(oldList = listCurrency, newList = list, itemId = { it.id() })
+        val diffUtil = MainDiffUtil(oldList = listCurrency, newList = list)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
         listCurrency.clear()
         listCurrency.addAll(list)

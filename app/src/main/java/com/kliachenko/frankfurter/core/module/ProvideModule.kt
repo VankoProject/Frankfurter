@@ -22,20 +22,20 @@ interface ProvideModule {
                 MainViewModel::class.java -> MainModule(core = core)
                 LoadViewModel::class.java -> LoadModule(
                     core = core,
-                    provideInstance = provideInstance as ProvideInstance.ProvideLoadRepository,
+                    provideInstance = provideInstance,
                     clear = clear
                 )
 
                 DashBoardViewModel::class.java -> DashboardModule(
                     core = core,
                     clear = clear,
-                    provideInstance = provideInstance as ProvideInstance.ProvideDashBoardRepository
+                    provideInstance = provideInstance
                 )
 
                 SettingsViewModel::class.java -> SettingsModule(
                     core = core,
                     clear = clear,
-                    provideInstance = provideInstance as ProvideInstance.ProvideSettingsRepository
+                    provideInstance = provideInstance
                 )
 
                 else -> throw IllegalStateException("unknown module $clazz")

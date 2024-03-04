@@ -34,7 +34,7 @@ class FavoriteAdapter(
 
     override fun show(list: List<FavoritePairUi>) {
         val diffUtil =
-            MainDiffUtil(oldList = listPairs, newList = list, itemId = { it.id() })
+            MainDiffUtil(oldList = listPairs, newList = list)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
         listPairs.clear()
         listPairs.addAll(list)

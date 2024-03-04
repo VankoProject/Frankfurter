@@ -13,16 +13,6 @@ interface SettingsUiState {
 
     fun update(saveButton: ChangeVisibility) = saveButton.hide()
 
-    object Empty : SettingsUiState {
-        override fun update(
-            fromCurrencyAdapter: SettingsAdapter,
-            toCurrencyAdapter: SettingsAdapter,
-        ) {
-            fromCurrencyAdapter.show(listOf(CurrencyChoiceUi.Empty))
-            toCurrencyAdapter.show(listOf(CurrencyChoiceUi.Empty))
-        }
-    }
-
     data class FirstChoice(
         private val fromCurrency: List<CurrencyChoiceUi>,
     ) : SettingsUiState {

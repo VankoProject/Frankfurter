@@ -10,7 +10,7 @@ import com.kliachenko.presentation.settings.SettingsViewModel
 class SettingsModule(
     private val core: Core,
     private val clear: Clear,
-    private val provideInstance: ProvideInstance.ProvideSettingsRepository,
+    private val provideInstance: ProvideSettingsRepository,
 ) : Module<SettingsViewModel> {
 
     override fun viewModel(): SettingsViewModel {

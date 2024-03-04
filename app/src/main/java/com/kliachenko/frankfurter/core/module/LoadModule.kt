@@ -11,7 +11,7 @@ import com.kliachenko.presentation.loading.LoadViewModel
 
 class LoadModule(
     private val core: Core,
-    private val provideInstance: ProvideInstance.ProvideLoadRepository,
+    private val provideInstance: ProvideLoadRepository,
     private val clear: Clear,
 ) : Module<LoadViewModel> {
 

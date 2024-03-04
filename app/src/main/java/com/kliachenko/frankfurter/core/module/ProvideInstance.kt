@@ -13,35 +13,10 @@ import com.kliachenko.domain.dashboard.DashboardRepository
 import com.kliachenko.domain.load.LoadCurrenciesRepository
 import com.kliachenko.domain.settings.SettingsRepository
 
-interface ProvideInstance {
+interface ProvideInstance : ProvideLoadRepository, ProvideSettingsRepository,
+    ProvideDashBoardRepository {
 
-    interface ProvideLoadRepository {
-        fun provideLoadRepository(
-            cacheDataSource: CurrencyCacheDataSource.Mutable,
-            cloudDataSource: LoadCurrencyCloudDataSource,
-            provideResources: ProvideResources,
-        ): LoadCurrenciesRepository
-    }
-
-
-    interface ProvideDashBoardRepository {
-        fun provideDashBoardRepository(
-            cacheDataSource: FavoritePairCacheDataSource.Read,
-            handleError: HandleError,
-            dashBoardItemsDataSource: DashBoardItemsDataSource,
-        ): DashboardRepository
-    }
-
-    interface ProvideSettingsRepository {
-        fun provideSettingsRepository(
-            cacheDataSource: CurrencyCacheDataSource.Mutable,
-            favoritePairCacheDataSource: FavoritePairCacheDataSource.Mutable,
-        ): SettingsRepository
-    }
-
-
-    class Base : ProvideInstance, ProvideLoadRepository, ProvideSettingsRepository,
-        ProvideDashBoardRepository {
+    class Base : ProvideInstance {
         override fun provideLoadRepository(
             cacheDataSource: CurrencyCacheDataSource.Mutable,
             cloudDataSource: LoadCurrencyCloudDataSource,
@@ -75,4 +50,28 @@ interface ProvideInstance {
         }
     }
 
+}
+
+interface ProvideLoadRepository {
+    fun provideLoadRepository(
+        cacheDataSource: CurrencyCacheDataSource.Mutable,
+        cloudDataSource: LoadCurrencyCloudDataSource,
+        provideResources: ProvideResources,
+    ): LoadCurrenciesRepository
+}
+
+
+interface ProvideDashBoardRepository {
+    fun provideDashBoardRepository(
+        cacheDataSource: FavoritePairCacheDataSource.Read,
+        handleError: HandleError,
+        dashBoardItemsDataSource: DashBoardItemsDataSource,
+    ): DashboardRepository
+}
+
+interface ProvideSettingsRepository {
+    fun provideSettingsRepository(
+        cacheDataSource: CurrencyCacheDataSource.Mutable,
+        favoritePairCacheDataSource: FavoritePairCacheDataSource.Mutable,
+    ): SettingsRepository
 }

@@ -15,7 +15,7 @@ import com.kliachenko.presentation.dashboard.DashboardUiObservable
 
 class DashboardModule(
     private val core: Core,
-    private val provideInstance: ProvideInstance.ProvideDashBoardRepository,
+    private val provideInstance: ProvideDashBoardRepository,
     private val clear: Clear,
 ) : Module<DashBoardViewModel> {
 

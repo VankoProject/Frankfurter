@@ -1,12 +1,11 @@
 package com.kliachenko.presentation.settings.adapter
 
+import com.kliachenko.presentation.core.ListItem
 import com.kliachenko.presentation.core.views.ChangeText
 import com.kliachenko.presentation.core.views.ChangeVisibility
 import com.kliachenko.presentation.databinding.EmptySettingsLayoutBinding
 
-interface CurrencyChoiceUi {
-
-    fun id(): String = ""
+interface CurrencyChoiceUi: ListItem {
 
     fun type(): TypeUi
 

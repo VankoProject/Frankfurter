@@ -5,9 +5,19 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import com.google.android.material.button.MaterialButton
 
-class CustomButton @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
-) : MaterialButton(context, attrs, defStyleAttr), ChangeVisibility {
+class CustomButton : MaterialButton, ChangeVisibility {
+
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+    constructor(
+        context: Context,
+        attrs: AttributeSet,
+        defStyleAttr: Int,
+    ) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
     override fun onSaveInstanceState(): Parcelable {
         super.onSaveInstanceState().let {

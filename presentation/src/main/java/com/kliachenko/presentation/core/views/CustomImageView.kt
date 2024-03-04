@@ -12,7 +12,7 @@ class CustomImageView : AppCompatImageView, ChangeVisibility {
     constructor(
         context: Context,
         attrs: AttributeSet,
-        defStyleAttr: Int = com.google.android.material.R.attr.circularProgressIndicatorStyle,
+        defStyleAttr: Int,
     ) : super(
         context,
         attrs,

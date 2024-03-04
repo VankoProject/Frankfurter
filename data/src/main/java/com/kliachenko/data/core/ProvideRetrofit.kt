@@ -10,8 +10,9 @@ interface ProvideRetrofit {
     fun retrofit(): Retrofit
 
     class Base : ProvideRetrofit {
-        override fun retrofit(): Retrofit {
-            return Retrofit.Builder()
+
+        private val retrofit by lazy {
+            Retrofit.Builder()
                 .baseUrl("https://www.frankfurter.app/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(
@@ -21,6 +22,10 @@ interface ProvideRetrofit {
                         }).build()
                 )
                 .build()
+        }
+
+        override fun retrofit(): Retrofit {
+            return retrofit
         }
 
     }
