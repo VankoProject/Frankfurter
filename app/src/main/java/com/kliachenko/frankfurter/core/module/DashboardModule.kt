@@ -6,6 +6,7 @@ import com.kliachenko.data.dashboard.UpdatedRate
 import com.kliachenko.data.dashboard.cache.CurrentTimeInMillis
 import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
 import com.kliachenko.data.dashboard.cloud.CurrencyRateCloudDataSource
+import com.kliachenko.data.dashboard.cloud.CurrencyRateService
 import com.kliachenko.frankfurter.core.Core
 import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.dashboard.BaseDashboardResultMapper
@@ -35,7 +36,10 @@ class DashboardModule(
                     updatedRate = UpdatedRate.Base(
                         cacheDataSource,
                         currentTimeInMillis,
-                        CurrencyRateCloudDataSource.Base()
+                        CurrencyRateCloudDataSource.Base(
+                            core.provideRetrofit().retrofit()
+                                .create(CurrencyRateService::class.java)
+                        )
                     )
                 )
             ),

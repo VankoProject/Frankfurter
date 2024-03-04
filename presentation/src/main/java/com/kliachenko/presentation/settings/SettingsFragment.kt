@@ -59,7 +59,7 @@ class SettingsFragment :
 
         binding.saveButton.setOnClickListener {
             val selectedCurrencyFrom = fromCurrencyAdapter.selectedCurrency()
-            val selectedCurrencyTo = fromCurrencyAdapter.selectedCurrency()
+            val selectedCurrencyTo = toCurrencyAdapter.selectedCurrency()
             viewModel.save(selectedCurrencyFrom, selectedCurrencyTo)
         }
 

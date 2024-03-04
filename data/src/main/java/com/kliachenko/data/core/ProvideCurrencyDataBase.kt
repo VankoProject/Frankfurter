@@ -1,7 +1,8 @@
-package com.kliachenko.data.loading.cache
+package com.kliachenko.data.core
 
 import android.content.Context
 import androidx.room.Room
+import com.kliachenko.data.loading.cache.CurrencyDataBase
 
 interface ProvideCurrencyDataBase {
 
