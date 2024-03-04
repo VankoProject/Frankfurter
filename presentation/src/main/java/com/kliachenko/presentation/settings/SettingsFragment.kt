@@ -22,8 +22,15 @@ class SettingsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val fromCurrencyAdapter = SettingsAdapter(clickListener = viewModel)
-        val toCurrencyAdapter = SettingsAdapter(clickListener = viewModel)
+        val fromCurrencyAdapter =
+            SettingsAdapter({ fromCurrency -> viewModel.chooseFirstCurrency(fromCurrency) })
+        val toCurrencyAdapter =
+            SettingsAdapter({ toCurrency ->
+                viewModel.chooseSecondCurrency(
+                    fromCurrencyAdapter.selectedCurrency(),
+                    toCurrency
+                )
+            })
 
         with(binding) {
             recycleViewFrom.adapter = fromCurrencyAdapter
@@ -52,7 +59,7 @@ class SettingsFragment :
 
         binding.saveButton.setOnClickListener {
             val selectedCurrencyFrom = fromCurrencyAdapter.selectedCurrency()
-            val selectedCurrencyTo = fromCurrencyAdapter.selectedCurrency()
+            val selectedCurrencyTo = toCurrencyAdapter.selectedCurrency()
             viewModel.save(selectedCurrencyFrom, selectedCurrencyTo)
         }
 

@@ -1,7 +1,4 @@
-package com.kliachenko.data.dashboard.cache
-
-import com.kliachenko.data.dashboard.cloud.CurrencyPairCloud
-import com.kliachenko.data.dashboard.cloud.CurrencyRateService
+package com.kliachenko.data.dashboard.cloud
 
 interface CurrencyRateCloudDataSource {
 

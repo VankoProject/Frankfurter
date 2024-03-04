@@ -4,14 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.kliachenko.presentation.databinding.ChoiceCurrencyBinding
 import com.kliachenko.presentation.databinding.EmptySettingsLayoutBinding
-import com.kliachenko.presentation.settings.ChooseCurrency
 
 interface TypeUi {
 
-    fun viewHolder(parent: ViewGroup, clickActions: ChooseCurrency): SettingsViewHolder
+    fun viewHolder(parent: ViewGroup, clickActions: (String) -> Unit): SettingsViewHolder
 
-    object Currency : TypeUi {
-        override fun viewHolder(parent: ViewGroup, clickActions: ChooseCurrency) =
+    object Default : TypeUi {
+        override fun viewHolder(parent: ViewGroup, clickActions: (String) -> Unit) =
             SettingsViewHolder.Currency(
                 ChoiceCurrencyBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -23,7 +22,7 @@ interface TypeUi {
     }
 
     object Empty : TypeUi {
-        override fun viewHolder(parent: ViewGroup, clickActions: ChooseCurrency) =
+        override fun viewHolder(parent: ViewGroup, clickActions: (String) -> Unit) =
             SettingsViewHolder.Empty(
                 EmptySettingsLayoutBinding.inflate(
                     LayoutInflater.from(parent.context),

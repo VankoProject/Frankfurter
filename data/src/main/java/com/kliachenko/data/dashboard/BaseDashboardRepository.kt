@@ -7,13 +7,13 @@ import com.kliachenko.domain.dashboard.DashboardRepository
 import com.kliachenko.domain.dashboard.DashboardResult
 
 class BaseDashboardRepository(
-    private val cacheDataSource: FavoritePairCacheDataSource.Read,
+    private val favoriteCacheDataSource: FavoritePairCacheDataSource.Read,
     private val dashBoardItemsDataSource: DashBoardItemsDataSource,
     private val handleError: HandleError,
 ) : DashboardRepository {
 
     override suspend fun dashboardItems(): DashboardResult {
-        val favoritePairs = cacheDataSource.favoriteCurrencyPairs()
+        val favoritePairs = favoriteCacheDataSource.favoriteCurrencyPairs()
         return if (favoritePairs.isEmpty()) {
             DashboardResult.Empty
         } else {

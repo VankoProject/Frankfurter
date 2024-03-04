@@ -1,11 +1,11 @@
 package com.kliachenko.presentation.dashboard.adapter
 
+import com.kliachenko.presentation.core.ListItem
 import com.kliachenko.presentation.databinding.ErrorLayoutBinding
 import com.kliachenko.presentation.databinding.FavoritePairLayoutBinding
 
-interface FavoritePairUi {
+interface FavoritePairUi: ListItem {
 
-    fun id(): String
 
     fun type(): TypeUi
 

@@ -2,6 +2,8 @@ package com.kliachenko.presentation.settings
 
 interface ChooseCurrency {
 
-    fun chooseCurrency(currency: String)
+    fun chooseFirstCurrency(currency: String)
+
+    fun chooseSecondCurrency(from: String, to: String)
 
 }

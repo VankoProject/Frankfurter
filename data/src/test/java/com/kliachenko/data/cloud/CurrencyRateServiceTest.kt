@@ -1,6 +1,6 @@
 package com.kliachenko.data.cloud
 
-import com.kliachenko.data.dashboard.cache.CurrencyRateCloudDataSource
+import com.kliachenko.data.dashboard.cloud.CurrencyRateCloudDataSource
 import com.kliachenko.data.dashboard.cloud.CurrencyRateService
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
