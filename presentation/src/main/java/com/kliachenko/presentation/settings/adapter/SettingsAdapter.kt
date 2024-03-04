@@ -37,15 +37,12 @@ class SettingsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingsViewHolder {
-        return types[viewType].viewHolder(parent)
+        return types[viewType].viewHolder(parent, clickListener)
     }
 
     override fun onBindViewHolder(holder: SettingsViewHolder, position: Int) {
         val currency = listCurrency[position]
         holder.bind(currency)
-        holder.itemView.setOnClickListener {
-            clickListener.invoke(currency.id())
-        }
     }
 
     override fun getItemCount() = listCurrency.size
@@ -58,10 +55,14 @@ abstract class SettingsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     class Currency(
         private val binding: ChoiceCurrencyBinding,
+        private val clickListener: (String) -> Unit,
     ) : SettingsViewHolder(binding.root) {
         override fun bind(currency: CurrencyChoiceUi) {
             super.bind(currency)
             currency.show(binding.currencyTextView, binding.selectedIconImageView)
+            itemView.setOnClickListener {
+                clickListener.invoke(currency.id())
+            }
         }
     }
 

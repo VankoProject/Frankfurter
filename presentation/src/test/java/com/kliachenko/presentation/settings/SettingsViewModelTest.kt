@@ -136,7 +136,7 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun bachDashBoard() {
+    fun backDashBoard() {
         viewModel.backDashBoard()
         navigation.checkNavigateToDashBoardScreen()
         clear.checkCalled(SettingsViewModel::class.java)
