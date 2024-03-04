@@ -28,7 +28,7 @@ interface ProvideInstance : ProvideLoadRepository, ProvideSettingsRepository,
         )
 
         override fun provideDashBoardRepository(
-            cacheDataSource: FavoritePairCacheDataSource.Read,
+            cacheDataSource: FavoritePairCacheDataSource.Mutable,
             handleError: HandleError,
             dashBoardItemsDataSource: DashBoardItemsDataSource,
         ): DashboardRepository {
@@ -48,6 +48,8 @@ interface ProvideInstance : ProvideLoadRepository, ProvideSettingsRepository,
                 currencyCacheDataSource = cacheDataSource
             )
         }
+
+
     }
 
 }
@@ -63,7 +65,7 @@ interface ProvideLoadRepository {
 
 interface ProvideDashBoardRepository {
     fun provideDashBoardRepository(
-        cacheDataSource: FavoritePairCacheDataSource.Read,
+        cacheDataSource: FavoritePairCacheDataSource.Mutable,
         handleError: HandleError,
         dashBoardItemsDataSource: DashBoardItemsDataSource,
     ): DashboardRepository
