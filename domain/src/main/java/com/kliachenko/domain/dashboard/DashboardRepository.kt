@@ -2,9 +2,11 @@ package com.kliachenko.domain.dashboard
 
 import com.kliachenko.domain.BaseRepository
 
-interface DashboardRepository: BaseRepository {
+interface DashboardRepository : BaseRepository {
 
     suspend fun dashboardItems(): DashboardResult
+
+    suspend fun removeItem(from: String, to: String): DashboardResult
 }
 
 interface DashboardResult {

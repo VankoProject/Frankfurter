@@ -7,7 +7,7 @@ import com.kliachenko.presentation.dashboard.adapter.FavoritePairUi
 
 class BaseDashboardResultMapper(
     private val observable: UiObservable<DashboardUiState>,
-    private val itemMapper: DashBoardItem.Mapper<FavoritePairUi> = BaseDashboardItemMapper(),
+    private val itemMapper: DashBoardItem.Mapper<FavoritePairUi>,
 ) : DashboardResult.Mapper {
 
     override fun mapSuccess(items: List<DashBoardItem>) {

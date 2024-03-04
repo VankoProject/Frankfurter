@@ -9,6 +9,7 @@ import com.kliachenko.data.dashboard.cloud.CurrencyRateCloudDataSource
 import com.kliachenko.data.dashboard.cloud.CurrencyRateService
 import com.kliachenko.frankfurter.core.Core
 import com.kliachenko.presentation.core.Clear
+import com.kliachenko.presentation.dashboard.BaseDashboardItemMapper
 import com.kliachenko.presentation.dashboard.BaseDashboardResultMapper
 import com.kliachenko.presentation.dashboard.DashBoardViewModel
 import com.kliachenko.presentation.dashboard.DashboardUiObservable
@@ -45,7 +46,11 @@ class DashboardModule(
             ),
             runAsync = core.provideRunAsync(),
             clear = clear,
-            mapper = BaseDashboardResultMapper(observable)
+            delimiter = core.provideDelimiter(),
+            mapper = BaseDashboardResultMapper(
+                observable,
+                itemMapper = BaseDashboardItemMapper(core.provideDelimiter())
+            )
         )
     }
 }

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kliachenko.presentation.core.MainDiffUtil
 import com.kliachenko.presentation.core.ShowList
 import com.kliachenko.presentation.dashboard.ClickActions
+import com.kliachenko.presentation.dashboard.RemoveSnackBar
 import com.kliachenko.presentation.databinding.EmptyLayoutBinding
 import com.kliachenko.presentation.databinding.ErrorLayoutBinding
 import com.kliachenko.presentation.databinding.FavoritePairLayoutBinding
@@ -68,10 +69,16 @@ abstract class DashboardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         }
     }
 
-    class CurrencyPair(private val binding: FavoritePairLayoutBinding) :
+    class CurrencyPair(
+        private val binding: FavoritePairLayoutBinding,
+        private val snackBarAction: RemoveSnackBar,
+    ) :
         DashboardViewHolder(binding.root) {
         override fun bind(pair: FavoritePairUi) {
             pair.show(binding)
+            binding.root.setOnClickListener {
+                snackBarAction.showSnackBar(pairId = pair.id(), view = binding.root)
+            }
         }
     }
 

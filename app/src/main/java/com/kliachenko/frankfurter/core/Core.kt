@@ -4,6 +4,7 @@ import android.content.Context
 import com.kliachenko.data.core.ProvideCurrencyDataBase
 import com.kliachenko.data.core.ProvideResources
 import com.kliachenko.data.core.ProvideRetrofit
+import com.kliachenko.presentation.core.Delimiter
 import com.kliachenko.presentation.core.Navigation
 import com.kliachenko.presentation.core.RunAsync
 
@@ -19,6 +20,8 @@ interface Core {
 
     fun provideRetrofit(): ProvideRetrofit
 
+    fun provideDelimiter(): Delimiter
+
     class Base(context: Context) : Core {
 
         private val navigation: Navigation by lazy { Navigation.Base() }
@@ -26,6 +29,7 @@ interface Core {
         private val runAsync by lazy { RunAsync.Base() }
         private val provideCurrencyDataBase by lazy { ProvideCurrencyDataBase.Base(context) }
         private val provideRetrofit by lazy { ProvideRetrofit.Base() }
+        private val delimiter = Delimiter.Base()
 
         override fun provideNavigation() = navigation
 
@@ -36,6 +40,7 @@ interface Core {
         override fun provideCurrencyDataBase() = provideCurrencyDataBase
 
         override fun provideRetrofit(): ProvideRetrofit = provideRetrofit
+        override fun provideDelimiter() = delimiter
 
     }
 }
