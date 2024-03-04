@@ -18,7 +18,7 @@ interface SettingsUiState {
             fromCurrencyAdapter: SettingsAdapter,
             toCurrencyAdapter: SettingsAdapter,
         ) {
-//            fromCurrencyAdapter.show(listOf(CurrencyChoiceUi.Base()))
+            fromCurrencyAdapter.show(listOf(CurrencyChoiceUi.Empty))
             toCurrencyAdapter.show(listOf(CurrencyChoiceUi.Empty))
         }
     }
@@ -61,6 +61,13 @@ interface SettingsUiState {
         override fun update(saveButton: ChangeVisibility) {
             saveButton.show()
         }
+    }
+
+    object Initial: SettingsUiState {
+        override fun update(
+            fromCurrencyAdapter: SettingsAdapter,
+            toCurrencyAdapter: SettingsAdapter,
+        ) = Unit
     }
 
 }
