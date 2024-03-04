@@ -1,9 +1,9 @@
 package com.kliachenko.data.dashboard
 
 import com.kliachenko.data.dashboard.cache.CurrencyPair
-import com.kliachenko.data.dashboard.cache.CurrencyRateCloudDataSource
 import com.kliachenko.data.dashboard.cache.CurrentTimeInMillis
 import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
+import com.kliachenko.data.dashboard.cloud.CurrencyRateCloudDataSource
 import com.kliachenko.domain.dashboard.DashBoardItem
 
 interface DashBoardItemsDataSource {

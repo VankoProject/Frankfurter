@@ -1,6 +1,8 @@
 package com.kliachenko.domain.dashboard
 
-interface DashboardRepository {
+import com.kliachenko.domain.BaseRepository
+
+interface DashboardRepository: BaseRepository {
 
     suspend fun dashboardItems(): DashboardResult
 }

@@ -10,7 +10,7 @@ interface CurrencyChoiceUi {
 
     fun type(): TypeUi
 
-    fun isSelected(): Boolean = false
+    fun isSelected(): Boolean
 
     fun show(currencyTextView: ChangeText, selectedImageView: ChangeVisibility) = Unit
 
@@ -19,9 +19,18 @@ interface CurrencyChoiceUi {
     data class Base(private val isSelected: Boolean, private val currency: String) :
         CurrencyChoiceUi {
 
+        override fun show(currencyTextView: ChangeText, selectedImageView: ChangeVisibility) {
+            currencyTextView.change(currency)
+            selectedImageView.apply {
+                if (isSelected) show()
+                else hide()
+            }
+
+        }
+
         override fun id() = currency
 
-        override fun type() = TypeUi.Currency
+        override fun type() = TypeUi.Default
 
         override fun isSelected() = isSelected
 
@@ -32,5 +41,7 @@ interface CurrencyChoiceUi {
         override fun id() = "empty"
 
         override fun type() = TypeUi.Empty
+
+        override fun isSelected() = false
     }
 }

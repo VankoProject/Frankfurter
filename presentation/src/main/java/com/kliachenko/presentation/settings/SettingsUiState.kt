@@ -18,12 +18,12 @@ interface SettingsUiState {
             fromCurrencyAdapter: SettingsAdapter,
             toCurrencyAdapter: SettingsAdapter,
         ) {
-            fromCurrencyAdapter.show(listOf(CurrencyChoiceUi.Empty))
+//            fromCurrencyAdapter.show(listOf(CurrencyChoiceUi.Base()))
             toCurrencyAdapter.show(listOf(CurrencyChoiceUi.Empty))
         }
     }
 
-    data class FromCurrency(
+    data class FirstChoice(
         private val fromCurrency: List<CurrencyChoiceUi>,
     ) : SettingsUiState {
         override fun update(
@@ -31,10 +31,11 @@ interface SettingsUiState {
             toCurrencyAdapter: SettingsAdapter,
         ) {
             fromCurrencyAdapter.show(fromCurrency)
+            toCurrencyAdapter.show(emptyList())
         }
     }
 
-    data class ToCurrency(
+    data class SecondChoice(
         private val toCurrency: List<CurrencyChoiceUi>,
         private val fromCurrency: List<CurrencyChoiceUi>,
     ) : SettingsUiState {
@@ -48,8 +49,7 @@ interface SettingsUiState {
     }
 
     data class Save(
-        private val toCurrency: List<CurrencyChoiceUi>,
-        private val saveButton: ChangeVisibility,
+        private val toCurrency: List<CurrencyChoiceUi>
     ) : SettingsUiState {
         override fun update(
             fromCurrencyAdapter: SettingsAdapter,

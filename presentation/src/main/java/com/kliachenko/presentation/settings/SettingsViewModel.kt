@@ -23,9 +23,9 @@ class SettingsViewModel(
             repository.allCurrencies()
         }) { currencies ->
             val listCurrencies =
-                currencies.map { CurrencyChoiceUi.Base(currency = it, isSelected = false) }
+                currencies.map { CurrencyChoiceUi.Base(isSelected = false, currency = it) }
             observable.updateUi(
-                SettingsUiState.FromCurrency(listCurrencies)
+                SettingsUiState.FirstChoice(listCurrencies)
             )
         }
     }
@@ -35,16 +35,30 @@ class SettingsViewModel(
         clear.clear(SettingsViewModel::class.java)
     }
 
-    override fun chooseCurrency(currency: String) {
+    override fun chooseFirstCurrency(currency: String) {
         runAsync({
-            SettingsUiState.ToCurrency(
-                fromCurrency = repository.allCurrencies().map {
-                    CurrencyChoiceUi.Base(isSelected = it == currency, currency = it)
-                },
-                toCurrency = repository.availableCurrenciesDestinations(currency).map {
+            val fromCurrencies = repository.allCurrencies().map {
+                CurrencyChoiceUi.Base(isSelected = it == currency, currency = it)
+            }
+            val toCurrencies = repository.availableCurrenciesDestinations(currency)
+                .map {
                     CurrencyChoiceUi.Base(isSelected = false, currency = it)
                 }
-            )
+                .let { it.ifEmpty { listOf(CurrencyChoiceUi.Empty) } }
+
+            SettingsUiState.SecondChoice(fromCurrency = fromCurrencies, toCurrency = toCurrencies)
+
+        }) {
+            observable.updateUi(it)
+        }
+    }
+
+    override fun chooseSecondCurrency(from: String, to: String) {
+        runAsync({
+            val toCurrencies = repository.availableCurrenciesDestinations(from)
+            SettingsUiState.Save(toCurrency = toCurrencies.map {
+                CurrencyChoiceUi.Base(isSelected = it == to, currency = it)
+            })
         }) {
             observable.updateUi(it)
         }

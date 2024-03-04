@@ -1,6 +1,8 @@
 package com.kliachenko.domain.settings
 
-interface SettingsRepository {
+import com.kliachenko.domain.BaseRepository
+
+interface SettingsRepository: BaseRepository {
 
     suspend fun allCurrencies(): List<String>
 

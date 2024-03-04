@@ -8,11 +8,10 @@ import com.kliachenko.presentation.core.MainDiffUtil
 import com.kliachenko.presentation.core.ShowList
 import com.kliachenko.presentation.databinding.ChoiceCurrencyBinding
 import com.kliachenko.presentation.databinding.EmptySettingsLayoutBinding
-import com.kliachenko.presentation.settings.ChooseCurrency
 
 class SettingsAdapter(
-    private val clickListener: ChooseCurrency,
-    private val types: List<TypeUi> = listOf(TypeUi.Currency, TypeUi.Empty),
+    private val clickListener: (String) -> Unit,
+    private val types: List<TypeUi> = listOf(TypeUi.Default, TypeUi.Empty),
 ) : RecyclerView.Adapter<SettingsViewHolder>(), ShowList<CurrencyChoiceUi> {
 
     private val listCurrency = mutableListOf<CurrencyChoiceUi>()
@@ -34,15 +33,19 @@ class SettingsAdapter(
 
     fun selectedCurrency(): String {
         val selectedCurrency = listCurrency.find { it.isSelected() }
-        return selectedCurrency!!.id()
+        return selectedCurrency?.id() ?: ""
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingsViewHolder {
-        return types[viewType].viewHolder(parent, clickActions = clickListener)
+        return types[viewType].viewHolder(parent)
     }
 
     override fun onBindViewHolder(holder: SettingsViewHolder, position: Int) {
-        holder.bind(listCurrency[position])
+        val currency = listCurrency[position]
+        holder.bind(currency)
+        holder.itemView.setOnClickListener {
+            clickListener.invoke(currency.id())
+        }
     }
 
     override fun getItemCount() = listCurrency.size
@@ -55,14 +58,10 @@ abstract class SettingsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     class Currency(
         private val binding: ChoiceCurrencyBinding,
-        private val clickListener: ChooseCurrency,
     ) : SettingsViewHolder(binding.root) {
         override fun bind(currency: CurrencyChoiceUi) {
             super.bind(currency)
             currency.show(binding.currencyTextView, binding.selectedIconImageView)
-            binding.contentLayout.setOnClickListener {
-                clickListener.chooseCurrency(binding.currencyTextView.text.toString())
-            }
         }
     }
 

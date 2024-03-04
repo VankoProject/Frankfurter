@@ -13,7 +13,7 @@ class BaseSettingsRepository(
     override suspend fun allCurrencies(): List<String> {
         return currencyCacheDataSource.read().map {
             it.code
-        }
+        }.sortedBy { it }
     }
 
     override suspend fun availableCurrenciesDestinations(from: String): List<String> {
@@ -21,7 +21,7 @@ class BaseSettingsRepository(
         val favoriteCurrencies = favoritePairCacheDataSource.favoriteCurrencyPairs().filter {
             it.fromCurrency == from
         }.map { it.toCurrency }
-        return currencies.filterNot { it == from || it in favoriteCurrencies}
+        return currencies.filterNot { it == from || it in favoriteCurrencies }.sortedBy { it }
     }
 
     override suspend fun save(from: String, to: String) {
