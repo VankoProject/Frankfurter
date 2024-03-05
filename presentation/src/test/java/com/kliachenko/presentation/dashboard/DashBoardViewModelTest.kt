@@ -3,10 +3,12 @@ package com.kliachenko.presentation.dashboard
 import com.kliachenko.domain.dashboard.DashBoardItem
 import com.kliachenko.domain.dashboard.DashboardRepository
 import com.kliachenko.domain.dashboard.DashboardResult
+import com.kliachenko.presentation.core.Delimiter
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.fake.FakeClear
 import com.kliachenko.presentation.fake.FakeNavigation
 import com.kliachenko.presentation.fake.FakeRunAsync
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
@@ -18,6 +20,8 @@ class DashBoardViewModelTest {
     private lateinit var clear: FakeClear
     private lateinit var runAsync: FakeRunAsync
     private lateinit var viewModel: DashBoardViewModel
+    private lateinit var delimiter: Delimiter
+    private lateinit var mapper: FakeDashboardResultMapper
 
     @Before
     fun setup() {
@@ -26,12 +30,17 @@ class DashBoardViewModelTest {
         repository = FakeDashboardRepository()
         clear = FakeClear()
         runAsync = FakeRunAsync()
+        delimiter = Delimiter.Base()
+        mapper = FakeDashboardResultMapper()
+
         viewModel = DashBoardViewModel(
             observable = observable,
             navigation = navigation,
             repository = repository,
             runAsync = runAsync,
-            clear = clear
+            clear = clear,
+            delimiter = delimiter,
+            mapper = mapper
         )
     }
 
@@ -41,7 +50,7 @@ class DashBoardViewModelTest {
         viewModel.load()
         observable.checkProgress()
         runAsync.returnLoadResult()
-        observable.checkEmpty()
+        mapper.check(DashboardResult.Empty)
     }
 
     @Test
@@ -50,13 +59,51 @@ class DashBoardViewModelTest {
         viewModel.load()
         observable.checkProgress()
         runAsync.returnLoadResult()
-        observable.checkError()
+        mapper.check(DashboardResult.Error("Error"))
 
         repository.success()
         viewModel.retry()
         observable.checkProgress()
         runAsync.returnLoadResult()
-        observable.checkSuccess()
+        mapper.check(
+            DashboardResult.Success(
+                listOf(
+                    DashBoardItem.Base(
+                        "USD", "EUR", 1.0
+                    ),
+                    DashBoardItem.Base(
+                        "USD", "JPY", 1.0
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun testDeleteFavoriteCurrencyPair() {
+        repository.success()
+        viewModel.retry()
+        observable.checkProgress()
+        runAsync.returnLoadResult()
+        mapper.check(
+            DashboardResult.Success(
+                listOf(
+                    DashBoardItem.Base(
+                        "USD", "EUR", 1.0
+                    ),
+                    DashBoardItem.Base(
+                        "USD", "JPY", 1.0
+                    )
+                )
+            )
+        )
+
+        repository.empty()
+        viewModel.remove("USD/EUR")
+        repository.checkFromAndTo("USD", "EUR")
+        observable.checkProgress()
+        runAsync.returnLoadResult()
+        mapper.check(DashboardResult.Empty)
     }
 
     @Test
@@ -78,6 +125,27 @@ class DashBoardViewModelTest {
         observable.checkEmptyObserver(observer)
     }
 
+}
+
+private class FakeDashboardResultMapper : DashboardResult.Mapper {
+
+    private var actual: DashboardResult = DashboardResult.Empty
+
+    override fun mapSuccess(items: List<DashBoardItem>) {
+        actual = DashboardResult.Success(items = items)
+    }
+
+    override fun mapError(message: String) {
+        actual = DashboardResult.Error(message)
+    }
+
+    override fun mapEmpty() {
+        actual = DashboardResult.Empty
+    }
+
+    fun check(expected: DashboardResult) {
+        Assert.assertEquals(expected, actual)
+    }
 
 }
 
@@ -85,8 +153,18 @@ private class FakeDashboardRepository : DashboardRepository {
 
     private var actualData: DashboardResult = DashboardResult.Empty
 
+    private var actualFrom: String = ""
+
+    private var actualTo: String = ""
+
     override suspend fun dashboardItems(): DashboardResult {
         return actualData
+    }
+
+    override suspend fun removeItem(from: String, to: String): DashboardResult {
+        actualFrom = from
+        actualTo = to
+        return dashboardItems()
     }
 
     fun empty() {
@@ -102,11 +180,18 @@ private class FakeDashboardRepository : DashboardRepository {
             listOf(
                 DashBoardItem.Base(
                     "USD", "EUR", 1.0
+                ),
+                DashBoardItem.Base(
+                    "USD", "JPY", 1.0
                 )
             )
         )
     }
 
+    fun checkFromAndTo(expectedFrom: String, expectedTo: String) {
+        Assert.assertEquals(expectedFrom, actualFrom)
+        Assert.assertEquals(expectedTo, actualTo)
+    }
 
 }
 

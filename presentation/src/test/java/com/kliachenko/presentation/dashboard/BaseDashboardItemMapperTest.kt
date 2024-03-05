@@ -1,12 +1,13 @@
 package com.kliachenko.presentation.dashboard
 
+import com.kliachenko.presentation.core.Delimiter
 import com.kliachenko.presentation.dashboard.adapter.FavoritePairUi
 import org.junit.Assert
 import org.junit.Test
 
 class BaseDashboardItemMapperTest {
 
-    private val itemMapper = BaseDashboardItemMapper()
+    private val itemMapper = BaseDashboardItemMapper(Delimiter.Base("/"))
 
     @Test
     fun testSuccessMap() {
