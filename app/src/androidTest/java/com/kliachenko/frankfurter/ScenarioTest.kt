@@ -32,16 +32,15 @@ class ScenarioTest {
         settingPage.checkVisible()
 
         settingPage.checkCurrenciesFrom("USD", "EUR", "JPY")
-        settingPage.clickFirstChoice(position = 0)
-        settingPage.checkFirstChoice(position = 0)
-        settingPage.checkNotSelected(position = 1)
-        settingPage.checkNotSelected(position = 2)
+        settingPage.clickChoiceFrom(position = 0)
+        settingPage.checkSelectedFrom(position = 0)
+        settingPage.checkNotSelectedFrom(position = 1)
+        settingPage.checkNotSelectedFrom(position = 2)
 
         settingPage.checkCurrenciesTo("EUR", "JPY")
-        settingPage.clickSecondChoice(position = 0)
-        settingPage.checkSecondChoice(position = 0)
-        settingPage.checkNotSelected(position = 1)
-        settingPage.checkNotSelected(position = 2)
+        settingPage.clickChoiceTo(position = 0)
+        settingPage.checkSelectedTo(position = 0)
+        settingPage.checkNotSelectedTo(position = 1)
         settingPage.clickSave()
         settingPage.checkNotVisible()
 
@@ -53,12 +52,13 @@ class ScenarioTest {
         dashboardPage.clickSettings()
         dashboardPage.checkNotVisible()
         settingPage.checkVisible()
+
         settingPage.checkCurrenciesFrom("USD", "EUR", "JPY")
-        settingPage.clickFirstChoice(position = 0)
-        settingPage.checkFirstIsChosen(position = 0)
-        settingPage.checkCurrenciesTo("JPY")
-        settingPage.clickSecondChoice(position = 0)
-        settingPage.checkSelected(position = 0)
+        settingPage.clickChoiceFrom(position = 0)
+        settingPage.checkSelectedFrom(position = 0)
+        settingPage.checkCurrenciesTo("JPY") //todo add position
+        settingPage.clickChoiceTo(position = 0)
+        settingPage.checkSelectedTo(position = 0)
         settingPage.clickSave()
         settingPage.checkNotVisible()
 
@@ -67,20 +67,20 @@ class ScenarioTest {
         dashboardPage.checkFavoritePair(currencyPair = "USD/JPY", rate = "1.0", position = 1)
 
         dashboardPage.clickSettings()
-        settingPage.checkVisible()
         dashboardPage.checkNotVisible()
+        settingPage.checkVisible()
         settingPage.checkCurrenciesFrom("USD", "EUR", "JPY")
-        settingPage.clickFirstChoice(position = 0)
-        settingPage.checkFirstChoice(position = 0)
+        settingPage.clickChoiceFrom(position = 0)
+        settingPage.checkSelectedFrom(position = 0)
         settingPage.checkNoCurrencyTo()
 
-        settingPage.clickFirstChoice(position = 1)
-        settingPage.checkFirstChoice(position = 1)
+        settingPage.clickChoiceFrom(position = 1)
+        settingPage.checkSelectedFrom(position = 1)
         settingPage.checkCurrenciesTo("USD", "JPY")
         settingPage.clickToDashBoard()
+        settingPage.checkNotVisible()
 
         dashboardPage.checkVisible()
-        settingPage.checkNotVisible()
         dashboardPage.checkFavoritePair(currencyPair = "USD/EUR", rate = "1.0", position = 0)
         dashboardPage.checkFavoritePair(currencyPair = "USD/JPY", rate = "1.0", position = 1)
         dashboardPage.clickForRemove(position = 0)
@@ -93,11 +93,11 @@ class ScenarioTest {
         dashboardPage.checkEmptyFavoriteList()
 
         dashboardPage.clickSettings()
-        settingPage.checkVisible()
         dashboardPage.checkNotVisible()
+        settingPage.checkVisible()
         Espresso.pressBack()
-        dashboardPage.checkVisible()
         settingPage.checkNotVisible()
+        dashboardPage.checkVisible()
 
     }
 }
