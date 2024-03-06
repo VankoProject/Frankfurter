@@ -10,7 +10,7 @@ class RemoveSnackBar(private val removePair: RemovePair) {
         view: View,
         pairId: String,
     ) {
-        Snackbar.make(view, R.string.remove_pair, Snackbar.LENGTH_SHORT)
+        Snackbar.make(view, R.string.remove_pair, Snackbar.LENGTH_LONG)
             .setAction(R.string.confirm) {
                 removePair.remove(pairId)
             }

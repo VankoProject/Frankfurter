@@ -16,7 +16,7 @@ class ScenarioTest {
     var activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
-    fun happyPass() {
+    fun scenarioTest() {
         val loadPage = LoadPage()
         loadPage.checkVisible()
         loadPage.checkError("No internet connection")
@@ -56,7 +56,7 @@ class ScenarioTest {
         settingPage.checkCurrenciesFrom("USD", "EUR", "JPY")
         settingPage.clickChoiceFrom(position = 0)
         settingPage.checkSelectedFrom(position = 0)
-        settingPage.checkCurrenciesTo("JPY") //todo add position
+        settingPage.checkCurrenciesTo("JPY")
         settingPage.clickChoiceTo(position = 0)
         settingPage.checkSelectedTo(position = 0)
         settingPage.clickSave()

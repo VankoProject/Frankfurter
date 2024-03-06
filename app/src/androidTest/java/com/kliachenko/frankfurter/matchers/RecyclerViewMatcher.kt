@@ -1,4 +1,4 @@
-package com.kliachenko.frankfurter
+package com.kliachenko.frankfurter.matchers
 
 import android.content.res.Resources
 import android.view.View
