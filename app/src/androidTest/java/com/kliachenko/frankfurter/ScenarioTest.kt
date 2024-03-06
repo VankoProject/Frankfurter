@@ -21,89 +21,83 @@ class ScenarioTest {
         loadPage.checkVisible()
         loadPage.checkError("No internet connection")
         loadPage.clickRetry()
+        loadPage.checkNotVisible()
 
         val dashboardPage = DashboardPage()
-        loadPage.checkNotVisible()
         dashboardPage.checkVisible()
         dashboardPage.clickSettings()
+        dashboardPage.checkNotVisible()
 
         val settingPage = SettingPage()
         settingPage.checkVisible()
-        dashboardPage.checkNotVisible()
 
-        //выбор первой пары
         settingPage.checkCurrenciesFrom("USD", "EUR", "JPY")
         settingPage.clickFirstChoice(position = 0)
         settingPage.checkFirstChoice(position = 0)
         settingPage.checkNotSelected(position = 1)
+        settingPage.checkNotSelected(position = 2)
 
         settingPage.checkCurrenciesTo("EUR", "JPY")
         settingPage.clickSecondChoice(position = 0)
         settingPage.checkSecondChoice(position = 0)
         settingPage.checkNotSelected(position = 1)
+        settingPage.checkNotSelected(position = 2)
         settingPage.clickSave()
-
-        //отображение ошибки, потом отображение пары с загруженным рейтингом
-        dashboardPage.checkVisible()
         settingPage.checkNotVisible()
+
+        dashboardPage.checkVisible()
         dashboardPage.checkError(message = "Service unavailable")
         dashboardPage.clickRetry()
         dashboardPage.checkFavoritePair(currencyPair = "USD/EUR", rate = "1.0", position = 0)
 
-        //возврат в настройки, выбор второй пары, сохранение
         dashboardPage.clickSettings()
-        settingPage.checkVisible()
         dashboardPage.checkNotVisible()
+        settingPage.checkVisible()
         settingPage.checkCurrenciesFrom("USD", "EUR", "JPY")
         settingPage.clickFirstChoice(position = 0)
-        settingPage.checkFirstChoice(position = 0)
+        settingPage.checkFirstIsChosen(position = 0)
         settingPage.checkCurrenciesTo("JPY")
         settingPage.clickSecondChoice(position = 0)
-        settingPage.checkSecondChoice(position = 0)
+        settingPage.checkSelected(position = 0)
         settingPage.clickSave()
-
-        //отображение двух выбранных пар
-        dashboardPage.checkVisible()
         settingPage.checkNotVisible()
+
+        dashboardPage.checkVisible()
         dashboardPage.checkFavoritePair(currencyPair = "USD/EUR", rate = "1.0", position = 0)
         dashboardPage.checkFavoritePair(currencyPair = "USD/JPY", rate = "1.0", position = 1)
 
-        //возврат в настройки, выбор третьей пары для первого элемента - проверка на пустоту
         dashboardPage.clickSettings()
         settingPage.checkVisible()
         dashboardPage.checkNotVisible()
         settingPage.checkCurrenciesFrom("USD", "EUR", "JPY")
         settingPage.clickFirstChoice(position = 0)
         settingPage.checkFirstChoice(position = 0)
-        settingPage.checkNoCurrencyTo("NO MORE CURRENCIES")
+        settingPage.checkNoCurrencyTo()
 
-        //выбор другой пары и сразу навигация по верхней кнопке назад
         settingPage.clickFirstChoice(position = 1)
         settingPage.checkFirstChoice(position = 1)
         settingPage.checkCurrenciesTo("USD", "JPY")
         settingPage.clickToDashBoard()
 
-        //удаление сохраненной пары
         dashboardPage.checkVisible()
         settingPage.checkNotVisible()
         dashboardPage.checkFavoritePair(currencyPair = "USD/EUR", rate = "1.0", position = 0)
         dashboardPage.checkFavoritePair(currencyPair = "USD/JPY", rate = "1.0", position = 1)
-        dashboardPage.clickForRemove(currencyPair = "USD/EUR", rate = "1.0", position = 0)
-        dashboardPage.clickConfirmForRemove(
-            question = "Remove this pair from favorite list?",
-            action = "Confirm"
-        )
-        //проверка, что вторая пара переместилась на 0-ую позицию
+        dashboardPage.clickForRemove(position = 0)
+        dashboardPage.clickConfirmForRemove()
+
         dashboardPage.checkFavoritePair(currencyPair = "USD/JPY", rate = "1.0", position = 0)
 
-        //проверка системной кнопки назад
+        dashboardPage.clickForRemove(position = 0)
+        dashboardPage.clickConfirmForRemove()
+        dashboardPage.checkEmptyFavoriteList()
+
         dashboardPage.clickSettings()
         settingPage.checkVisible()
         dashboardPage.checkNotVisible()
         Espresso.pressBack()
         dashboardPage.checkVisible()
         settingPage.checkNotVisible()
-        dashboardPage.checkFavoritePair(currencyPair = "USD/JPY", rate = "1.0", position = 0)
 
     }
 }
