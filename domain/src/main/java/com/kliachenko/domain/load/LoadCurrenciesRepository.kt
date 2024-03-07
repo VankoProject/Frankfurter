@@ -1,8 +1,6 @@
 package com.kliachenko.domain.load
 
-import com.kliachenko.domain.BaseRepository
-
-interface LoadCurrenciesRepository: BaseRepository {
+interface LoadCurrenciesRepository {
 
     suspend fun loadCurrencies(): LoadCurrenciesResult
 }

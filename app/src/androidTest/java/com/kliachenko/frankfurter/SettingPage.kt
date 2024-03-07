@@ -23,7 +23,7 @@ class SettingPage {
     private val rootLayout =
         onView(
             allOf(
-                withId(R.id.rootLayout),
+                withId(R.id.settingRootLayout),
                 isAssignableFrom(ConstraintLayout::class.java)
             )
         )
@@ -36,7 +36,7 @@ class SettingPage {
         rootLayout.check(doesNotExist())
     }
 
-    fun checkCurrenciesFrom(vararg currenciesFrom: String) {
+    fun checkCurrenciesFrom(vararg currenciesFrom: String) =
         currenciesFrom.forEachIndexed { index, currency ->
             onView(
                 RecyclerViewMatcher(
@@ -46,7 +46,7 @@ class SettingPage {
                 )
             ).check(matches(withText(currency)))
         }
-    }
+
 
     fun checkCurrenciesTo(vararg currenciesTo: String) {
         currenciesTo.forEachIndexed { index, currency ->
@@ -90,7 +90,8 @@ class SettingPage {
             RecyclerViewMatcher(
                 position, R.id.selectedIconImageView, R.id.recycleViewTo
             )
-        ).check(matches(not(DrawableMatcher(R.drawable.selected_icon_48px))))
+        ).check(matches(isDisplayed()))
+            .check(matches(DrawableMatcher(R.drawable.selected_icon_48px)))
     }
 
     fun checkNotSelectedFrom(position: Int) {
@@ -98,7 +99,7 @@ class SettingPage {
             RecyclerViewMatcher(
                 position, R.id.selectedIconImageView, R.id.recycleViewFrom
             )
-        ).check(matches(not(DrawableMatcher(R.drawable.selected_icon_48px))))
+        ).check(matches(not(isDisplayed())))
     }
 
     fun checkNotSelectedTo(position: Int) {
@@ -106,7 +107,7 @@ class SettingPage {
             RecyclerViewMatcher(
                 position, R.id.selectedIconImageView, R.id.recycleViewTo
             )
-        ).check(matches(not(DrawableMatcher(R.drawable.selected_icon_48px))))
+        ).check(matches(not(isDisplayed())))
     }
 
     fun checkNoCurrencyTo() {

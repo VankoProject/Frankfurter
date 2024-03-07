@@ -33,7 +33,7 @@ interface FavoritePairUi: ListItem {
         override fun type() = TypeUi.Error
 
         override fun show(binding: ErrorLayoutBinding) {
-            binding.errorTextView.text = message
+            binding.errorDashboardTextView.text = message
         }
     }
 

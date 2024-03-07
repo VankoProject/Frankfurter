@@ -1,6 +1,5 @@
 package com.kliachenko.frankfurter
 
-import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -22,10 +21,8 @@ class LoadPage {
     private val rootLayout =
         onView(
             allOf(
-                withId(R.id.rootLayout),
+                withId(R.id.rootLoadLayout),
                 isAssignableFrom(ConstraintLayout::class.java),
-                withParent(withId(R.id.container)),
-                withParent(isAssignableFrom(FrameLayout::class.java))
             )
         )
 
@@ -43,7 +40,7 @@ class LoadPage {
                 withId(R.id.errorTextView),
                 withText(error),
                 isAssignableFrom(CustomTextView::class.java),
-                withParent(withId(R.id.rootLayout)),
+                withParent(withId(R.id.rootLoadLayout)),
                 withParent(isAssignableFrom(ConstraintLayout::class.java))
             )
         ).check(matches(isDisplayed()))
@@ -56,7 +53,7 @@ class LoadPage {
                 withId(R.id.retryButton),
                 isAssignableFrom(CustomButton::class.java),
                 withText("Retry"),
-                withParent(withId(R.id.rootLayout)),
+                withParent(withId(R.id.rootLoadLayout)),
                 withParent(isAssignableFrom(ConstraintLayout::class.java))
             )
         ).check(matches(isDisplayed()))

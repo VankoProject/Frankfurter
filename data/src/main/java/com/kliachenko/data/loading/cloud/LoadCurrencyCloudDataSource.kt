@@ -1,5 +1,7 @@
 package com.kliachenko.data.loading.cloud
 
+import java.net.UnknownHostException
+
 interface LoadCurrencyCloudDataSource {
 
     suspend fun loadCurrencies(): HashMap<String, String>
@@ -14,9 +16,16 @@ interface LoadCurrencyCloudDataSource {
         }
     }
 
-    class Fake: LoadCurrencyCloudDataSource {
+    class Fake : LoadCurrencyCloudDataSource {
+
+        private var firstTime: Boolean = true
+
         override suspend fun loadCurrencies(): HashMap<String, String> {
-           return hashMapOf(
+            if (firstTime) {
+                firstTime = false
+                throw UnknownHostException()
+            }
+            return hashMapOf(
                 "USD" to "United States Dollar",
                 "EUR" to "Euro",
                 "JPY" to "Japanese Yen",

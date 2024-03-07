@@ -11,7 +11,6 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.kliachenko.frankfurter.matchers.ColorMatcher
 import com.kliachenko.frankfurter.matchers.DrawableMatcher
 import com.kliachenko.frankfurter.matchers.RecyclerViewMatcher
 import com.kliachenko.presentation.R
@@ -42,8 +41,9 @@ class DashboardPage {
                 withParent(withId(R.id.dashboardRootLayout)),
                 withParent(isAssignableFrom(LinearLayout::class.java))
             )
-        ).perform(click())
-            .check(matches(DrawableMatcher(R.drawable.settings_icon_48px)))
+        ).check(matches(DrawableMatcher(R.drawable.settings_icon_48px)))
+            .perform(click())
+
     }
 
     fun clickRetry() {
@@ -78,9 +78,9 @@ class DashboardPage {
 
     fun checkError(message: String) {
         onView(
-            RecyclerViewMatcher(position = 0, R.id.errorTextView, R.id.dashboardRecycleView)
-        ).check(matches(withText(message)))
-            .check(matches(ColorMatcher("#FF0000")))
+            RecyclerViewMatcher(position = 0, R.id.errorDashboardTextView, R.id.dashboardRecycleView)
+        )
+            .check(matches(withText(message)))
     }
 
     fun checkFavoritePair(currencyPair: String, rate: String, position: Int) {
