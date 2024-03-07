@@ -20,6 +20,7 @@ class SettingsViewModelTest {
     private lateinit var clear: FakeClear
     private lateinit var repository: FakeSettingsRepository
     private lateinit var runAsync: FakeRunAsync
+    private lateinit var bundleWrapper: FakeBundleWrapper
     private lateinit var viewModel: SettingsViewModel
 
     @Before
@@ -27,6 +28,7 @@ class SettingsViewModelTest {
         observable = FakeSettingsUiObservable()
         navigation = FakeNavigation()
         clear = FakeClear()
+        bundleWrapper = FakeBundleWrapper()
         repository = FakeSettingsRepository()
         runAsync = FakeRunAsync()
         viewModel = SettingsViewModel(
@@ -40,7 +42,7 @@ class SettingsViewModelTest {
 
     @Test
     fun happyPass() {
-        viewModel.init()
+        viewModel.init(bundleWrapper)
         runAsync.returnLoadResult()
         observable.checkUiSate(
             expected = SettingsUiState.FirstChoice(
@@ -75,6 +77,11 @@ class SettingsViewModelTest {
                 toCurrency = listOf(
                     CurrencyChoiceUi.Base(currency = "EUR", isSelected = true),
                     CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
+                ),
+                fromCurrency = listOf(
+                    CurrencyChoiceUi.Base(currency = "USD", isSelected = true),
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
                 )
             )
         )
@@ -100,6 +107,11 @@ class SettingsViewModelTest {
             SettingsUiState.Save(
                 toCurrency = listOf(
                     CurrencyChoiceUi.Base(currency = "JPY", isSelected = true),
+                ),
+                fromCurrency = listOf(
+                    CurrencyChoiceUi.Base(currency = "USD", isSelected = true),
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
                 )
             )
         )
@@ -123,12 +135,14 @@ class SettingsViewModelTest {
         runAsync.returnLoadResult()
         observable.checkUiSate(
             SettingsUiState.SecondChoice(
-                fromCurrency = listOf(CurrencyChoiceUi.Base(currency = "USD", isSelected = true),
-                CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
-                CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
-            ),
+                fromCurrency = listOf(
+                    CurrencyChoiceUi.Base(currency = "USD", isSelected = true),
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
+                ),
                 toCurrency = listOf(CurrencyChoiceUi.Empty)
-        ))
+            )
+        )
 
         navigation.checkNavigateToDashBoardScreen()
         clear.checkCalled(SettingsViewModel::class.java)
@@ -210,6 +224,25 @@ private class FakeSettingsUiObservable : UiObservable<SettingsUiState> {
 
     fun checkEmpty(expected: UpdateUi<SettingsUiState>) {
         Assert.assertNotEquals(expected, actualObserver)
+    }
+
+}
+
+private class FakeBundleWrapper : BundleWrapper.Mutable {
+
+    private var actualPair: Pair<String, String> = Pair("", "")
+    private var isEmpty: Boolean = true
+
+    override fun save(fromCurrency: String, toCurrency: String) {
+        actualPair = Pair(fromCurrency, toCurrency)
+    }
+
+    override fun restore(): Pair<String, String> {
+        return Pair("USD", "EUR")
+    }
+
+    override fun isEmpty(): Boolean {
+        return isEmpty
     }
 
 }
