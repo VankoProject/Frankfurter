@@ -7,7 +7,7 @@ import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.CustomViewModel
 import com.kliachenko.presentation.core.ProvideViewModel
 
-class App : Application(), ProvideViewModel {
+abstract class App : Application(), ProvideViewModel {
 
     private lateinit var viewModelFactory: ProvideViewModel.Factory
 
@@ -23,7 +23,7 @@ class App : Application(), ProvideViewModel {
             BaseProvideViewModel(
                 ProvideModule.Base(
                     core = Core.Base(this),
-                    provideInstance = ProvideInstance.Base(),
+                    provideInstance = provideInstance(),
                     clear = clear
                 )
             )
@@ -32,7 +32,21 @@ class App : Application(), ProvideViewModel {
 
     }
 
+    abstract fun provideInstance(): ProvideInstance
+
     override fun <T : CustomViewModel> viewModel(viewModelClass: Class<T>): T {
         return viewModelFactory.viewModel(viewModelClass)
     }
+}
+
+class Release : App() {
+
+    override fun provideInstance(): ProvideInstance = ProvideInstance.Base()
+
+}
+
+class Mock : App() {
+
+    override fun provideInstance(): ProvideInstance = ProvideInstance.Mock()
+
 }

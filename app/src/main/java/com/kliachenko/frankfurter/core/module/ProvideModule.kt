@@ -35,7 +35,6 @@ interface ProvideModule {
                 SettingsViewModel::class.java -> SettingsModule(
                     core = core,
                     clear = clear,
-                    provideInstance = provideInstance
                 )
 
                 else -> throw IllegalStateException("unknown module $clazz")

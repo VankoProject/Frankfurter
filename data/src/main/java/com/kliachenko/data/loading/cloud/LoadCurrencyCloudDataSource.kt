@@ -13,4 +13,15 @@ interface LoadCurrencyCloudDataSource {
             return response.body()!!
         }
     }
+
+    class Fake: LoadCurrencyCloudDataSource {
+        override suspend fun loadCurrencies(): HashMap<String, String> {
+           return hashMapOf(
+                "USD" to "United States Dollar",
+                "EUR" to "Euro",
+                "JPY" to "Japanese Yen",
+            )
+        }
+
+    }
 }

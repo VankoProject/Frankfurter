@@ -1,5 +1,6 @@
 package com.kliachenko.frankfurter
 
+import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -22,7 +23,9 @@ class LoadPage {
         onView(
             allOf(
                 withId(R.id.rootLayout),
-                isAssignableFrom(ConstraintLayout::class.java)
+                isAssignableFrom(ConstraintLayout::class.java),
+                withParent(withId(R.id.container)),
+                withParent(isAssignableFrom(FrameLayout::class.java))
             )
         )
 

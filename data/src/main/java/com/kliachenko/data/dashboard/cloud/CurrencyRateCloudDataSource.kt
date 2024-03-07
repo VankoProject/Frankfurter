@@ -11,6 +11,13 @@ interface CurrencyRateCloudDataSource {
                 service.currencyValue(fromCurrency, toCurrency).execute().body()!!
             return currencyPair.rate(toCurrency)
         }
+    }
+
+    class Fake : CurrencyRateCloudDataSource {
+
+        override suspend fun rate(fromCurrency: String, toCurrency: String): Double {
+            return 15.5
+        }
 
     }
 }
