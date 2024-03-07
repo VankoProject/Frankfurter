@@ -15,6 +15,8 @@ class SettingsFragment :
 
     override val viewModelClass: Class<SettingsViewModel> = SettingsViewModel::class.java
     private lateinit var observer: UpdateUi<SettingsUiState>
+    private lateinit var fromCurrencyAdapter: SettingsAdapter
+    private lateinit var toCurrencyAdapter: SettingsAdapter
 
     override fun inflate(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSettingsBinding.inflate(inflater, container, false)
@@ -22,9 +24,9 @@ class SettingsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val fromCurrencyAdapter =
+        fromCurrencyAdapter =
             SettingsAdapter({ fromCurrency -> viewModel.chooseFirstCurrency(fromCurrency) })
-        val toCurrencyAdapter =
+        toCurrencyAdapter =
             SettingsAdapter({ toCurrency ->
                 viewModel.chooseSecondCurrency(
                     fromCurrencyAdapter.selectedCurrency(),
@@ -55,7 +57,7 @@ class SettingsFragment :
                 }
             })
 
-        viewModel.init()
+        viewModel.init(BundleWrapper.Base(savedInstanceState))
 
         binding.saveButton.setOnClickListener {
             val selectedCurrencyFrom = fromCurrencyAdapter.selectedCurrency()
@@ -65,6 +67,17 @@ class SettingsFragment :
 
         binding.backButton.setOnClickListener {
             viewModel.backDashBoard()
+        }
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        BundleWrapper.Base(outState).apply {
+            save(
+                fromCurrency = fromCurrencyAdapter.selectedCurrency(),
+                toCurrency = toCurrencyAdapter.selectedCurrency()
+            )
         }
     }
 

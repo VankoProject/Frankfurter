@@ -24,7 +24,7 @@ class DashBoardFragment : BaseFragment<FragmentDashboardBinding, DashBoardViewMo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = FavoriteAdapter(viewModel)
-        binding.recycleView.adapter = adapter
+        binding.dashboardRecycleView.adapter = adapter
 
         updateUi = object : UpdateUi<DashboardUiState> {
             override fun updateUi(uiState: DashboardUiState) {

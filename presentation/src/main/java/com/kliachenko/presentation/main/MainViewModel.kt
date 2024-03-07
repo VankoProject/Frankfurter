@@ -23,4 +23,8 @@ class MainViewModel(
     fun stopGettingUpdates() {
         navigation.updateObserver(UpdateUi.Empty())
     }
+
+    fun notifyObserved() {
+        navigation.clear()
+    }
 }
