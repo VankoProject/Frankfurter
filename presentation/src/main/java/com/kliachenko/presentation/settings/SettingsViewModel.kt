@@ -18,15 +18,25 @@ class SettingsViewModel(
     runAsync: RunAsync,
 ) : BaseViewModel(runAsync), ChooseCurrency {
 
-    fun init() {
-        runAsync({
-            repository.allCurrencies()
-        }) { currencies ->
-            val listCurrencies =
-                currencies.map { CurrencyChoiceUi.Base(isSelected = false, currency = it) }
-            observable.updateUi(
-                SettingsUiState.FirstChoice(listCurrencies)
-            )
+    fun init(bundleWrapper: BundleWrapper.Mutable) {
+        if (bundleWrapper.isEmpty()) {
+            runAsync({
+                repository.allCurrencies()
+            }) { currencies ->
+                val listCurrencies =
+                    currencies.map { CurrencyChoiceUi.Base(isSelected = false, currency = it) }
+                observable.updateUi(
+                    SettingsUiState.FirstChoice(fromCurrency = listCurrencies)
+                )
+            }
+        } else {
+            bundleWrapper.restore().also { (from, to) ->
+                if (from.isNotEmpty() && to.isEmpty()) chooseFirstCurrency(from)
+                else if (from.isNotEmpty() && to.isNotEmpty()) chooseSecondCurrency(
+                    from,
+                    to
+                )
+            }
         }
     }
 
@@ -58,7 +68,10 @@ class SettingsViewModel(
             val toCurrencies = repository.availableCurrenciesDestinations(from)
             SettingsUiState.Save(toCurrency = toCurrencies.map {
                 CurrencyChoiceUi.Base(isSelected = it == to, currency = it)
-            })
+            },
+                fromCurrency = repository.allCurrencies().map {
+                    CurrencyChoiceUi.Base(isSelected = it == from, currency = it)
+                })
         }) {
             observable.updateUi(it)
         }

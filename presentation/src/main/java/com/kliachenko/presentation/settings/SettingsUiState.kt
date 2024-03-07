@@ -39,13 +39,15 @@ interface SettingsUiState {
     }
 
     data class Save(
-        private val toCurrency: List<CurrencyChoiceUi>
+        private val toCurrency: List<CurrencyChoiceUi>,
+        private val fromCurrency: List<CurrencyChoiceUi>,
     ) : SettingsUiState {
         override fun update(
             fromCurrencyAdapter: SettingsAdapter,
             toCurrencyAdapter: SettingsAdapter,
         ) {
             toCurrencyAdapter.show(toCurrency)
+            fromCurrencyAdapter.show(fromCurrency)
         }
 
         override fun update(saveButton: ChangeVisibility) {
@@ -53,7 +55,7 @@ interface SettingsUiState {
         }
     }
 
-    object Initial: SettingsUiState {
+    object Initial : SettingsUiState {
         override fun update(
             fromCurrencyAdapter: SettingsAdapter,
             toCurrencyAdapter: SettingsAdapter,

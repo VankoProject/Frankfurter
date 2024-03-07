@@ -1,79 +1,41 @@
 package com.kliachenko.frankfurter.core.module
 
-import com.kliachenko.data.core.HandleError
-import com.kliachenko.data.core.ProvideResources
-import com.kliachenko.data.dashboard.BaseDashboardRepository
-import com.kliachenko.data.dashboard.DashBoardItemsDataSource
-import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
-import com.kliachenko.data.loading.BaseLoadCurrencyRepository
-import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
+import com.kliachenko.data.core.ProvideRetrofit
+import com.kliachenko.data.dashboard.cloud.CurrencyRateCloudDataSource
+import com.kliachenko.data.dashboard.cloud.CurrencyRateService
+import com.kliachenko.data.loading.cloud.CurrencyService
 import com.kliachenko.data.loading.cloud.LoadCurrencyCloudDataSource
-import com.kliachenko.data.settings.BaseSettingsRepository
-import com.kliachenko.domain.dashboard.DashboardRepository
-import com.kliachenko.domain.load.LoadCurrenciesRepository
-import com.kliachenko.domain.settings.SettingsRepository
 
-interface ProvideInstance : ProvideLoadRepository, ProvideSettingsRepository,
-    ProvideDashBoardRepository {
+interface ProvideInstance {
+
+    fun provideLoadCloudDataSource(provideRetrofit: ProvideRetrofit): LoadCurrencyCloudDataSource
+
+    fun provideLoadRateCloudDataSource(provideRetrofit: ProvideRetrofit): CurrencyRateCloudDataSource
 
     class Base : ProvideInstance {
-        override fun provideLoadRepository(
-            cacheDataSource: CurrencyCacheDataSource.Mutable,
-            cloudDataSource: LoadCurrencyCloudDataSource,
-            provideResources: ProvideResources,
-        ) = BaseLoadCurrencyRepository(
-            loadCurrencyCloudDataSource = cloudDataSource,
-            currencyCacheDataSource = cacheDataSource,
-            provideResources = provideResources
-        )
-
-        override fun provideDashBoardRepository(
-            cacheDataSource: FavoritePairCacheDataSource.Mutable,
-            handleError: HandleError,
-            dashBoardItemsDataSource: DashBoardItemsDataSource,
-        ): DashboardRepository {
-            return BaseDashboardRepository(
-                favoriteCacheDataSource = cacheDataSource,
-                handleError = handleError,
-                dashBoardItemsDataSource = dashBoardItemsDataSource
+        override fun provideLoadCloudDataSource(provideRetrofit: ProvideRetrofit): LoadCurrencyCloudDataSource {
+            return LoadCurrencyCloudDataSource.Base(
+                provideRetrofit.retrofit().create(CurrencyService::class.java)
             )
         }
 
-        override fun provideSettingsRepository(
-            cacheDataSource: CurrencyCacheDataSource.Mutable,
-            favoritePairCacheDataSource: FavoritePairCacheDataSource.Mutable,
-        ): SettingsRepository {
-            return BaseSettingsRepository(
-                favoritePairCacheDataSource = favoritePairCacheDataSource,
-                currencyCacheDataSource = cacheDataSource
+        override fun provideLoadRateCloudDataSource(provideRetrofit: ProvideRetrofit): CurrencyRateCloudDataSource {
+            return CurrencyRateCloudDataSource.Base(
+                provideRetrofit.retrofit().create(CurrencyRateService::class.java)
             )
         }
-
 
     }
 
+    class Mock : ProvideInstance {
+        override fun provideLoadCloudDataSource(provideRetrofit: ProvideRetrofit): LoadCurrencyCloudDataSource {
+            return LoadCurrencyCloudDataSource.Fake()
+        }
+
+        override fun provideLoadRateCloudDataSource(provideRetrofit: ProvideRetrofit): CurrencyRateCloudDataSource {
+            return CurrencyRateCloudDataSource.Fake()
+        }
+
+    }
 }
 
-interface ProvideLoadRepository {
-    fun provideLoadRepository(
-        cacheDataSource: CurrencyCacheDataSource.Mutable,
-        cloudDataSource: LoadCurrencyCloudDataSource,
-        provideResources: ProvideResources,
-    ): LoadCurrenciesRepository
-}
-
-
-interface ProvideDashBoardRepository {
-    fun provideDashBoardRepository(
-        cacheDataSource: FavoritePairCacheDataSource.Mutable,
-        handleError: HandleError,
-        dashBoardItemsDataSource: DashBoardItemsDataSource,
-    ): DashboardRepository
-}
-
-interface ProvideSettingsRepository {
-    fun provideSettingsRepository(
-        cacheDataSource: CurrencyCacheDataSource.Mutable,
-        favoritePairCacheDataSource: FavoritePairCacheDataSource.Mutable,
-    ): SettingsRepository
-}

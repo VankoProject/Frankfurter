@@ -1,8 +1,7 @@
 package com.kliachenko.frankfurter.core.module
 
+import com.kliachenko.data.loading.BaseLoadCurrencyRepository
 import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
-import com.kliachenko.data.loading.cloud.CurrencyService
-import com.kliachenko.data.loading.cloud.LoadCurrencyCloudDataSource
 import com.kliachenko.frankfurter.core.Core
 import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.loading.BaseLoadResultMapper
@@ -11,7 +10,7 @@ import com.kliachenko.presentation.loading.LoadViewModel
 
 class LoadModule(
     private val core: Core,
-    private val provideInstance: ProvideLoadRepository,
+    private val provideInstance: ProvideInstance,
     private val clear: Clear,
 ) : Module<LoadViewModel> {
 
@@ -19,11 +18,9 @@ class LoadModule(
         val observable = LoadUiObservable.Base()
         return LoadViewModel(
             observable = observable,
-            repository = provideInstance.provideLoadRepository(
-                cloudDataSource = LoadCurrencyCloudDataSource.Base(
-                    core.provideRetrofit().retrofit().create(CurrencyService::class.java)
-                ),
-                cacheDataSource = CurrencyCacheDataSource.Base(
+            repository = BaseLoadCurrencyRepository(
+                loadCurrencyCloudDataSource = provideInstance.provideLoadCloudDataSource(core.provideRetrofit()),
+                currencyCacheDataSource = CurrencyCacheDataSource.Base(
                     core.provideCurrencyDataBase().dataBase().currencyDao()
                 ),
                 provideResources = core.provideResources()

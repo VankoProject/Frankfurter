@@ -15,6 +15,7 @@ interface LoadUiState {
         ) {
             retryButton.show()
             progressBar.hide()
+            textView.show()
             textView.change(text = message)
         }
     }

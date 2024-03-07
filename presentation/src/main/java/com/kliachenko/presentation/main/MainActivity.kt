@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(), ProvideViewModel {
         navigation = object : UpdateUi<Screen> {
             override fun updateUi(uiState: Screen) {
                 uiState.showScreen(R.id.container, supportFragmentManager)
+                viewModel.notifyObserved()
             }
         }
         viewModel.init(savedInstanceState == null)
