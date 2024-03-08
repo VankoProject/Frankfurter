@@ -8,4 +8,6 @@ interface SettingsRepository {
 
     suspend fun save(from: String, to: String)
 
+    suspend fun savedPairsCount(): Int
+
 }

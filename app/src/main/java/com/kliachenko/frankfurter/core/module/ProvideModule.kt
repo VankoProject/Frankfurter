@@ -7,6 +7,7 @@ import com.kliachenko.presentation.dashboard.DashBoardViewModel
 import com.kliachenko.presentation.loading.LoadViewModel
 import com.kliachenko.presentation.main.MainViewModel
 import com.kliachenko.presentation.settings.SettingsViewModel
+import com.kliachenko.presentation.subscritpion.SubscriptionViewModel
 
 interface ProvideModule {
 
@@ -35,6 +36,12 @@ interface ProvideModule {
                 SettingsViewModel::class.java -> SettingsModule(
                     core = core,
                     clear = clear,
+                    provideInstance = provideInstance
+                )
+
+                SubscriptionViewModel::class.java -> SubscriptionModule(
+                    core = core,
+                    clear = clear
                 )
 
                 else -> throw IllegalStateException("unknown module $clazz")

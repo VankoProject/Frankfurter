@@ -7,6 +7,16 @@ interface Screen {
 
     fun showScreen(container: Int, supportFragmentManager: FragmentManager)
 
+    abstract class Add(private val clazz: Class<out Fragment>) : Screen {
+
+        override fun showScreen(container: Int, supportFragmentManager: FragmentManager) {
+            supportFragmentManager.beginTransaction()
+                .add(container, clazz.getDeclaredConstructor().newInstance())
+                .addToBackStack(clazz.simpleName)
+                .commit()
+        }
+    }
+
     abstract class Replace(private val clazz: Class<out Fragment>) : Screen {
 
         override fun showScreen(container: Int, supportFragmentManager: FragmentManager) {
@@ -18,5 +28,12 @@ interface Screen {
 
     object Empty : Screen {
         override fun showScreen(container: Int, supportFragmentManager: FragmentManager) = Unit
+    }
+
+    object Pop: Screen {
+        override fun showScreen(container: Int, supportFragmentManager: FragmentManager) {
+           supportFragmentManager.popBackStack()
+        }
+
     }
 }

@@ -12,4 +12,6 @@
     <string name="go_to_dashboard">Go to dashboard</string>
     <string name="remove_pair">Remove this pair from favorite list?</string>
     <string name="confirm">Confirm</string>
+    <string name="please_buy_subscription">Buy premium subscription</string>
+    <string name="buy">Buy</string>
 </resources>
