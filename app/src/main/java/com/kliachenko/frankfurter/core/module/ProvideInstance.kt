@@ -12,6 +12,9 @@ interface ProvideInstance {
 
     fun provideLoadRateCloudDataSource(provideRetrofit: ProvideRetrofit): CurrencyRateCloudDataSource
 
+    fun provideFreeCountPair(): Int
+
+
     class Base : ProvideInstance {
         override fun provideLoadCloudDataSource(provideRetrofit: ProvideRetrofit): LoadCurrencyCloudDataSource {
             return LoadCurrencyCloudDataSource.Base(
@@ -25,9 +28,12 @@ interface ProvideInstance {
             )
         }
 
+        override fun provideFreeCountPair() = 5
+
     }
 
     class Mock : ProvideInstance {
+
         override fun provideLoadCloudDataSource(provideRetrofit: ProvideRetrofit): LoadCurrencyCloudDataSource {
             return LoadCurrencyCloudDataSource.Fake()
         }
@@ -35,6 +41,8 @@ interface ProvideInstance {
         override fun provideLoadRateCloudDataSource(provideRetrofit: ProvideRetrofit): CurrencyRateCloudDataSource {
             return CurrencyRateCloudDataSource.Fake()
         }
+
+        override fun provideFreeCountPair() = 2
 
     }
 }

@@ -39,7 +39,7 @@ class DashboardModule(
                         provideInstance.provideLoadRateCloudDataSource(
                             core.provideRetrofit()
                         )
-                    )
+                    ),
                 )
             ),
             runAsync = core.provideRunAsync(),

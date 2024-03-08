@@ -1,6 +1,7 @@
 package com.kliachenko.presentation.settings
 
-import com.kliachenko.domain.settings.SettingsRepository
+import com.kliachenko.domain.settings.SaveResult
+import com.kliachenko.domain.settings.SettingsInteractor
 import com.kliachenko.presentation.core.BaseViewModel
 import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.Navigation
@@ -11,17 +12,18 @@ import com.kliachenko.presentation.dashboard.DashBoardScreen
 import com.kliachenko.presentation.settings.adapter.CurrencyChoiceUi
 
 class SettingsViewModel(
-    private val repository: SettingsRepository,
+    private val interactor: SettingsInteractor,
     private val navigation: Navigation,
     private val clear: Clear,
     private val observable: UiObservable<SettingsUiState>,
     runAsync: RunAsync,
+    private val mapper: SaveResult.Mapper = BaseSaveResultMapper(navigation, clear),
 ) : BaseViewModel(runAsync), ChooseCurrency {
 
     fun init(bundleWrapper: BundleWrapper.Mutable) {
         if (bundleWrapper.isEmpty()) {
             runAsync({
-                repository.allCurrencies()
+                interactor.allCurrencies()
             }) { currencies ->
                 val listCurrencies =
                     currencies.map { CurrencyChoiceUi.Base(isSelected = false, currency = it) }
@@ -47,10 +49,10 @@ class SettingsViewModel(
 
     override fun chooseFirstCurrency(currency: String) {
         runAsync({
-            val fromCurrencies = repository.allCurrencies().map {
+            val fromCurrencies = interactor.allCurrencies().map {
                 CurrencyChoiceUi.Base(isSelected = it == currency, currency = it)
             }
-            val toCurrencies = repository.availableCurrenciesDestinations(currency)
+            val toCurrencies = interactor.availableCurrenciesDestinations(currency)
                 .map {
                     CurrencyChoiceUi.Base(isSelected = false, currency = it)
                 }
@@ -65,11 +67,11 @@ class SettingsViewModel(
 
     override fun chooseSecondCurrency(from: String, to: String) {
         runAsync({
-            val toCurrencies = repository.availableCurrenciesDestinations(from)
+            val toCurrencies = interactor.availableCurrenciesDestinations(from)
             SettingsUiState.Save(toCurrency = toCurrencies.map {
                 CurrencyChoiceUi.Base(isSelected = it == to, currency = it)
             },
-                fromCurrency = repository.allCurrencies().map {
+                fromCurrency = interactor.allCurrencies().map {
                     CurrencyChoiceUi.Base(isSelected = it == from, currency = it)
                 })
         }) {
@@ -79,9 +81,9 @@ class SettingsViewModel(
 
     fun save(fromCurrency: String, toCurrency: String) {
         runAsync({
-            repository.save(from = fromCurrency, to = toCurrency)
+            interactor.save(from = fromCurrency, to = toCurrency)
         }) {
-            backDashBoard()
+            it.map(mapper)
         }
     }
 
