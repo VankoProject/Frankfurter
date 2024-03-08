@@ -16,6 +16,10 @@ class FakeFavoritePairCacheDataSource : FavoritePairCacheDataSource.Mutable {
         actualListCurrencyPair.add(currencyPair)
     }
 
+    override suspend fun removeCurrencyPair(currencyPair: CurrencyPair) {
+        actualListCurrencyPair.remove(currencyPair)
+    }
+
     fun emptyList() {
         actualListCurrencyPair = mutableListOf()
     }

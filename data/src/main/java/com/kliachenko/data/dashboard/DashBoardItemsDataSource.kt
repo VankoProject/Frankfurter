@@ -5,6 +5,11 @@ import com.kliachenko.data.dashboard.cache.CurrentTimeInMillis
 import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
 import com.kliachenko.data.dashboard.cloud.CurrencyRateCloudDataSource
 import com.kliachenko.domain.dashboard.DashBoardItem
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.withContext
 
 interface DashBoardItemsDataSource {
 
@@ -13,18 +18,23 @@ interface DashBoardItemsDataSource {
     class Base(
         private val currentTimeInMillis: CurrentTimeInMillis,
         private val updatedRate: UpdatedRate,
+        private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
     ) : DashBoardItemsDataSource {
 
         override suspend fun dashboardItems(favoritePairs: List<CurrencyPair>) =
-            favoritePairs.map { currentPair ->
-                DashBoardItem.Base(
-                    currentPair.fromCurrency,
-                    currentPair.toCurrency,
-                    rate = if (currentPair.isInvalid(currentTimeInMillis))
-                        updatedRate.updatedRate(currentPair)
-                    else
-                        currentPair.rate
-                )
+            withContext(dispatcher) {
+                favoritePairs.map { currentPair ->
+                    async {
+                        DashBoardItem.Base(
+                            currentPair.fromCurrency,
+                            currentPair.toCurrency,
+                            rate = if (currentPair.isInvalid(currentTimeInMillis))
+                                updatedRate.updatedRate(currentPair)
+                            else
+                                currentPair.rate
+                        )
+                    }
+                }.awaitAll()
             }
     }
 }
