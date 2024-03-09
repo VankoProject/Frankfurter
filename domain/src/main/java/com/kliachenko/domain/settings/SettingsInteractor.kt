@@ -12,7 +12,7 @@ interface SettingsInteractor {
     class Base(
         private val settingsRepository: SettingsRepository,
         private val freeCountPair: Int,
-        private val premiumUserStorage: PremiumUserStorage
+        private val premiumUserStorage: PremiumUserStorage.Read
     ) : SettingsInteractor {
 
         override suspend fun allCurrencies(): List<String> {

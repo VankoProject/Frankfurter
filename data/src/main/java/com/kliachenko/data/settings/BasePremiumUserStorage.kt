@@ -1,22 +1,19 @@
 package com.kliachenko.data.settings
 
-import android.content.Context
+import android.content.SharedPreferences
 import com.kliachenko.domain.settings.PremiumUserStorage
 
-class BasePremiumUserStorage(context: Context) : PremiumUserStorage {
-
-    private val sharedPreferences =
-        context.getSharedPreferences("premiumUserStorage", Context.MODE_PRIVATE)
+class BasePremiumUserStorage(
+    private val sharedPreferences: SharedPreferences,
+    private val key: String = "premium_key",
+) : PremiumUserStorage.Mutable {
 
     override fun isPremium(): Boolean {
-        return sharedPreferences.getBoolean(PREMIUM_KEY, false)
+        return sharedPreferences.getBoolean(key, false)
     }
 
     override fun savePremiumUser() {
-        sharedPreferences.edit().putBoolean(PREMIUM_KEY, true).apply()
+        sharedPreferences.edit().putBoolean(key, true).apply()
     }
 
-    companion object {
-        private const val PREMIUM_KEY = "premium_key"
-    }
 }
