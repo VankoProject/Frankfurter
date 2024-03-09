@@ -7,7 +7,6 @@ import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.Navigation
 import com.kliachenko.presentation.core.RunAsync
 import com.kliachenko.presentation.core.UiObservable
-import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.dashboard.DashBoardScreen
 import com.kliachenko.presentation.settings.adapter.CurrencyChoiceUi
 
@@ -18,7 +17,7 @@ class SettingsViewModel(
     private val observable: UiObservable<SettingsUiState>,
     runAsync: RunAsync,
     private val mapper: SaveResult.Mapper = BaseSaveResultMapper(navigation, clear),
-) : BaseViewModel(runAsync), ChooseCurrency {
+) : BaseViewModel<SettingsUiState>(observable, runAsync), ChooseCurrency {
 
     fun init(bundleWrapper: BundleWrapper.Mutable) {
         if (bundleWrapper.isEmpty()) {
@@ -85,14 +84,6 @@ class SettingsViewModel(
         }) {
             it.map(mapper)
         }
-    }
-
-    fun startGettingUpdates(observer: UpdateUi<SettingsUiState>) {
-        observable.updateObserver(observer)
-    }
-
-    fun stopGettingUpdates() {
-        observable.updateObserver(UpdateUi.Empty())
     }
 
 }

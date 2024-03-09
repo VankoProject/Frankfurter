@@ -4,17 +4,16 @@ import com.kliachenko.domain.load.LoadCurrenciesRepository
 import com.kliachenko.domain.load.LoadCurrenciesResult
 import com.kliachenko.presentation.core.BaseViewModel
 import com.kliachenko.presentation.core.RunAsync
-import com.kliachenko.presentation.core.UpdateUi
 
 class LoadViewModel(
     private val observable: LoadUiObservable,
     private val repository: LoadCurrenciesRepository,
     runAsync: RunAsync,
     private val mapper: LoadCurrenciesResult.Mapper,
-) : BaseViewModel(runAsync) {
+) : BaseViewModel<LoadUiState>(observable, runAsync) {
 
     fun init(firstRun: Boolean) {
-        if(firstRun)
+        if (firstRun)
             load()
     }
 
@@ -25,14 +24,6 @@ class LoadViewModel(
         }) {
             it.map(mapper)
         }
-    }
-
-    fun startGettingUpdates(observer: UpdateUi<LoadUiState>) {
-        observable.updateObserver(observer)
-    }
-
-    fun stopGettingUpdates() {
-        observable.updateObserver(UpdateUi.Empty())
     }
 
 }
