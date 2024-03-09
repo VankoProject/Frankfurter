@@ -2,8 +2,14 @@ package com.kliachenko.domain.settings
 
 interface PremiumUserStorage {
 
-    fun isPremium(): Boolean
+    interface Read {
+        fun isPremium(): Boolean
+    }
 
-    fun savePremiumUser()
+    interface Save {
+        fun savePremiumUser()
+    }
+
+    interface Mutable: Save, Read
 
 }

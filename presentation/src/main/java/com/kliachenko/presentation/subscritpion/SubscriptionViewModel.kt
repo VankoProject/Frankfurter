@@ -8,7 +8,7 @@ import com.kliachenko.presentation.core.Screen
 
 class SubscriptionViewModel(
     private val navigation: Navigation,
-    private val premiumUserStorage: PremiumUserStorage,
+    private val premiumUserStorage: PremiumUserStorage.Save,
     private val clear: Clear,
 ) : CustomViewModel {
 

@@ -1,6 +1,7 @@
 package com.kliachenko.frankfurter.core
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.kliachenko.data.core.ProvideCurrencyDataBase
 import com.kliachenko.data.core.ProvideResources
 import com.kliachenko.data.core.ProvideRetrofit
@@ -24,7 +25,9 @@ interface Core {
 
     fun provideDelimiter(): Delimiter
 
-    fun providePremiumUserStorage(): PremiumUserStorage
+    fun providePremiumUserStorage(): PremiumUserStorage.Mutable
+
+    fun provideSharedPreferences(): SharedPreferences
 
     class Base(context: Context) : Core {
 
@@ -34,7 +37,10 @@ interface Core {
         private val provideCurrencyDataBase by lazy { ProvideCurrencyDataBase.Base(context) }
         private val provideRetrofit by lazy { ProvideRetrofit.Base() }
         private val delimiter = Delimiter.Base()
-        private val premiumUserStorage = BasePremiumUserStorage(context)
+        private val sharedPreferences by lazy {
+            context.getSharedPreferences("premiumUserStorage", Context.MODE_PRIVATE)
+        }
+        private val premiumUserStorage = BasePremiumUserStorage(sharedPreferences)
 
         override fun provideNavigation() = navigation
 
@@ -49,6 +55,8 @@ interface Core {
         override fun provideDelimiter() = delimiter
 
         override fun providePremiumUserStorage() = premiumUserStorage
+
+        override fun provideSharedPreferences(): SharedPreferences = sharedPreferences
 
     }
 }
