@@ -6,6 +6,7 @@ import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.dashboard.DashBoardScreen
 import com.kliachenko.presentation.loading.LoadScreen
 import com.kliachenko.presentation.settings.SettingsScreen
+import com.kliachenko.presentation.subscritpion.SubscriptionScreen
 import org.junit.Assert.assertEquals
 
 class FakeNavigation : Navigation {
@@ -54,6 +55,11 @@ class FakeNavigation : Navigation {
 
     fun checkPopBackStack() {
         val expected: Screen = Screen.Pop
+        assertEquals(expected, actualScreen)
+    }
+
+    fun checkNavigateToSubscriptionScreen() {
+        val expected: Screen = SubscriptionScreen
         assertEquals(expected, actualScreen)
     }
 

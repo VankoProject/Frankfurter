@@ -21,12 +21,14 @@ class SettingsViewModelTest {
     private lateinit var clear: FakeClear
     private lateinit var runAsync: FakeRunAsync
     private lateinit var viewModel: SettingsViewModel
+    private lateinit var bundleWrapper: FakeBundleWrapper
 
     @Before
     fun setup() {
         observable = FakeSettingsUiObservable()
         interactor = FakeSettingsInteractor()
         navigation = FakeNavigation()
+        bundleWrapper = FakeBundleWrapper()
         clear = FakeClear()
         runAsync = FakeRunAsync()
         viewModel = SettingsViewModel(
@@ -39,8 +41,8 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun firstRunUserNotPremium() {
-        viewModel.init(bundleWrapper = FakeBundleWrapper())
+    fun userIsNotPremium() {
+        viewModel.init(bundleWrapper)
         runAsync.returnLoadResult()
         observable.checkUiSate(
             expected = SettingsUiState.FirstChoice(
@@ -117,6 +119,8 @@ class SettingsViewModelTest {
         viewModel.save(fromCurrency = "USD", toCurrency = "JPY")
         runAsync.returnLoadResult()
         interactor.checkSavedSelectedPair(listOf(Pair("USD", "EUR"), Pair("USD", "JPY")))
+        clear.checkCalled(SettingsViewModel::class.java)
+        navigation.checkNavigateToDashBoardScreen()
 
         viewModel.chooseFirstCurrency(currency = "USD")
         runAsync.returnLoadResult()
@@ -131,9 +135,54 @@ class SettingsViewModelTest {
             )
         )
 
-        navigation.checkNavigateToDashBoardScreen()
+        viewModel.chooseFirstCurrency(currency = "EUR")
+        runAsync.returnLoadResult()
+        viewModel.chooseSecondCurrency(from = "EUR", to = "JPY")
+        runAsync.returnLoadResult()
+        viewModel.save(fromCurrency = "EUR", toCurrency = "JPY")
+        runAsync.returnLoadResult()
+        interactor.checkSavedSelectedPair(listOf(Pair("USD", "EUR"), Pair("USD", "JPY")))
+        navigation.checkNavigateToSubscriptionScreen()
         clear.checkCalled(SettingsViewModel::class.java)
 
+        interactor.userHasPremium()
+        viewModel.save(fromCurrency = "EUR", toCurrency = "JPY")
+        runAsync.returnLoadResult()
+        interactor.checkSavedSelectedPair(listOf(Pair("USD", "EUR"), Pair("USD", "JPY"), Pair("EUR", "JPY")))
+        navigation.checkNavigateToDashBoardScreen()
+        clear.checkCalled(SettingsViewModel::class.java)
+    }
+
+    @Test
+    fun userIsPremium() {
+        interactor.userHasPremium()
+
+        viewModel.init(bundleWrapper = FakeBundleWrapper())
+        runAsync.returnLoadResult()
+
+        viewModel.chooseFirstCurrency(currency = "USD")
+        runAsync.returnLoadResult()
+        viewModel.chooseSecondCurrency(from = "USD", to = "EUR")
+        runAsync.returnLoadResult()
+        viewModel.save(fromCurrency = "USD", toCurrency = "EUR")
+        runAsync.returnLoadResult()
+
+        viewModel.chooseFirstCurrency(currency = "USD")
+        runAsync.returnLoadResult()
+        viewModel.chooseSecondCurrency(from = "USD", to = "JPY")
+        runAsync.returnLoadResult()
+        viewModel.save(fromCurrency = "USD", toCurrency = "JPY")
+        runAsync.returnLoadResult()
+
+        viewModel.chooseFirstCurrency(currency = "EUR")
+        runAsync.returnLoadResult()
+        viewModel.chooseSecondCurrency(from = "EUR", to = "JPY")
+        runAsync.returnLoadResult()
+        viewModel.save(fromCurrency = "EUR", toCurrency = "JPY")
+        runAsync.returnLoadResult()
+        interactor.checkSavedSelectedPair(listOf(Pair("USD", "EUR"), Pair("USD", "JPY"), Pair("EUR", "JPY")))
+
+        navigation.checkNavigateToDashBoardScreen()
     }
 
     @Test
@@ -160,7 +209,7 @@ private class FakeSettingsInteractor : SettingsInteractor {
 
     private var actualCurrencies: List<String> = emptyList()
     private var savedFavoritePairs: MutableList<Pair<String, String>> = mutableListOf()
-    private var userIsPremiun: Boolean = false
+    private var isPremiun: Boolean = false
     private var maxFreePairs: Int = 2
 
     override suspend fun allCurrencies(): List<String> {
@@ -181,7 +230,7 @@ private class FakeSettingsInteractor : SettingsInteractor {
     }
 
     override suspend fun save(from: String, to: String): SaveResult {
-        return if(savedFavoritePairs.size < maxFreePairs || userIsPremiun) {
+        return if (savedFavoritePairs.size < maxFreePairs || isPremiun) {
             savedFavoritePairs.add(Pair(from, to))
             SaveResult.Success
         } else {
@@ -190,7 +239,7 @@ private class FakeSettingsInteractor : SettingsInteractor {
     }
 
     fun userHasPremium() {
-        userIsPremiun = true
+        isPremiun = true
     }
 
     fun checkSavedSelectedPair(expected: List<Pair<String, String>>) {
@@ -232,9 +281,6 @@ private class FakeBundleWrapper : BundleWrapper.Mutable {
     private var actualToCurrency: String = "EUR"
     private var isEmpty: Boolean = true
 
-    fun restoreFrom() = actualFromCurrency
-
-    fun restoreFromAndTo() = Pair(actualFromCurrency, actualToCurrency)
 
     override fun save(fromCurrency: String, toCurrency: String) {
         actualFromCurrency = fromCurrency
