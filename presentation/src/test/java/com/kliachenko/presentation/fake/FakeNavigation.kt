@@ -12,6 +12,7 @@ class FakeNavigation : Navigation {
 
     private var actualScreen: Screen = Screen.Empty
     private var observer: UpdateUi<Screen> = UpdateUi.Empty()
+
     override fun clear() {
         // TODO:  
     }
@@ -48,6 +49,11 @@ class FakeNavigation : Navigation {
 
     fun checkNavigateToSettings() {
         val expected: Screen = SettingsScreen.Initial
+        assertEquals(expected, actualScreen)
+    }
+
+    fun checkPopBackStack() {
+        val expected: Screen = Screen.Pop
         assertEquals(expected, actualScreen)
     }
 
