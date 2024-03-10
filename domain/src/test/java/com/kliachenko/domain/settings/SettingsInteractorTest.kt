@@ -82,13 +82,16 @@ private class FakeSettingsRepository : SettingsRepository {
     }
 
     override suspend fun availableCurrenciesDestinations(from: String): List<String> {
-        val result = mutableListOf<String>().apply {
-            addAll(actualCurrencies)
-            remove(from)
-            removeAll(savedFavoritePairs.filter { pair -> pair.first == from }
-                .map { pair -> pair.second })
-        }
-        return result
+        val toCurrencies = mutableListOf<String>()
+        toCurrencies.clear()
+        toCurrencies.addAll(actualCurrencies)
+        toCurrencies.remove(from)
+        toCurrencies.removeAll(
+            savedFavoritePairs.filter { it.first == from }.map {
+                it.second
+            }
+        )
+        return toCurrencies
     }
 
     override suspend fun save(from: String, to: String) {
