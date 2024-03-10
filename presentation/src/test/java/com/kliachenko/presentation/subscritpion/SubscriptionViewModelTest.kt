@@ -1,9 +1,8 @@
 package com.kliachenko.presentation.subscritpion
 
-import com.kliachenko.domain.settings.PremiumUserStorage
 import com.kliachenko.presentation.fake.FakeClear
 import com.kliachenko.presentation.fake.FakeNavigation
-import org.junit.Assert
+import com.kliachenko.presentation.fake.FakePremiumUserStorage
 import org.junit.Before
 import org.junit.Test
 
@@ -45,22 +44,4 @@ class SubscriptionViewModelTest {
 
 }
 
-private class FakePremiumUserStorage : PremiumUserStorage.Save {
 
-    private var actual: Boolean = false
-
-    override fun savePremiumUser() {
-        actual = true
-    }
-
-    fun checkSavePremium() {
-        val expected = true
-        Assert.assertEquals(expected, actual)
-    }
-
-    fun checkNotSavePremium() {
-        val expected = false
-        Assert.assertEquals(expected, actual)
-    }
-
-}
