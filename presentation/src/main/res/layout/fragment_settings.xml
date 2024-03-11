@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageButton
-        android:id="@+id/backButton"
+        android:id="@+id/subscriptionBackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#0000"
@@ -25,7 +25,7 @@
         app:layout_constraintBottom_toTopOf="@id/saveButton"
         app:layout_constraintEnd_toStartOf="@id/dividerView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/backButton" />
+        app:layout_constraintTop_toBottomOf="@id/subscriptionBackButton" />
 
     <View
         android:id="@+id/dividerView"
@@ -35,7 +35,7 @@
         app:layout_constraintBottom_toTopOf="@id/saveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/backButton" />
+        app:layout_constraintTop_toBottomOf="@id/subscriptionBackButton" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleViewTo"
@@ -47,7 +47,7 @@
         app:layout_constraintBottom_toTopOf="@id/saveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/dividerView"
-        app:layout_constraintTop_toBottomOf="@id/backButton" />
+        app:layout_constraintTop_toBottomOf="@id/subscriptionBackButton" />
 
     <com.kliachenko.presentation.core.views.CustomButton
         android:id="@+id/saveButton"

@@ -1,7 +1,7 @@
 package com.kliachenko.presentation.settings
 
-import com.kliachenko.data.dashboard.cache.CurrencyPair
-import com.kliachenko.domain.settings.SettingsRepository
+import com.kliachenko.domain.settings.SaveResult
+import com.kliachenko.domain.settings.SettingsInteractor
 import com.kliachenko.presentation.core.UiObservable
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.fake.FakeClear
@@ -16,21 +16,23 @@ import org.junit.Test
 class SettingsViewModelTest {
 
     private lateinit var observable: FakeSettingsUiObservable
+    private lateinit var interactor: FakeSettingsInteractor
     private lateinit var navigation: FakeNavigation
     private lateinit var clear: FakeClear
-    private lateinit var repository: FakeSettingsRepository
     private lateinit var runAsync: FakeRunAsync
     private lateinit var viewModel: SettingsViewModel
+    private lateinit var bundleWrapper: FakeBundleWrapper
 
     @Before
     fun setup() {
         observable = FakeSettingsUiObservable()
+        interactor = FakeSettingsInteractor()
         navigation = FakeNavigation()
+        bundleWrapper = FakeBundleWrapper()
         clear = FakeClear()
-        repository = FakeSettingsRepository()
         runAsync = FakeRunAsync()
         viewModel = SettingsViewModel(
-            repository = repository,
+            interactor = interactor,
             navigation = navigation,
             clear = clear,
             observable = observable,
@@ -39,8 +41,8 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun happyPass() {
-        viewModel.init()
+    fun userIsNotPremium() {
+        viewModel.init(bundleWrapper)
         runAsync.returnLoadResult()
         observable.checkUiSate(
             expected = SettingsUiState.FirstChoice(
@@ -75,17 +77,22 @@ class SettingsViewModelTest {
                 toCurrency = listOf(
                     CurrencyChoiceUi.Base(currency = "EUR", isSelected = true),
                     CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
+                ),
+                fromCurrency = listOf(
+                    CurrencyChoiceUi.Base(currency = "USD", isSelected = true),
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
                 )
             )
         )
 
         viewModel.save(fromCurrency = "USD", toCurrency = "EUR")
         runAsync.returnLoadResult()
-        repository.checkSavedSelectedPair(
+        interactor.checkSavedSelectedPair(
             listOf(
-                CurrencyPair(
-                    fromCurrency = "USD",
-                    toCurrency = "EUR"
+                Pair(
+                    "USD",
+                    "EUR"
                 )
             )
         )
@@ -100,40 +107,170 @@ class SettingsViewModelTest {
             SettingsUiState.Save(
                 toCurrency = listOf(
                     CurrencyChoiceUi.Base(currency = "JPY", isSelected = true),
+                ),
+                fromCurrency = listOf(
+                    CurrencyChoiceUi.Base(currency = "USD", isSelected = true),
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
                 )
             )
         )
 
         viewModel.save(fromCurrency = "USD", toCurrency = "JPY")
         runAsync.returnLoadResult()
-        repository.checkSavedSelectedPair(
-            listOf(
-                CurrencyPair(
-                    fromCurrency = "USD",
-                    toCurrency = "EUR"
-                ),
-                CurrencyPair(
-                    fromCurrency = "USD",
-                    toCurrency = "JPY"
-                )
-            )
-        )
+        interactor.checkSavedSelectedPair(listOf(Pair("USD", "EUR"), Pair("USD", "JPY")))
+        clear.checkCalled(SettingsViewModel::class.java)
+        navigation.checkNavigateToDashBoardScreen()
 
         viewModel.chooseFirstCurrency(currency = "USD")
         runAsync.returnLoadResult()
         observable.checkUiSate(
             SettingsUiState.SecondChoice(
-                fromCurrency = listOf(CurrencyChoiceUi.Base(currency = "USD", isSelected = true),
-                CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
-                CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
-            ),
+                fromCurrency = listOf(
+                    CurrencyChoiceUi.Base(currency = "USD", isSelected = true),
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
+                ),
                 toCurrency = listOf(CurrencyChoiceUi.Empty)
-        ))
+            )
+        )
 
-        navigation.checkNavigateToDashBoardScreen()
+        viewModel.chooseFirstCurrency(currency = "EUR")
+        runAsync.returnLoadResult()
+        viewModel.chooseSecondCurrency(from = "EUR", to = "JPY")
+        runAsync.returnLoadResult()
+        viewModel.save(fromCurrency = "EUR", toCurrency = "JPY")
+        runAsync.returnLoadResult()
+        interactor.checkSavedSelectedPair(listOf(Pair("USD", "EUR"), Pair("USD", "JPY")))
+        navigation.checkNavigateToSubscriptionScreen()
         clear.checkCalled(SettingsViewModel::class.java)
 
+        interactor.userHasPremium()
+        viewModel.save(fromCurrency = "EUR", toCurrency = "JPY")
+        runAsync.returnLoadResult()
+        interactor.checkSavedSelectedPair(
+            listOf(
+                Pair("USD", "EUR"),
+                Pair("USD", "JPY"),
+                Pair("EUR", "JPY")
+            )
+        )
+        navigation.checkNavigateToDashBoardScreen()
+        clear.checkCalled(SettingsViewModel::class.java)
     }
+
+    @Test
+    fun userIsPremium() {
+        interactor.userHasPremium()
+
+        viewModel.init(bundleWrapper = FakeBundleWrapper())
+        runAsync.returnLoadResult()
+
+        viewModel.chooseFirstCurrency(currency = "USD")
+        runAsync.returnLoadResult()
+        viewModel.chooseSecondCurrency(from = "USD", to = "EUR")
+        runAsync.returnLoadResult()
+        viewModel.save(fromCurrency = "USD", toCurrency = "EUR")
+        runAsync.returnLoadResult()
+        navigation.checkNavigateToDashBoardScreen()
+
+        viewModel.chooseFirstCurrency(currency = "USD")
+        runAsync.returnLoadResult()
+        viewModel.chooseSecondCurrency(from = "USD", to = "JPY")
+        runAsync.returnLoadResult()
+        viewModel.save(fromCurrency = "USD", toCurrency = "JPY")
+        runAsync.returnLoadResult()
+        navigation.checkNavigateToDashBoardScreen()
+
+        viewModel.chooseFirstCurrency(currency = "EUR")
+        runAsync.returnLoadResult()
+        viewModel.chooseSecondCurrency(from = "EUR", to = "JPY")
+        runAsync.returnLoadResult()
+        viewModel.save(fromCurrency = "EUR", toCurrency = "JPY")
+        runAsync.returnLoadResult()
+        interactor.checkSavedSelectedPair(
+            listOf(
+                Pair("USD", "EUR"),
+                Pair("USD", "JPY"),
+                Pair("EUR", "JPY")
+            )
+        )
+        navigation.checkNavigateToDashBoardScreen()
+    }
+
+    @Test
+    fun recreateActivityBeforeChooseFrom() {
+        viewModel.init(bundleWrapper)
+        runAsync.returnLoadResult()
+        bundleWrapper.save("", "")
+        viewModel.init(bundleWrapper)
+        runAsync.returnLoadResult()
+        observable.checkUiSate(
+            expected = SettingsUiState.FirstChoice(
+                listOf(
+                    CurrencyChoiceUi.Base(currency = "USD", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
+                )
+            )
+        )
+    }
+
+    @Test
+    fun recreateActivityBeforeChooseTo() {
+        viewModel.init(bundleWrapper)
+        runAsync.returnLoadResult()
+        viewModel.chooseFirstCurrency("USD")
+        runAsync.returnLoadResult()
+
+        bundleWrapper.save(fromCurrency = "USD", toCurrency = "")
+
+        viewModel.init(bundleWrapper)
+        runAsync.returnLoadResult()
+        observable.checkUiSate(
+            SettingsUiState.SecondChoice(
+                fromCurrency = listOf(
+                    CurrencyChoiceUi.Base(currency = "USD", isSelected = true),
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false)
+                ),
+                toCurrency = listOf(
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
+                )
+            )
+        )
+
+    }
+
+    @Test
+    fun recreateActivityAfterChooseTo() {
+        viewModel.init(bundleWrapper)
+        runAsync.returnLoadResult()
+        viewModel.chooseFirstCurrency("USD")
+        runAsync.returnLoadResult()
+        viewModel.chooseSecondCurrency("USD", "EUR")
+        runAsync.returnLoadResult()
+
+        bundleWrapper.save("USD", "EUR")
+
+        viewModel.init(bundleWrapper)
+        runAsync.returnLoadResult()
+        observable.checkUiSate(
+            expected = SettingsUiState.Save(
+                fromCurrency = listOf(
+                    CurrencyChoiceUi.Base(currency = "USD", isSelected = true),
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
+                ),
+                toCurrency = listOf(
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = true),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
+                )
+            )
+        )
+    }
+
 
     @Test
     fun backDashBoard() {
@@ -155,34 +292,45 @@ class SettingsViewModelTest {
     }
 }
 
-private class FakeSettingsRepository : SettingsRepository {
+private class FakeSettingsInteractor : SettingsInteractor {
 
-    private var actualCurrencies = mutableListOf("USD", "EUR", "JPY")
-    private var actualSavedCurrencyPair = mutableListOf<CurrencyPair>()
+    private var actualCurrencies: List<String> = emptyList()
+    private var savedFavoritePairs: MutableList<Pair<String, String>> = mutableListOf()
+    private var isPremiun: Boolean = false
+    private var maxFreePairs: Int = 2
 
     override suspend fun allCurrencies(): List<String> {
+        actualCurrencies = listOf("USD", "EUR", "JPY")
         return actualCurrencies
     }
 
     override suspend fun availableCurrenciesDestinations(from: String): List<String> {
         val toCurrencies = mutableListOf<String>()
-        toCurrencies.clear()
         toCurrencies.addAll(actualCurrencies)
         toCurrencies.remove(from)
         toCurrencies.removeAll(
-            actualSavedCurrencyPair.filter { it.fromCurrency == from }.map {
-                it.toCurrency
+            savedFavoritePairs.filter { it.first == from }.map {
+                it.second
             }
         )
         return toCurrencies
     }
 
-    override suspend fun save(from: String, to: String) {
-        actualSavedCurrencyPair.add(CurrencyPair(from, to))
+    override suspend fun save(from: String, to: String): SaveResult {
+        return if (savedFavoritePairs.size < maxFreePairs || isPremiun) {
+            savedFavoritePairs.add(Pair(from, to))
+            SaveResult.Success
+        } else {
+            SaveResult.RequirePremium
+        }
     }
 
-    fun checkSavedSelectedPair(expected: List<CurrencyPair>) {
-        assertEquals(expected, actualSavedCurrencyPair)
+    fun userHasPremium() {
+        isPremiun = true
+    }
+
+    fun checkSavedSelectedPair(expected: List<Pair<String, String>>) {
+        assertEquals(expected, savedFavoritePairs)
     }
 
 }
@@ -211,5 +359,24 @@ private class FakeSettingsUiObservable : UiObservable<SettingsUiState> {
     fun checkEmpty(expected: UpdateUi<SettingsUiState>) {
         Assert.assertNotEquals(expected, actualObserver)
     }
+
+}
+
+private class FakeBundleWrapper : BundleWrapper.Mutable {
+
+    private var actualFromCurrency: String? = null
+    private var actualToCurrency: String? = null
+
+    override fun save(fromCurrency: String, toCurrency: String) {
+        actualFromCurrency = fromCurrency
+        actualToCurrency = toCurrency
+    }
+
+    override fun restore(): Pair<String, String> =
+        Pair(actualFromCurrency ?: "", actualToCurrency ?: "")
+
+    override fun isEmpty() =
+        actualFromCurrency == null &&
+                actualToCurrency == null
 
 }

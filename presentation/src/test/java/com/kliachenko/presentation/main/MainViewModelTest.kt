@@ -27,4 +27,10 @@ class MainViewModelTest {
         navigation.checkNotCalled()
     }
 
+    @Test
+    fun notifyObserved() {
+        viewModel.notifyObserved()
+        navigation.checkClear()
+    }
+
 }
