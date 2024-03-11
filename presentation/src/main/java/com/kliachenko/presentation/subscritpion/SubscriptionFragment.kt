@@ -30,7 +30,7 @@ class SubscriptionFragment : BaseFragment<FragmentSubscriptionBinding, Subscript
                 }
             })
 
-        binding.backButton.setOnClickListener {
+        binding.subscriptionBackButton.setOnClickListener {
             viewModel.goSettingScreen()
         }
 

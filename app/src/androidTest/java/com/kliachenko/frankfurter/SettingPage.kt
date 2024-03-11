@@ -135,7 +135,7 @@ class SettingPage {
     fun clickToDashBoard() {
         onView(
             allOf(
-                withId(R.id.backButton),
+                withId(R.id.subscriptionBackButton),
                 isAssignableFrom(ImageButton::class.java),
                 withParent(withId(R.id.settingRootLayout)),
                 withParent(isAssignableFrom(ConstraintLayout::class.java))
