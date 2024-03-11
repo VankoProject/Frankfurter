@@ -40,14 +40,6 @@ class FakeNavigation : Navigation {
         assertEquals(actualScreen, Screen.Empty)
     }
 
-    fun checkObserver(expected: UpdateUi<Screen>) {
-        assertEquals(expected, actualScreen)
-    }
-
-    fun checkEmpty(expected: UpdateUi<Screen>) {
-        assertEquals(expected, Screen.Empty)
-    }
-
     fun checkNavigateToSettings() {
         val expected: Screen = SettingsScreen.Initial
         assertEquals(expected, actualScreen)
@@ -60,6 +52,11 @@ class FakeNavigation : Navigation {
 
     fun checkNavigateToSubscriptionScreen() {
         val expected: Screen = SubscriptionScreen
+        assertEquals(expected, actualScreen)
+    }
+
+    fun checkClear() {
+        val expected: Screen = Screen.Empty
         assertEquals(expected, actualScreen)
     }
 
