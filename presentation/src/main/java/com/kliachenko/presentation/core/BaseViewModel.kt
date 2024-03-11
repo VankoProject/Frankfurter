@@ -6,7 +6,9 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-abstract class BaseViewModel(private val runAsync: RunAsync) : CustomViewModel {
+abstract class BaseViewModel<T: Any>(
+    private val observable: UiObservable<T>,
+    private val runAsync: RunAsync) : CustomViewModel {
 
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -15,6 +17,14 @@ abstract class BaseViewModel(private val runAsync: RunAsync) : CustomViewModel {
         uiBlock: (T) -> Unit,
     ) {
         runAsync.start(viewModelScope, background, uiBlock)
+    }
+
+    fun startGettingUpdates(observer: UpdateUi<T>) {
+        observable.updateObserver(observer)
+    }
+
+    fun stopGettingUpdates() {
+        observable.updateObserver(UpdateUi.Empty())
     }
 
 }

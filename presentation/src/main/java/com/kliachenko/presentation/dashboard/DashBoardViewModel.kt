@@ -8,7 +8,6 @@ import com.kliachenko.presentation.core.Delimiter
 import com.kliachenko.presentation.core.Navigation
 import com.kliachenko.presentation.core.RunAsync
 import com.kliachenko.presentation.core.UiObservable
-import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.settings.SettingsScreen
 
 class DashBoardViewModel(
@@ -19,7 +18,7 @@ class DashBoardViewModel(
     runAsync: RunAsync,
     private val clear: Clear,
     private val mapper: DashboardResult.Mapper,
-) : BaseViewModel(runAsync), ClickActions {
+) : BaseViewModel<DashboardUiState>(observable, runAsync), ClickActions {
 
     fun load() {
         observable.updateUi(DashboardUiState.Progress)
@@ -48,14 +47,6 @@ class DashBoardViewModel(
     fun openSettings() {
         navigation.updateUi(SettingsScreen.Initial)
         clear.clear(DashBoardViewModel::class.java)
-    }
-
-    fun startGettingUpdates(observer: UpdateUi<DashboardUiState>) {
-        observable.updateObserver(observer)
-    }
-
-    fun stopGettingUpdates() {
-        observable.updateObserver(UpdateUi.Empty())
     }
 
 }
