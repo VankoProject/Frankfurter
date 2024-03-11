@@ -1,17 +1,17 @@
 package com.kliachenko.presentation.loading
 
 import com.kliachenko.presentation.core.views.ChangeVisibility
-import com.kliachenko.presentation.core.views.CustomTextView
+import com.kliachenko.presentation.core.views.ErrorText
 
 interface LoadUiState {
 
-    fun update(retryButton: ChangeVisibility, progressBar: ChangeVisibility, textView: CustomTextView)
+    fun update(retryButton: ChangeVisibility, progressBar: ChangeVisibility, textView: ErrorText)
 
     data class Error(private val message: String) : LoadUiState {
         override fun update(
             retryButton: ChangeVisibility,
             progressBar: ChangeVisibility,
-            textView: CustomTextView,
+            textView: ErrorText,
         ) {
             retryButton.show()
             progressBar.hide()
@@ -24,7 +24,7 @@ interface LoadUiState {
         override fun update(
             retryButton: ChangeVisibility,
             progressBar: ChangeVisibility,
-            textView: CustomTextView,
+            textView: ErrorText,
         ) {
             retryButton.hide()
             textView.hide()
@@ -36,7 +36,7 @@ interface LoadUiState {
         override fun update(
             retryButton: ChangeVisibility,
             progressBar: ChangeVisibility,
-            textView: CustomTextView,
+            textView: ErrorText,
         ) = Unit
     }
 }

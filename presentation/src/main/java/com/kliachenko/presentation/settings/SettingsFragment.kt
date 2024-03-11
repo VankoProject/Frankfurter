@@ -65,7 +65,7 @@ class SettingsFragment :
             viewModel.save(selectedCurrencyFrom, selectedCurrencyTo)
         }
 
-        binding.backButton.setOnClickListener {
+        binding.subscriptionBackButton.setOnClickListener {
             viewModel.backDashBoard()
         }
 
