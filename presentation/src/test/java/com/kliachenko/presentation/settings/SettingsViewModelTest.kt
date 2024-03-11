@@ -166,6 +166,7 @@ class SettingsViewModelTest {
         runAsync.returnLoadResult()
         viewModel.save(fromCurrency = "USD", toCurrency = "EUR")
         runAsync.returnLoadResult()
+        navigation.checkNavigateToDashBoardScreen()
 
         viewModel.chooseFirstCurrency(currency = "USD")
         runAsync.returnLoadResult()
@@ -173,6 +174,7 @@ class SettingsViewModelTest {
         runAsync.returnLoadResult()
         viewModel.save(fromCurrency = "USD", toCurrency = "JPY")
         runAsync.returnLoadResult()
+        navigation.checkNavigateToDashBoardScreen()
 
         viewModel.chooseFirstCurrency(currency = "EUR")
         runAsync.returnLoadResult()
@@ -181,7 +183,6 @@ class SettingsViewModelTest {
         viewModel.save(fromCurrency = "EUR", toCurrency = "JPY")
         runAsync.returnLoadResult()
         interactor.checkSavedSelectedPair(listOf(Pair("USD", "EUR"), Pair("USD", "JPY"), Pair("EUR", "JPY")))
-
         navigation.checkNavigateToDashBoardScreen()
     }
 
