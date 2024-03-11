@@ -148,7 +148,13 @@ class SettingsViewModelTest {
         interactor.userHasPremium()
         viewModel.save(fromCurrency = "EUR", toCurrency = "JPY")
         runAsync.returnLoadResult()
-        interactor.checkSavedSelectedPair(listOf(Pair("USD", "EUR"), Pair("USD", "JPY"), Pair("EUR", "JPY")))
+        interactor.checkSavedSelectedPair(
+            listOf(
+                Pair("USD", "EUR"),
+                Pair("USD", "JPY"),
+                Pair("EUR", "JPY")
+            )
+        )
         navigation.checkNavigateToDashBoardScreen()
         clear.checkCalled(SettingsViewModel::class.java)
     }
@@ -182,9 +188,89 @@ class SettingsViewModelTest {
         runAsync.returnLoadResult()
         viewModel.save(fromCurrency = "EUR", toCurrency = "JPY")
         runAsync.returnLoadResult()
-        interactor.checkSavedSelectedPair(listOf(Pair("USD", "EUR"), Pair("USD", "JPY"), Pair("EUR", "JPY")))
+        interactor.checkSavedSelectedPair(
+            listOf(
+                Pair("USD", "EUR"),
+                Pair("USD", "JPY"),
+                Pair("EUR", "JPY")
+            )
+        )
         navigation.checkNavigateToDashBoardScreen()
     }
+
+    @Test
+    fun recreateActivityBeforeChooseFrom() {
+        viewModel.init(bundleWrapper)
+        runAsync.returnLoadResult()
+        bundleWrapper.save("", "")
+        viewModel.init(bundleWrapper)
+        runAsync.returnLoadResult()
+        observable.checkUiSate(
+            expected = SettingsUiState.FirstChoice(
+                listOf(
+                    CurrencyChoiceUi.Base(currency = "USD", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
+                )
+            )
+        )
+    }
+
+    @Test
+    fun recreateActivityBeforeChooseTo() {
+        viewModel.init(bundleWrapper)
+        runAsync.returnLoadResult()
+        viewModel.chooseFirstCurrency("USD")
+        runAsync.returnLoadResult()
+
+        bundleWrapper.save(fromCurrency = "USD", toCurrency = "")
+
+        viewModel.init(bundleWrapper)
+        runAsync.returnLoadResult()
+        observable.checkUiSate(
+            SettingsUiState.SecondChoice(
+                fromCurrency = listOf(
+                    CurrencyChoiceUi.Base(currency = "USD", isSelected = true),
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false)
+                ),
+                toCurrency = listOf(
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
+                )
+            )
+        )
+
+    }
+
+    @Test
+    fun recreateActivityAfterChooseTo() {
+        viewModel.init(bundleWrapper)
+        runAsync.returnLoadResult()
+        viewModel.chooseFirstCurrency("USD")
+        runAsync.returnLoadResult()
+        viewModel.chooseSecondCurrency("USD", "EUR")
+        runAsync.returnLoadResult()
+
+        bundleWrapper.save("USD", "EUR")
+
+        viewModel.init(bundleWrapper)
+        runAsync.returnLoadResult()
+        observable.checkUiSate(
+            expected = SettingsUiState.Save(
+                fromCurrency = listOf(
+                    CurrencyChoiceUi.Base(currency = "USD", isSelected = true),
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
+                ),
+                toCurrency = listOf(
+                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = true),
+                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
+                )
+            )
+        )
+    }
+
 
     @Test
     fun backDashBoard() {
@@ -278,10 +364,8 @@ private class FakeSettingsUiObservable : UiObservable<SettingsUiState> {
 
 private class FakeBundleWrapper : BundleWrapper.Mutable {
 
-    private var actualFromCurrency: String = "USD"
-    private var actualToCurrency: String = "EUR"
-    private var isEmpty: Boolean = true
-
+    private var actualFromCurrency: String? = null
+    private var actualToCurrency: String? = null
 
     override fun save(fromCurrency: String, toCurrency: String) {
         actualFromCurrency = fromCurrency
@@ -289,8 +373,10 @@ private class FakeBundleWrapper : BundleWrapper.Mutable {
     }
 
     override fun restore(): Pair<String, String> =
-        Pair(actualFromCurrency, actualToCurrency)
+        Pair(actualFromCurrency ?: "", actualToCurrency ?: "")
 
-    override fun isEmpty() = isEmpty
+    override fun isEmpty() =
+        actualFromCurrency == null &&
+                actualToCurrency == null
 
 }
