@@ -1,7 +1,7 @@
 package com.kliachenko.frankfurter.di.source
 
-import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
-import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
+import com.kliachenko.data.dashboard.cache.currencyCache.CurrencyCacheDataSource
+import com.kliachenko.data.dashboard.cache.currencyPair.FavoritePairCacheDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

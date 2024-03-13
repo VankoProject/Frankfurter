@@ -1,8 +1,8 @@
 package com.kliachenko.data.dashboard
 
-import com.kliachenko.data.dashboard.cache.CurrencyPair
-import com.kliachenko.data.dashboard.cache.CurrentTimeInMillis
-import com.kliachenko.data.dashboard.cloud.CurrencyRateCloudDataSource
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPair
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrentTimeInMillis
+import com.kliachenko.data.dashboard.cloud.currencyRate.CurrencyRateCloudDataSource
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before

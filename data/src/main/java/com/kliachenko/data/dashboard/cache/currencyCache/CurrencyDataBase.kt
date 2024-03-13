@@ -1,9 +1,9 @@
-package com.kliachenko.data.loading.cache
+package com.kliachenko.data.dashboard.cache.currencyCache
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.kliachenko.data.dashboard.cache.CurrencyPair
-import com.kliachenko.data.dashboard.cache.CurrencyPairDao
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPair
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPairDao
 
 @Database(entities = [CurrencyCache::class, CurrencyPair::class], version = 1, exportSchema = false)
 abstract class CurrencyDataBase : RoomDatabase() {

@@ -1,9 +1,9 @@
 package com.kliachenko.frankfurter.di.source
 
-import com.kliachenko.data.dashboard.cloud.CurrencyRateCloudDataSource
-import com.kliachenko.data.dashboard.cloud.CurrencyRateService
-import com.kliachenko.data.loading.cloud.CurrencyService
-import com.kliachenko.data.loading.cloud.LoadCurrencyCloudDataSource
+import com.kliachenko.data.dashboard.cloud.currencyLoad.CurrencyService
+import com.kliachenko.data.dashboard.cloud.currencyLoad.LoadCurrencyCloudDataSource
+import com.kliachenko.data.dashboard.cloud.currencyRate.CurrencyRateCloudDataSource
+import com.kliachenko.data.dashboard.cloud.currencyRate.CurrencyRateService
 import com.kliachenko.frankfurter.core.ProvideInstance
 import dagger.Module
 import dagger.Provides

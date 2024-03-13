@@ -1,9 +1,9 @@
 package com.kliachenko.data.settings
 
 import com.kliachenko.data.dashboard.FakeFavoritePairCacheDataSource
-import com.kliachenko.data.dashboard.cache.CurrencyPair
-import com.kliachenko.data.loading.cache.CurrencyCache
-import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
+import com.kliachenko.data.dashboard.cache.currencyCache.CurrencyCache
+import com.kliachenko.data.dashboard.cache.currencyCache.CurrencyCacheDataSource
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPair
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before

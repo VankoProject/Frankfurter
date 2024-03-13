@@ -1,9 +1,9 @@
 package com.kliachenko.data.dashboard
 
-import com.kliachenko.data.dashboard.cache.CurrencyPair
-import com.kliachenko.data.dashboard.cache.CurrentTimeInMillis
-import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
-import com.kliachenko.data.dashboard.cloud.CurrencyRateCloudDataSource
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPair
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrentTimeInMillis
+import com.kliachenko.data.dashboard.cache.currencyPair.FavoritePairCacheDataSource
+import com.kliachenko.data.dashboard.cloud.currencyRate.CurrencyRateCloudDataSource
 import com.kliachenko.domain.dashboard.DashBoardItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async

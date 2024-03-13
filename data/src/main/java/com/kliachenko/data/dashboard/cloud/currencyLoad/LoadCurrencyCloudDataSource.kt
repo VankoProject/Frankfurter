@@ -1,4 +1,4 @@
-package com.kliachenko.data.loading.cloud
+package com.kliachenko.data.dashboard.cloud.currencyLoad
 
 import java.net.UnknownHostException
 import javax.inject.Inject

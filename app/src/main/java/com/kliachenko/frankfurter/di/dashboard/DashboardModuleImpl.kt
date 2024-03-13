@@ -1,9 +1,9 @@
 package com.kliachenko.frankfurter.di.dashboard
 
 import com.kliachenko.data.dashboard.UpdatedRate
-import com.kliachenko.data.dashboard.cache.CurrentTimeInMillis
-import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
-import com.kliachenko.data.dashboard.cloud.CurrencyRateCloudDataSource
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrentTimeInMillis
+import com.kliachenko.data.dashboard.cache.currencyPair.FavoritePairCacheDataSource
+import com.kliachenko.data.dashboard.cloud.currencyRate.CurrencyRateCloudDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.kliachenko.data.dashboard.cloud
+package com.kliachenko.data.dashboard.cloud.currencyRate
 
 import javax.inject.Inject
 

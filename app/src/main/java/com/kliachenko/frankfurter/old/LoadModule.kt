@@ -1,7 +1,7 @@
 //package com.kliachenko.frankfurter.old
 //
 //import com.kliachenko.data.loading.BaseLoadCurrencyRepository
-//import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
+//import com.kliachenko.data.dashboard.cache.currencyCache.CurrencyCacheDataSource
 //import com.kliachenko.frankfurter.core.Core
 //import com.kliachenko.frankfurter.core.ProvideInstance
 //import com.kliachenko.presentation.loading.BaseLoadResultMapper

@@ -4,8 +4,8 @@
 //import com.kliachenko.data.dashboard.BaseDashboardRepository
 //import com.kliachenko.data.dashboard.DashBoardItemsDataSource
 //import com.kliachenko.data.dashboard.UpdatedRate
-//import com.kliachenko.data.dashboard.cache.CurrentTimeInMillis
-//import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
+//import com.kliachenko.data.dashboard.cache.currencyPair.CurrentTimeInMillis
+//import com.kliachenko.data.dashboard.cache.currencyPair.FavoritePairCacheDataSource
 //import com.kliachenko.frankfurter.core.Core
 //import com.kliachenko.frankfurter.core.ProvideInstance
 //import com.kliachenko.presentation.dashboard.BaseDashboardItemMapper

@@ -1,7 +1,7 @@
 package com.kliachenko.data.dashboard
 
-import com.kliachenko.data.dashboard.cache.CurrencyPair
-import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPair
+import com.kliachenko.data.dashboard.cache.currencyPair.FavoritePairCacheDataSource
 import org.junit.Assert
 
 class FakeFavoritePairCacheDataSource : FavoritePairCacheDataSource.Mutable {
@@ -26,7 +26,8 @@ class FakeFavoritePairCacheDataSource : FavoritePairCacheDataSource.Mutable {
 
     fun hasData() {
         actualListCurrencyPair = mutableListOf(
-            CurrencyPair(fromCurrency = "A", toCurrency = "B", rate = 1.0, time = 1)
+            CurrencyPair(fromCurrency = "A", toCurrency = "B", rate = 1.0, time = 1),
+            CurrencyPair(fromCurrency = "C", toCurrency = "D", rate = 1.0, time = 1)
         )
     }
 
@@ -36,6 +37,10 @@ class FakeFavoritePairCacheDataSource : FavoritePairCacheDataSource.Mutable {
 
     fun checkSaved(expected: List<CurrencyPair>) {
         Assert.assertEquals(expected, actualListCurrencyPair)
+    }
+
+    fun checkAfterRemove(vararg pairs: CurrencyPair) {
+        Assert.assertEquals(pairs.toList(), actualListCurrencyPair)
     }
 
 }

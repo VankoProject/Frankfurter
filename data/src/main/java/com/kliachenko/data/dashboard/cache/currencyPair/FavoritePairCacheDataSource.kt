@@ -1,4 +1,4 @@
-package com.kliachenko.data.dashboard.cache
+package com.kliachenko.data.dashboard.cache.currencyPair
 
 import javax.inject.Inject
 

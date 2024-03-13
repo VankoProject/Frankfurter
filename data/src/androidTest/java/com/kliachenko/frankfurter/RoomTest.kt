@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.kliachenko.data.dashboard.cache.CurrencyPair
-import com.kliachenko.data.dashboard.cache.CurrencyPairDao
-import com.kliachenko.data.loading.cache.CurrencyDataBase
+import com.kliachenko.data.dashboard.cache.currencyCache.CurrencyDataBase
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPair
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPairDao
 import kotlinx.coroutines.runBlocking
 import okio.IOException
 import org.junit.After

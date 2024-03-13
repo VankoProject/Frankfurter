@@ -1,8 +1,8 @@
 package com.kliachenko.data.settings
 
-import com.kliachenko.data.dashboard.cache.CurrencyPair
-import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
-import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
+import com.kliachenko.data.dashboard.cache.currencyCache.CurrencyCacheDataSource
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPair
+import com.kliachenko.data.dashboard.cache.currencyPair.FavoritePairCacheDataSource
 import com.kliachenko.domain.settings.SettingsRepository
 import javax.inject.Inject
 

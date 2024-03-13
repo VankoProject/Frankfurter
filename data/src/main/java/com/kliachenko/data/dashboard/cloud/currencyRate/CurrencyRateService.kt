@@ -1,4 +1,4 @@
-package com.kliachenko.data.dashboard.cloud
+package com.kliachenko.data.dashboard.cloud.currencyRate
 
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call

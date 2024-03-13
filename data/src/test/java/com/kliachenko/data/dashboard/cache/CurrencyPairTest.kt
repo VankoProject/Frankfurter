@@ -1,5 +1,7 @@
 package com.kliachenko.data.dashboard.cache
 
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPair
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrentTimeInMillis
 import org.junit.Assert
 import org.junit.Test
 

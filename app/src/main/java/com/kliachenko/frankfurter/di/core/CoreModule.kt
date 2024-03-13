@@ -2,7 +2,7 @@ package com.kliachenko.frankfurter.di.core
 
 import com.kliachenko.data.core.HandleError
 import com.kliachenko.data.core.ProvideResources
-import com.kliachenko.data.dashboard.cache.CurrentTimeInMillis
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrentTimeInMillis
 import com.kliachenko.frankfurter.core.BaseProvideResources
 import com.kliachenko.frankfurter.core.ProvideInstance
 import com.kliachenko.presentation.core.Navigation

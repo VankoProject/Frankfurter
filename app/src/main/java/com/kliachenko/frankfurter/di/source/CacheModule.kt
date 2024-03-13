@@ -2,7 +2,7 @@ package com.kliachenko.frankfurter.di.source
 
 import android.content.Context
 import androidx.room.Room
-import com.kliachenko.data.loading.cache.CurrencyDataBase
+import com.kliachenko.data.dashboard.cache.currencyCache.CurrencyDataBase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

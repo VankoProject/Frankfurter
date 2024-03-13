@@ -1,11 +1,10 @@
 package com.kliachenko.presentation.dashboard
 
-import com.kliachenko.presentation.core.UiObservable
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.dashboard.adapter.FavoritePairUi
 import org.junit.Assert
 
-class FakeDashboardUiObservable : UiObservable<DashboardUiState> {
+class FakeDashboardUiObservable : DashboardUiObservable {
 
     private var actualObserver: UpdateUi<DashboardUiState> = UpdateUi.Empty()
     private var actualUiState: DashboardUiState = DashboardUiState.Empty

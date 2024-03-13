@@ -1,7 +1,7 @@
 //package com.kliachenko.frankfurter.old
 //
-//import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
-//import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
+//import com.kliachenko.data.dashboard.cache.currencyPair.FavoritePairCacheDataSource
+//import com.kliachenko.data.dashboard.cache.currencyCache.CurrencyCacheDataSource
 //import com.kliachenko.data.settings.BaseSettingsRepository
 //import com.kliachenko.domain.settings.SettingsInteractor
 //import com.kliachenko.frankfurter.core.Core
