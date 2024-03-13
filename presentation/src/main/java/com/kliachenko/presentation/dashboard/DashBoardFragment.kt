@@ -4,15 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.kliachenko.presentation.core.BaseFragment
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.dashboard.adapter.FavoriteAdapter
 import com.kliachenko.presentation.databinding.FragmentDashboardBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class DashBoardFragment : BaseFragment<FragmentDashboardBinding, DashBoardViewModel>() {
+@AndroidEntryPoint
+class DashBoardFragment : BaseFragment<FragmentDashboardBinding>() {
 
-    override val viewModelClass = DashBoardViewModel::class.java
     private lateinit var updateUi: UpdateUi<DashboardUiState>
+    private val viewModel: DashBoardViewModel by viewModels()
 
     override fun inflate(
         inflater: LayoutInflater,

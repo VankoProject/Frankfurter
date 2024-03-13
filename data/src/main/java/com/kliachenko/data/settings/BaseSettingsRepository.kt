@@ -4,8 +4,9 @@ import com.kliachenko.data.dashboard.cache.CurrencyPair
 import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
 import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
 import com.kliachenko.domain.settings.SettingsRepository
+import javax.inject.Inject
 
-class BaseSettingsRepository(
+class BaseSettingsRepository @Inject constructor(
     private val favoritePairCacheDataSource: FavoritePairCacheDataSource.Mutable,
     private val currencyCacheDataSource: CurrencyCacheDataSource.Read,
 ) : SettingsRepository {

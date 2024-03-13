@@ -7,12 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseFragment<T : ViewBinding, V: CustomViewModel> : Fragment() {
+abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
-    protected abstract val viewModelClass: Class<V>
     private var _binding: T? = null
     protected val binding: T get() = _binding!!
-    protected lateinit var viewModel: V
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,11 +19,6 @@ abstract class BaseFragment<T : ViewBinding, V: CustomViewModel> : Fragment() {
     ): View? {
         _binding = inflate(inflater, container)
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as ProvideViewModel).viewModel(viewModelClass)
     }
 
     override fun onDestroyView() {

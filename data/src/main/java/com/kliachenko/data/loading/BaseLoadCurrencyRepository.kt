@@ -7,8 +7,11 @@ import com.kliachenko.data.loading.cloud.LoadCurrencyCloudDataSource
 import com.kliachenko.domain.load.LoadCurrenciesRepository
 import com.kliachenko.domain.load.LoadCurrenciesResult
 import java.net.UnknownHostException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BaseLoadCurrencyRepository(
+@Singleton
+class BaseLoadCurrencyRepository @Inject constructor(
     private val loadCurrencyCloudDataSource: LoadCurrencyCloudDataSource,
     private val currencyCacheDataSource: CurrencyCacheDataSource.Mutable,
     private val provideResources: ProvideResources,

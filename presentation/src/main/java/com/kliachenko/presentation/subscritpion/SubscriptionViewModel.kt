@@ -1,16 +1,17 @@
 package com.kliachenko.presentation.subscritpion
 
+import androidx.lifecycle.ViewModel
 import com.kliachenko.domain.settings.PremiumUserStorage
-import com.kliachenko.presentation.core.Clear
-import com.kliachenko.presentation.core.CustomViewModel
 import com.kliachenko.presentation.core.Navigation
 import com.kliachenko.presentation.core.Screen
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SubscriptionViewModel(
+@HiltViewModel
+class SubscriptionViewModel @Inject constructor(
     private val navigation: Navigation,
     private val premiumUserStorage: PremiumUserStorage.Save,
-    private val clear: Clear,
-) : CustomViewModel {
+) : ViewModel() {
 
     fun buyPremium() {
         premiumUserStorage.savePremiumUser()
@@ -19,6 +20,5 @@ class SubscriptionViewModel(
 
     fun goSettingScreen() {
         navigation.updateUi(Screen.Pop)
-        clear.clear(SubscriptionViewModel::class.java)
     }
 }

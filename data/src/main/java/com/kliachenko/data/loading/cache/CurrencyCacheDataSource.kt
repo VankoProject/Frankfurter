@@ -1,5 +1,7 @@
 package com.kliachenko.data.loading.cache
 
+import javax.inject.Inject
+
 interface CurrencyCacheDataSource {
 
     interface Save {
@@ -12,7 +14,7 @@ interface CurrencyCacheDataSource {
 
     interface Mutable : Save, Read
 
-    class Base(private val currencyDao: CurrencyDao) : Mutable {
+    class Base @Inject constructor(private val currencyDao: CurrencyDao) : Mutable {
 
         constructor(
             database: CurrencyDataBase

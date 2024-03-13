@@ -5,18 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import com.kliachenko.presentation.core.BaseFragment
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.databinding.FragmentSettingsBinding
 import com.kliachenko.presentation.settings.adapter.SettingsAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsFragment :
-    BaseFragment<FragmentSettingsBinding, SettingsViewModel>() {
+    BaseFragment<FragmentSettingsBinding>() {
 
-    override val viewModelClass: Class<SettingsViewModel> = SettingsViewModel::class.java
     private lateinit var observer: UpdateUi<SettingsUiState>
     private lateinit var fromCurrencyAdapter: SettingsAdapter
     private lateinit var toCurrencyAdapter: SettingsAdapter
+
+    private val viewModel: SettingsViewModel by viewModels()
 
     override fun inflate(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSettingsBinding.inflate(inflater, container, false)

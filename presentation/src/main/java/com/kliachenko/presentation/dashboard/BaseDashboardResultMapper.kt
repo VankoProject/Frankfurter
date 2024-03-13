@@ -2,11 +2,11 @@ package com.kliachenko.presentation.dashboard
 
 import com.kliachenko.domain.dashboard.DashBoardItem
 import com.kliachenko.domain.dashboard.DashboardResult
-import com.kliachenko.presentation.core.UiObservable
 import com.kliachenko.presentation.dashboard.adapter.FavoritePairUi
+import javax.inject.Inject
 
-class BaseDashboardResultMapper(
-    private val observable: UiObservable<DashboardUiState>,
+class BaseDashboardResultMapper @Inject constructor(
+    private val observable: DashboardUiObservable,
     private val itemMapper: DashBoardItem.Mapper<FavoritePairUi>,
 ) : DashboardResult.Mapper {
 

@@ -1,14 +1,17 @@
 package com.kliachenko.presentation.main
 
-import com.kliachenko.presentation.core.CustomViewModel
+import androidx.lifecycle.ViewModel
 import com.kliachenko.presentation.core.Navigation
 import com.kliachenko.presentation.core.Screen
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.loading.LoadScreen
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MainViewModel(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     private val navigation: Navigation,
-) : CustomViewModel {
+): ViewModel() {
 
     fun init(firstRun: Boolean) {
         if(firstRun) {

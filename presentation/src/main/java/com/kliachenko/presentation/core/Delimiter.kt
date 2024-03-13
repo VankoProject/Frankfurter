@@ -1,5 +1,6 @@
 package com.kliachenko.presentation.core
 
+
 interface Delimiter {
 
     fun split(item: String): List<String>

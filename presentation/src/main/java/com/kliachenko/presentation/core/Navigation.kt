@@ -1,10 +1,12 @@
 package com.kliachenko.presentation.core
 
+import javax.inject.Inject
+
 interface Navigation : UiObservable<Screen> {
 
     fun clear()
 
-    class Base : UiObservable.Abstract<Screen>(Screen.Empty), Navigation {
+    class Base @Inject constructor() : UiObservable.Abstract<Screen>(Screen.Empty), Navigation {
         override fun clear() {
             cache = Screen.Empty
         }

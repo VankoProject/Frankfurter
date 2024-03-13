@@ -1,5 +1,6 @@
 package com.kliachenko.domain.settings
 
+import javax.inject.Inject
 
 interface SettingsInteractor {
 
@@ -9,10 +10,10 @@ interface SettingsInteractor {
 
     suspend fun save(from: String, to: String): SaveResult
 
-    class Base(
+    class Base @Inject constructor(
         private val settingsRepository: SettingsRepository,
         private val freeCountPair: Int,
-        private val premiumUserStorage: PremiumUserStorage.Read
+        private val premiumUserStorage: PremiumUserStorage.Read,
     ) : SettingsInteractor {
 
         override suspend fun allCurrencies(): List<String> {
@@ -52,7 +53,7 @@ interface SaveResult {
         }
     }
 
-    object Success: SaveResult {
+    object Success : SaveResult {
         override fun map(mapper: Mapper) {
             mapper.mapSuccessSave()
         }

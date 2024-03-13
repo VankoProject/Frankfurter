@@ -1,6 +1,5 @@
 package com.kliachenko.presentation.fake
 
-import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.CustomViewModel
 import org.junit.Assert
 

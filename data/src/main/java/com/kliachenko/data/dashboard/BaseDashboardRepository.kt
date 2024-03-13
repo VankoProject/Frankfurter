@@ -6,8 +6,9 @@ import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
 import com.kliachenko.domain.dashboard.DashBoardItem
 import com.kliachenko.domain.dashboard.DashboardRepository
 import com.kliachenko.domain.dashboard.DashboardResult
+import javax.inject.Inject
 
-class BaseDashboardRepository(
+class BaseDashboardRepository @Inject constructor(
     private val favoriteCacheDataSource: FavoritePairCacheDataSource.Mutable,
     private val dashBoardItemsDataSource: DashBoardItemsDataSource,
     private val handleError: HandleError,

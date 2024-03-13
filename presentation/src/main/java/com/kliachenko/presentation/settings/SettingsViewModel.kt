@@ -3,20 +3,20 @@ package com.kliachenko.presentation.settings
 import com.kliachenko.domain.settings.SaveResult
 import com.kliachenko.domain.settings.SettingsInteractor
 import com.kliachenko.presentation.core.BaseViewModel
-import com.kliachenko.presentation.core.Clear
 import com.kliachenko.presentation.core.Navigation
 import com.kliachenko.presentation.core.RunAsync
-import com.kliachenko.presentation.core.UiObservable
 import com.kliachenko.presentation.dashboard.DashBoardScreen
 import com.kliachenko.presentation.settings.adapter.CurrencyChoiceUi
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SettingsViewModel(
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
     private val interactor: SettingsInteractor,
     private val navigation: Navigation,
-    private val clear: Clear,
-    private val observable: UiObservable<SettingsUiState>,
+    private val observable: SettingsUiObservable,
     runAsync: RunAsync,
-    private val mapper: SaveResult.Mapper = BaseSaveResultMapper(navigation, clear),
+    private val mapper: SaveResult.Mapper = BaseSaveResultMapper(navigation),
 ) : BaseViewModel<SettingsUiState>(observable, runAsync), ChooseCurrency {
 
     fun init(bundleWrapper: BundleWrapper.Mutable) {
@@ -43,7 +43,6 @@ class SettingsViewModel(
 
     fun backDashBoard() {
         navigation.updateUi(DashBoardScreen)
-        clear.clear(SettingsViewModel::class.java)
     }
 
     override fun chooseFirstCurrency(currency: String) {
