@@ -1,12 +1,13 @@
 package com.kliachenko.data.loading.cloud
 
 import java.net.UnknownHostException
+import javax.inject.Inject
 
 interface LoadCurrencyCloudDataSource {
 
     suspend fun loadCurrencies(): HashMap<String, String>
 
-    class Base(
+    class Base @Inject constructor(
         private val service: CurrencyService,
     ) : LoadCurrencyCloudDataSource {
 
@@ -16,7 +17,7 @@ interface LoadCurrencyCloudDataSource {
         }
     }
 
-    class Fake : LoadCurrencyCloudDataSource {
+    class Fake @Inject constructor() : LoadCurrencyCloudDataSource {
 
         private var firstTime: Boolean = true
 
@@ -31,6 +32,6 @@ interface LoadCurrencyCloudDataSource {
                 "JPY" to "Japanese Yen",
             )
         }
-
     }
+
 }

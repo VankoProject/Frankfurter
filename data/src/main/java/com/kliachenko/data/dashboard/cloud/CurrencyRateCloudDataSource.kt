@@ -1,11 +1,14 @@
 package com.kliachenko.data.dashboard.cloud
 
+import javax.inject.Inject
+
 
 interface CurrencyRateCloudDataSource {
 
     suspend fun rate(fromCurrency: String, toCurrency: String): Double
 
-    class Base(private val service: CurrencyRateService) : CurrencyRateCloudDataSource {
+    class Base @Inject constructor(private val service: CurrencyRateService) :
+        CurrencyRateCloudDataSource {
 
         override suspend fun rate(fromCurrency: String, toCurrency: String): Double {
             val currencyPair: CurrencyPairCloud =
@@ -14,7 +17,7 @@ interface CurrencyRateCloudDataSource {
         }
     }
 
-    class Fake : CurrencyRateCloudDataSource {
+    class Fake @Inject constructor() : CurrencyRateCloudDataSource {
 
         private var firstTime: Boolean = true
 

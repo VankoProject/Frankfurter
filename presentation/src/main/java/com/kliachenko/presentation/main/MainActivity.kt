@@ -1,24 +1,24 @@
 package com.kliachenko.presentation.main
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.kliachenko.presentation.R
-import com.kliachenko.presentation.core.CustomViewModel
-import com.kliachenko.presentation.core.ProvideViewModel
 import com.kliachenko.presentation.core.Screen
 import com.kliachenko.presentation.core.UpdateUi
 import com.kliachenko.presentation.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity(), ProvideViewModel {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var navigation: UpdateUi<Screen>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = viewModel(MainViewModel::class.java)
         navigation = object : UpdateUi<Screen> {
             override fun updateUi(uiState: Screen) {
                 uiState.showScreen(R.id.container, supportFragmentManager)
@@ -38,7 +38,4 @@ class MainActivity : AppCompatActivity(), ProvideViewModel {
         viewModel.stopGettingUpdates()
     }
 
-    override fun <T : CustomViewModel> viewModel(viewModelClass: Class<T>): T {
-        return (application as ProvideViewModel).viewModel(viewModelClass)
-    }
 }

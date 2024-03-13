@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("dagger.hilt.android.plugin")
+    id ("kotlin-kapt")
 }
 
 kotlin {
@@ -30,7 +32,11 @@ android {
             )
         }
     }
+    testOptions {
+        animationsDisabled = true
+    }
 }
+
 
 dependencies {
     implementation(project(":data"))
@@ -46,4 +52,8 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(project(":presentation"))
     androidTestImplementation(project(":presentation"))
+
+    //Hilt
+    implementation ("com.google.dagger:hilt-android:2.50")
+    kapt ("com.google.dagger:hilt-compiler:2.50")
 }

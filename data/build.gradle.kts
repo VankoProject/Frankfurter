@@ -40,6 +40,9 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    //Javax annotation
+    implementation(group = "javax.inject", name = "javax.inject", version = "1")
+
     //Room
     api("androidx.room:room-ktx:2.6.1")
     //noinspection KaptUsageInsteadOfKsp

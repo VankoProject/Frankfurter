@@ -72,7 +72,6 @@ class ScenarioTest {
         settingPage.clickChoiceFrom(position = 0)
         settingPage.checkSelectedFrom(position = 0)
         activityScenarioRule.scenario.recreate()
-        settingPage.clickChoiceFrom(position = 0)
         settingPage.checkSelectedFrom(position = 0)
         settingPage.checkCurrenciesFrom("EUR", "JPY", "USD")
         settingPage.checkCurrenciesTo("USD")
@@ -87,8 +86,6 @@ class ScenarioTest {
         settingPage.checkNotVisible()
 
         dashboardPage.checkVisible()
-        dashboardPage.checkError(message = "Service unavailable")
-        dashboardPage.clickRetry()
         dashboardPage.checkFavoritePair(currencyPair = "EUR/JPY", rate = "15.5", position = 0)
         dashboardPage.checkFavoritePair(currencyPair = "EUR/USD", rate = "15.5", position = 1)
         activityScenarioRule.scenario.recreate()

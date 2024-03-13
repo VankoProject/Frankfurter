@@ -4,8 +4,11 @@ import com.kliachenko.domain.load.LoadCurrenciesRepository
 import com.kliachenko.domain.load.LoadCurrenciesResult
 import com.kliachenko.presentation.core.BaseViewModel
 import com.kliachenko.presentation.core.RunAsync
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoadViewModel(
+@HiltViewModel
+class LoadViewModel @Inject constructor(
     private val observable: LoadUiObservable,
     private val repository: LoadCurrenciesRepository,
     runAsync: RunAsync,

@@ -1,20 +1,17 @@
 package com.kliachenko.presentation.loading
 
 import com.kliachenko.domain.load.LoadCurrenciesResult
-import com.kliachenko.presentation.core.Clear
-import com.kliachenko.presentation.core.Screen
-import com.kliachenko.presentation.core.UpdateUi
+import com.kliachenko.presentation.core.Navigation
 import com.kliachenko.presentation.dashboard.DashBoardScreen
+import javax.inject.Inject
 
-class BaseLoadResultMapper(
-    private val observable: UpdateUi<LoadUiState>,
-    private val navigation: UpdateUi<Screen>,
-    private val clearViewModel: Clear,
+class BaseLoadResultMapper @Inject constructor(
+    private val observable: LoadUiObservable,
+    private val navigation: Navigation,
 ) : LoadCurrenciesResult.Mapper {
 
     override fun mapSuccess() {
         navigation.updateUi(DashBoardScreen)
-        clearViewModel.clear(LoadViewModel::class.java)
     }
 
     override fun mapError(message: String) {

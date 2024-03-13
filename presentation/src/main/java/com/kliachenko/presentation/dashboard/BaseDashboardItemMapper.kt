@@ -3,9 +3,10 @@ package com.kliachenko.presentation.dashboard
 import com.kliachenko.domain.dashboard.DashBoardItem
 import com.kliachenko.presentation.core.Delimiter
 import com.kliachenko.presentation.dashboard.adapter.FavoritePairUi
+import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class BaseDashboardItemMapper(
+class BaseDashboardItemMapper @Inject constructor(
     private val delimiter: Delimiter
 ) : DashBoardItem.Mapper<FavoritePairUi> {
 

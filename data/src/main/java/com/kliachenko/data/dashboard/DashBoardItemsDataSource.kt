@@ -6,19 +6,21 @@ import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
 import com.kliachenko.data.dashboard.cloud.CurrencyRateCloudDataSource
 import com.kliachenko.domain.dashboard.DashBoardItem
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface DashBoardItemsDataSource {
 
     suspend fun dashboardItems(favoritePairs: List<CurrencyPair>): List<DashBoardItem>
 
-    class Base(
+    @Singleton
+    class Base @Inject constructor(
         private val currentTimeInMillis: CurrentTimeInMillis,
         private val updatedRate: UpdatedRate,
-        private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
+        private val dispatcher: CoroutineDispatcher,
     ) : DashBoardItemsDataSource {
 
         override suspend fun dashboardItems(favoritePairs: List<CurrencyPair>) =
@@ -43,7 +45,7 @@ interface UpdatedRate {
 
     suspend fun updatedRate(currentPair: CurrencyPair): Double
 
-    class Base(
+    class Base @Inject constructor(
         private val cacheDataSource: FavoritePairCacheDataSource.Save,
         private val currentTimeInMillis: CurrentTimeInMillis,
         private val rateCloudDataSource: CurrencyRateCloudDataSource,

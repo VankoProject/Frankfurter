@@ -1,5 +1,7 @@
 package com.kliachenko.data.dashboard.cache
 
+import javax.inject.Inject
+
 interface FavoritePairCacheDataSource {
 
     interface Save {
@@ -16,7 +18,7 @@ interface FavoritePairCacheDataSource {
 
     interface Mutable : Read, Save, Remove
 
-    class Base(
+    class Base @Inject constructor(
         private val dao: CurrencyPairDao,
     ) : Mutable {
         override suspend fun favoriteCurrencyPairs(): List<CurrencyPair> =
