@@ -14,26 +14,38 @@ abstract class SourceModule {
 
     @Binds
     @Singleton
-    abstract fun bindFavoritePairCacheDataSource(favoritePairCacheDataSource: FavoritePairCacheDataSource.Base): FavoritePairCacheDataSource.Mutable
+    abstract fun bindFavoritePairCacheDataSource(
+        favoritePairCacheDataSource: FavoritePairCacheDataSource.Base
+    ): FavoritePairCacheDataSource.Mutable
 
     @Binds
     @Singleton
-    abstract fun bindFavoritePairCacheDataSourceRead(favoritePairCacheDataSource: FavoritePairCacheDataSource.Mutable): FavoritePairCacheDataSource.Read
+    abstract fun bindFavoritePairCacheDataSourceRead(
+        favoritePairCacheDataSource: FavoritePairCacheDataSource.Mutable
+    ): FavoritePairCacheDataSource.Read
 
     @Binds
     @Singleton
-    abstract fun bindFavoritePairCacheDataSourceSave(favoritePairCacheDataSource: FavoritePairCacheDataSource.Mutable): FavoritePairCacheDataSource.Save
+    abstract fun bindFavoritePairCacheDataSourceSave(
+        favoritePairCacheDataSource: FavoritePairCacheDataSource.Mutable
+    ): FavoritePairCacheDataSource.Save
 
     @Binds
     @Singleton
-    abstract fun bindCurrencyCacheDataSource(currencyCacheDataSource: CurrencyCacheDataSource.Base): CurrencyCacheDataSource.Mutable
+    abstract fun bindCurrencyCacheDataSource(
+        currencyCacheDataSource: CurrencyCacheDataSource.Base
+    ): CurrencyCacheDataSource.Mutable
 
     @Binds
     @Singleton
-    abstract fun bindCurrencyCacheDataSourceRead(currencyCacheDataSource: CurrencyCacheDataSource.Mutable): CurrencyCacheDataSource.Read
+    abstract fun bindCurrencyCacheDataSourceRead(
+        currencyCacheDataSource: CurrencyCacheDataSource.Mutable
+    ): CurrencyCacheDataSource.Read
 
     @Binds
     @Singleton
-    abstract fun bindCurrencyCacheDataSourceSave(currencyCacheDataSource: CurrencyCacheDataSource.Mutable): CurrencyCacheDataSource.Save
+    abstract fun bindCurrencyCacheDataSourceSave(
+        currencyCacheDataSource: CurrencyCacheDataSource.Mutable
+    ): CurrencyCacheDataSource.Save
 
 }

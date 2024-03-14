@@ -16,7 +16,6 @@ interface ProvideInstance {
 
     fun provideFreeCountPair(): Int
 
-
     @Singleton
     class Base @Inject constructor(): ProvideInstance {
         override fun provideLoadCloudDataSource(retrofit: Retrofit): LoadCurrencyCloudDataSource {

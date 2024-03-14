@@ -26,15 +26,19 @@ abstract class DashboardModule {
     ): DashboardUiObservable
 
     @Binds
-    abstract fun bindDashboardResultMapper(mapper: BaseDashboardResultMapper): DashboardResult.Mapper
+    abstract fun bindDashboardResultMapper(
+        mapper: BaseDashboardResultMapper): DashboardResult.Mapper
 
     @Binds
-    abstract fun bindBaseDashboardItemMapper(dashboardItemMapper: BaseDashboardItemMapper): DashBoardItem.Mapper<FavoritePairUi>
+    abstract fun bindBaseDashboardItemMapper(
+        dashboardItemMapper: BaseDashboardItemMapper): DashBoardItem.Mapper<FavoritePairUi>
 
     @Binds
-    abstract fun bindDashboardItemsDataSource(dashBoardItemsDataSource: DashBoardItemsDataSource.Base): DashBoardItemsDataSource
+    abstract fun bindDashboardItemsDataSource(
+        dashBoardItemsDataSource: DashBoardItemsDataSource.Base): DashBoardItemsDataSource
 
     @Binds
-    abstract fun bindDashboardRepository(dashboardRepository: BaseDashboardRepository): DashboardRepository
+    abstract fun bindDashboardRepository(
+        dashboardRepository: BaseDashboardRepository): DashboardRepository
 
 }

@@ -13,8 +13,7 @@ import com.kliachenko.presentation.settings.adapter.SettingsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingsFragment :
-    BaseFragment<FragmentSettingsBinding>() {
+class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     private lateinit var observer: UpdateUi<SettingsUiState>
     private lateinit var fromCurrencyAdapter: SettingsAdapter

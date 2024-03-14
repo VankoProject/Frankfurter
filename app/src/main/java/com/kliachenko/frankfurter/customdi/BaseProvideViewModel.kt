@@ -1,4 +1,4 @@
-package com.kliachenko.frankfurter.old
+package com.kliachenko.frankfurter.customdi
 
 
 //class BaseProvideViewModel(private val provideModule: ProvideModule) : ProvideViewModel {

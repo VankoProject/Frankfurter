@@ -28,19 +28,23 @@ abstract class SettingsModule {
 
     @Binds
     @Singleton
-    abstract fun bindPremiumUserStorageSave(premiumUserStorage: PremiumUserStorage.Mutable): PremiumUserStorage.Save
+    abstract fun bindPremiumUserStorageSave(
+        premiumUserStorage: PremiumUserStorage.Mutable): PremiumUserStorage.Save
 
     @Binds
     @Singleton
-    abstract fun bindPremiumUserStorageRead(premiumUserStorage: PremiumUserStorage.Mutable): PremiumUserStorage.Read
+    abstract fun bindPremiumUserStorageRead(
+        premiumUserStorage: PremiumUserStorage.Mutable): PremiumUserStorage.Read
 
     @Binds
     @Singleton
-    abstract fun bindBasePremiumUserStorage(premiumUserStorage: BasePremiumUserStorage): PremiumUserStorage.Mutable
+    abstract fun bindBasePremiumUserStorage(
+        premiumUserStorage: BasePremiumUserStorage): PremiumUserStorage.Mutable
 
     @Binds
     @Singleton
-    abstract fun bindSettingRepository(settingsRepository: BaseSettingsRepository): SettingsRepository
+    abstract fun bindSettingRepository(
+        settingsRepository: BaseSettingsRepository): SettingsRepository
 
     @Binds
     @Singleton
