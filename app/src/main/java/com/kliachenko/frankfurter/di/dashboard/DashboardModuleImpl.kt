@@ -25,6 +25,6 @@ class DashboardModuleImpl {
         cacheDataSource: FavoritePairCacheDataSource.Save,
         currentTimeInMillis: CurrentTimeInMillis,
         rateCloudDataSource: CurrencyRateCloudDataSource,
-    ) = UpdatedRate.Base(cacheDataSource, currentTimeInMillis, rateCloudDataSource)
+    ): UpdatedRate = UpdatedRate.Base(cacheDataSource, currentTimeInMillis, rateCloudDataSource)
 
 }
