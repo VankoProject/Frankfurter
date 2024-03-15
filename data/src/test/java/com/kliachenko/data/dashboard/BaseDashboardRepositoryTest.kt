@@ -50,25 +50,11 @@ class BaseDashboardRepositoryTest {
     }
 
     @Test
-    fun testFirstRunBothEmpty() = runBlocking {
+    fun testFirstRunBothEmptySuccess() = runBlocking {
         currencyCacheDataSource.cacheEmpty()
         loadCurrencyCloudDataSource.successLoadResult()
         favoriteCacheDataSource.emptyList()
         val expected: DashboardResult = DashboardResult.Empty
-        val actual: DashboardResult = dashboardRepository.dashboardItems()
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun testNotFirstRunSuccess() = runBlocking {
-        currencyCacheDataSource.cacheNotEmpty()
-        favoriteCacheDataSource.hasData()
-        val expected: DashboardResult = DashboardResult.Success(
-            listOf(
-                DashBoardItem.Base("A", "B", 1.0),
-                DashBoardItem.Base("C", "D", 1.0)
-            )
-        )
         val actual: DashboardResult = dashboardRepository.dashboardItems()
         assertEquals(expected, actual)
     }
@@ -85,16 +71,35 @@ class BaseDashboardRepositoryTest {
     }
 
     @Test
+    fun testNotFirstRunEmptySuccess() = runBlocking {
+        currencyCacheDataSource.cacheNotEmpty()
+        favoriteCacheDataSource.emptyList()
+        val expected: DashboardResult = DashboardResult.Empty
+        val actual: DashboardResult = dashboardRepository.dashboardItems()
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun testNotFirstRunNotEmptySuccess() = runBlocking {
+        currencyCacheDataSource.cacheNotEmpty()
+        favoriteCacheDataSource.hasData()
+        val expected: DashboardResult = DashboardResult.Success(
+            listOf(
+                DashBoardItem.Base("A", "B", 0.0),
+                DashBoardItem.Base("C", "D", 0.0)
+            )
+        )
+        val actual: DashboardResult = dashboardRepository.dashboardItems()
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun testRemovePair() = runBlocking {
         currencyCacheDataSource.cacheNotEmpty()
-        loadCurrencyCloudDataSource.successLoadResult()
         favoriteCacheDataSource.hasData()
-        val expected = DashboardResult.Success(listOf(DashBoardItem.Base("C", "D", 1.0)))
-        val actual = dashboardRepository.removeItem(from = "A", to = "B")
+        val expected = DashboardResult.Success(listOf(DashBoardItem.Base("C", "D", 0.0)))
+        val actual = dashboardRepository.removeItem("A", "B")
         assertEquals(expected, actual)
-//        dashboardRepository.removeItem(from = "C", to = "D")
-//        favoriteCacheDataSource.checkAfterRemove(
-//             CurrencyPair("A", "B", 1.0, 1))
     }
 }
 
@@ -106,22 +111,21 @@ private class FakeHandleError : HandleError {
 
 private class FakeDashBoardItemsDataSource : DashBoardItemsDataSource {
 
-    //    var actualDashBoardItems: List<DashBoardItem> =
-//        listOf(DashBoardItem.Base("A", "B", 1.0), DashBoardItem.Base("C", "D", 1.0))
     private var isSuccess: Boolean = true
     private lateinit var exception: Exception
-
-    override suspend fun dashboardItems(favoritePairs: List<CurrencyPair>): List<DashBoardItem> {
-        if (isSuccess) {
-            return favoritePairs.map { DashBoardItem.Base(it.fromCurrency, it.toCurrency, it.rate) }
-        } else {
-            throw exception
-        }
-    }
 
     fun hasException(error: Exception) {
         isSuccess = false
         exception = error
+    }
+
+    override suspend fun dashboardItems(favoritePairs: List<CurrencyPair>): List<DashBoardItem> {
+        if (isSuccess) {
+            val mapper = FakeMapper()
+            return favoritePairs.map { it.map(mapper) }
+        } else {
+            throw exception
+        }
     }
 
 }

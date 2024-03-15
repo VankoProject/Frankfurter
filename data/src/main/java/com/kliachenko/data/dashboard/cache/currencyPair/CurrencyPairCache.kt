@@ -3,8 +3,18 @@ package com.kliachenko.data.dashboard.cache.currencyPair
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 
+interface CurrencyPair {
+
+    suspend fun <T : Any> map(mapper: Mapper<T>): T
+
+    interface Mapper<T : Any> {
+
+        suspend fun map(from: String, to: String, rate: Double, time: Long): T
+    }
+}
+
 @Entity(tableName = "currency_pair", primaryKeys = ["from_currency", "to_currency"])
-data class CurrencyPair(
+data class CurrencyPairCache(
     @ColumnInfo(name = "from_currency")
     val fromCurrency: String,
     @ColumnInfo(name = "to_currency")
@@ -13,9 +23,9 @@ data class CurrencyPair(
     val rate: Double = 0.0,
     @ColumnInfo(name = "time")
     val time: Long = -1,
-) {
+) : CurrencyPair {
 
-    fun isInvalid(currentTimeInMillis: CurrentTimeInMillis): Boolean {
-        return (currentTimeInMillis.currentTime() - time > 24 * 3600 * 1000) || rate == 0.0
+    override suspend fun <T : Any> map(mapper: CurrencyPair.Mapper<T>): T {
+        return mapper.map(fromCurrency, toCurrency, rate, time)
     }
 }

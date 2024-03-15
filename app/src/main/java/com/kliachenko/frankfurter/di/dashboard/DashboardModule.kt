@@ -1,7 +1,6 @@
 package com.kliachenko.frankfurter.di.dashboard
 
 import com.kliachenko.data.dashboard.BaseDashboardRepository
-import com.kliachenko.data.dashboard.DashBoardItemsDataSource
 import com.kliachenko.domain.dashboard.DashBoardItem
 import com.kliachenko.domain.dashboard.DashboardRepository
 import com.kliachenko.domain.dashboard.DashboardResult
@@ -27,18 +26,17 @@ abstract class DashboardModule {
 
     @Binds
     abstract fun bindDashboardResultMapper(
-        mapper: BaseDashboardResultMapper): DashboardResult.Mapper
+        mapper: BaseDashboardResultMapper,
+    ): DashboardResult.Mapper
 
     @Binds
     abstract fun bindBaseDashboardItemMapper(
-        dashboardItemMapper: BaseDashboardItemMapper): DashBoardItem.Mapper<FavoritePairUi>
-
-    @Binds
-    abstract fun bindDashboardItemsDataSource(
-        dashBoardItemsDataSource: DashBoardItemsDataSource.Base): DashBoardItemsDataSource
+        dashboardItemMapper: BaseDashboardItemMapper,
+    ): DashBoardItem.Mapper<FavoritePairUi>
 
     @Binds
     abstract fun bindDashboardRepository(
-        dashboardRepository: BaseDashboardRepository): DashboardRepository
+        dashboardRepository: BaseDashboardRepository,
+    ): DashboardRepository
 
 }

@@ -3,7 +3,7 @@ package com.kliachenko.data.settings
 import com.kliachenko.data.dashboard.FakeFavoritePairCacheDataSource
 import com.kliachenko.data.dashboard.cache.currencyCache.CurrencyCache
 import com.kliachenko.data.dashboard.cache.currencyCache.CurrencyCacheDataSource
-import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPair
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPairCache
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
@@ -38,7 +38,7 @@ class BaseSettingsRepositoryTest {
         repository.save("A", "B")
         favoritePairCacheDataSource.checkSaved(
             listOf(
-                CurrencyPair("A", "B"),
+                CurrencyPairCache("A", "B"),
             )
         )
         actual = repository.availableCurrenciesDestinations("A")
@@ -48,8 +48,8 @@ class BaseSettingsRepositoryTest {
         repository.save("A", "C")
         favoritePairCacheDataSource.checkSaved(
             listOf(
-                CurrencyPair("A", "B"),
-                CurrencyPair("A", "C"),
+                CurrencyPairCache("A", "B"),
+                CurrencyPairCache("A", "C"),
 
             )
         )
@@ -60,9 +60,9 @@ class BaseSettingsRepositoryTest {
         repository.save("A", "D")
         favoritePairCacheDataSource.checkSaved(
             listOf(
-                CurrencyPair("A", "B"),
-                CurrencyPair("A", "C"),
-                CurrencyPair("A", "D"),
+                CurrencyPairCache("A", "B"),
+                CurrencyPairCache("A", "C"),
+                CurrencyPairCache("A", "D"),
                 )
         )
         actual = repository.availableCurrenciesDestinations("A")

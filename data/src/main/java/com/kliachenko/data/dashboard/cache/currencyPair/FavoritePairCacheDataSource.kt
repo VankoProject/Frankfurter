@@ -5,15 +5,15 @@ import javax.inject.Inject
 interface FavoritePairCacheDataSource {
 
     interface Save {
-        suspend fun saveFavoritePair(currencyPair: CurrencyPair)
+        suspend fun saveFavoritePair(currencyPairCache: CurrencyPairCache)
     }
 
     interface Read {
-        suspend fun favoriteCurrencyPairs(): List<CurrencyPair>
+        suspend fun favoriteCurrencyPairs(): List<CurrencyPairCache>
     }
 
     interface Remove {
-        suspend fun removeCurrencyPair(currencyPair: CurrencyPair)
+        suspend fun removeCurrencyPair(currencyPairCache: CurrencyPairCache)
     }
 
     interface Mutable : Read, Save, Remove
@@ -21,15 +21,15 @@ interface FavoritePairCacheDataSource {
     class Base @Inject constructor(
         private val dao: CurrencyPairDao,
     ) : Mutable {
-        override suspend fun favoriteCurrencyPairs(): List<CurrencyPair> =
+        override suspend fun favoriteCurrencyPairs(): List<CurrencyPairCache> =
             dao.favoriteCurrencyPair()
 
-        override suspend fun saveFavoritePair(currencyPair: CurrencyPair) {
-            dao.insertCurrencyPair(currencyPair)
+        override suspend fun saveFavoritePair(currencyPairCache: CurrencyPairCache) {
+            dao.insertCurrencyPair(currencyPairCache)
         }
 
-        override suspend fun removeCurrencyPair(currencyPair: CurrencyPair) {
-            dao.removeCurrencyPair(currencyPair)
+        override suspend fun removeCurrencyPair(currencyPairCache: CurrencyPairCache) {
+            dao.removeCurrencyPair(currencyPairCache)
         }
     }
 }

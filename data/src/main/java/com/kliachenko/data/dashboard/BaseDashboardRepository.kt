@@ -3,7 +3,7 @@ package com.kliachenko.data.dashboard
 import com.kliachenko.data.core.HandleError
 import com.kliachenko.data.dashboard.cache.currencyCache.CurrencyCache
 import com.kliachenko.data.dashboard.cache.currencyCache.CurrencyCacheDataSource
-import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPair
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPairCache
 import com.kliachenko.data.dashboard.cache.currencyPair.FavoritePairCacheDataSource
 import com.kliachenko.data.dashboard.cloud.currencyLoad.LoadCurrencyCloudDataSource
 import com.kliachenko.domain.dashboard.DashBoardItem
@@ -40,7 +40,7 @@ class BaseDashboardRepository @Inject constructor(
 
     override suspend fun removeItem(from: String, to: String): DashboardResult {
         favoriteCacheDataSource.removeCurrencyPair(
-            CurrencyPair(
+            CurrencyPairCache(
                 fromCurrency = from,
                 toCurrency = to
             )
