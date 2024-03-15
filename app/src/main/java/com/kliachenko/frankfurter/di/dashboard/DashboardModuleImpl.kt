@@ -34,6 +34,7 @@ class DashboardModuleImpl {
     ): UpdatedRate = UpdatedRate.Base(cacheDataSource, currentTimeInMillis, rateCloudDataSource)
 
     @Provides
+    @Singleton
     fun provideIsInvalidCacheRateAndTime(
         currentTimeInMillis: CurrentTimeInMillis,
     ): IsInvalidCacheRateAndTime {
@@ -41,6 +42,7 @@ class DashboardModuleImpl {
     }
 
     @Provides
+    @Singleton
     fun provideDashboardIemMapper(
         updatedRate: UpdatedRate,
         isInvalidCacheRateAndTime: IsInvalidCacheRateAndTime,
@@ -50,6 +52,7 @@ class DashboardModuleImpl {
 
 
     @Provides
+    @Singleton
     fun provideDashboardItemDataSource(
         dispatcher: CoroutineDispatcher,
         mapper: CurrencyPair.Mapper<DashBoardItem>,

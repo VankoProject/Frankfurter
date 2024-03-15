@@ -109,7 +109,8 @@ private class FakeHandleError : HandleError {
     }
 }
 
-private class FakeDashBoardItemsDataSource : DashBoardItemsDataSource {
+private class FakeDashBoardItemsDataSource(private val mapper: FakeMapper = FakeMapper()) :
+    DashBoardItemsDataSource {
 
     private var isSuccess: Boolean = true
     private lateinit var exception: Exception
@@ -121,7 +122,6 @@ private class FakeDashBoardItemsDataSource : DashBoardItemsDataSource {
 
     override suspend fun dashboardItems(favoritePairs: List<CurrencyPair>): List<DashBoardItem> {
         if (isSuccess) {
-            val mapper = FakeMapper()
             return favoritePairs.map { it.map(mapper) }
         } else {
             throw exception
