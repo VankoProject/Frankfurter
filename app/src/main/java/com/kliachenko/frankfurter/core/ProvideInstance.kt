@@ -1,9 +1,9 @@
 package com.kliachenko.frankfurter.core
 
-import com.kliachenko.data.dashboard.cloud.CurrencyRateCloudDataSource
-import com.kliachenko.data.dashboard.cloud.CurrencyRateService
-import com.kliachenko.data.loading.cloud.CurrencyService
-import com.kliachenko.data.loading.cloud.LoadCurrencyCloudDataSource
+import com.kliachenko.data.dashboard.cloud.currencyLoad.CurrencyService
+import com.kliachenko.data.dashboard.cloud.currencyLoad.LoadCurrencyCloudDataSource
+import com.kliachenko.data.dashboard.cloud.currencyRate.CurrencyRateCloudDataSource
+import com.kliachenko.data.dashboard.cloud.currencyRate.CurrencyRateService
 import retrofit2.Retrofit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,7 +15,6 @@ interface ProvideInstance {
     fun provideLoadRateCloudDataSource(retrofit: Retrofit): CurrencyRateCloudDataSource
 
     fun provideFreeCountPair(): Int
-
 
     @Singleton
     class Base @Inject constructor(): ProvideInstance {

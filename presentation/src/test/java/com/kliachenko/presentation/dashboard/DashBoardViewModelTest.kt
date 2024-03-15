@@ -5,7 +5,6 @@ import com.kliachenko.domain.dashboard.DashboardRepository
 import com.kliachenko.domain.dashboard.DashboardResult
 import com.kliachenko.presentation.core.Delimiter
 import com.kliachenko.presentation.core.UpdateUi
-import com.kliachenko.presentation.fake.FakeClear
 import com.kliachenko.presentation.fake.FakeNavigation
 import com.kliachenko.presentation.fake.FakeRunAsync
 import org.junit.Assert
@@ -17,7 +16,6 @@ class DashBoardViewModelTest {
     private lateinit var observable: FakeDashboardUiObservable
     private lateinit var navigation: FakeNavigation
     private lateinit var repository: FakeDashboardRepository
-    private lateinit var clear: FakeClear
     private lateinit var runAsync: FakeRunAsync
     private lateinit var viewModel: DashBoardViewModel
     private lateinit var delimiter: Delimiter
@@ -28,7 +26,6 @@ class DashBoardViewModelTest {
         observable = FakeDashboardUiObservable()
         navigation = FakeNavigation()
         repository = FakeDashboardRepository()
-        clear = FakeClear()
         runAsync = FakeRunAsync()
         delimiter = Delimiter.Base()
         mapper = FakeDashboardResultMapper()
@@ -38,7 +35,6 @@ class DashBoardViewModelTest {
             navigation = navigation,
             repository = repository,
             runAsync = runAsync,
-            clear = clear,
             delimiter = delimiter,
             mapper = mapper
         )
@@ -110,7 +106,6 @@ class DashBoardViewModelTest {
     fun settings() {
         viewModel.openSettings()
         navigation.checkNavigateToSettings()
-        clear.checkCalled(DashBoardViewModel::class.java)
     }
 
     @Test

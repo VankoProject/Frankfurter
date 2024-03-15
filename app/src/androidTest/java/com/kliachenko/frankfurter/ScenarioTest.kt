@@ -17,15 +17,11 @@ class ScenarioTest {
 
     @Test
     fun scenarioTest() {
-        val loadPage = LoadPage()
-        loadPage.checkVisible()
-        loadPage.checkError("No internet connection")
-        activityScenarioRule.scenario.recreate()
-        loadPage.checkError("No internet connection")
-        loadPage.clickRetry()
-        loadPage.checkNotVisible()
-
         val dashboardPage = DashboardPage()
+        dashboardPage.checkVisible()
+        dashboardPage.checkError("No internet connection")
+        dashboardPage.clickRetry()
+
         dashboardPage.checkVisible()
         dashboardPage.checkEmptyFavoriteList()
         activityScenarioRule.scenario.recreate()
@@ -92,7 +88,6 @@ class ScenarioTest {
         dashboardPage.checkFavoritePair(currencyPair = "EUR/JPY", rate = "15.5", position = 0)
         dashboardPage.checkFavoritePair(currencyPair = "EUR/USD", rate = "15.5", position = 1)
 
-        //check noCurrencyTo due to choose all available pairs for EUR
         dashboardPage.clickSettings()
         dashboardPage.checkNotVisible()
         settingPage.checkVisible()
@@ -105,7 +100,6 @@ class ScenarioTest {
         settingPage.checkSelectedFrom(position = 0)
         settingPage.checkNoCurrencyTo()
 
-        //subscription scenario: after choose third pair go to subscriptionScreen
         settingPage.clickChoiceFrom(position = 2)
         settingPage.clickChoiceTo(position = 1)
         activityScenarioRule.scenario
@@ -127,8 +121,6 @@ class ScenarioTest {
         subscriptionPage.checkNotVisible()
 
         settingPage.checkVisible()
-
-        //check choose only currencyFrom and navigate to dashBoard
         settingPage.clickChoiceFrom(position = 1)
         settingPage.checkSelectedFrom(position = 1)
         activityScenarioRule.scenario.recreate()
@@ -140,8 +132,6 @@ class ScenarioTest {
         settingPage.checkNotVisible()
 
         dashboardPage.checkVisible()
-
-        //check remove all favorite pairs
         dashboardPage.checkFavoritePair(currencyPair = "EUR/JPY", rate = "15.5", position = 0)
         dashboardPage.checkFavoritePair(currencyPair = "EUR/USD", rate = "15.5", position = 1)
         activityScenarioRule.scenario.recreate()
@@ -161,7 +151,6 @@ class ScenarioTest {
         activityScenarioRule.scenario.recreate()
         dashboardPage.checkEmptyFavoriteList()
 
-        //check system pressBackButton from settingsScreen to DashboardScreen
         dashboardPage.clickSettings()
         dashboardPage.checkNotVisible()
         settingPage.checkVisible()

@@ -1,9 +1,10 @@
 package com.kliachenko.data.dashboard
 
-import com.kliachenko.data.dashboard.cache.CurrencyPair
-import com.kliachenko.data.dashboard.cache.CurrentTimeInMillis
-import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
-import com.kliachenko.data.dashboard.cloud.CurrencyRateCloudDataSource
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPair
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPairCache
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrentTimeInMillis
+import com.kliachenko.data.dashboard.cache.currencyPair.FavoritePairCacheDataSource
+import com.kliachenko.data.dashboard.cloud.currencyRate.CurrencyRateCloudDataSource
 import com.kliachenko.domain.dashboard.DashBoardItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
@@ -18,32 +19,53 @@ interface DashBoardItemsDataSource {
 
     @Singleton
     class Base @Inject constructor(
-        private val currentTimeInMillis: CurrentTimeInMillis,
-        private val updatedRate: UpdatedRate,
         private val dispatcher: CoroutineDispatcher,
+        private val mapper: CurrencyPair.Mapper<DashBoardItem>,
     ) : DashBoardItemsDataSource {
 
         override suspend fun dashboardItems(favoritePairs: List<CurrencyPair>) =
             withContext(dispatcher) {
                 favoritePairs.map { currentPair ->
                     async {
-                        DashBoardItem.Base(
-                            currentPair.fromCurrency,
-                            currentPair.toCurrency,
-                            rate = if (currentPair.isInvalid(currentTimeInMillis))
-                                updatedRate.updatedRate(currentPair)
-                            else
-                                currentPair.rate
-                        )
+                        currentPair.map(mapper)
                     }
                 }.awaitAll()
             }
     }
 }
 
+class DashboardItemMapper @Inject constructor(
+    private val updatedRate: UpdatedRate,
+    private val isInvalidCacheTime: IsInvalidCacheRateAndTime,
+) : CurrencyPair.Mapper<DashBoardItem> {
+    override suspend fun map(from: String, to: String, rate: Double, time: Long): DashBoardItem {
+        return DashBoardItem.Base(
+            fromCurrency = from,
+            toCurrency = to,
+            rate = if (isInvalidCacheTime.isInvalid(rate, time))
+                updatedRate.updatedRate(from, to)
+            else
+                rate
+        )
+    }
+}
+
+interface IsInvalidCacheRateAndTime {
+
+    fun isInvalid(rate: Double, time: Long): Boolean
+
+    class Base @Inject constructor(private val currentTimeInMillis: CurrentTimeInMillis) :
+        IsInvalidCacheRateAndTime {
+        override fun isInvalid(rate: Double, time: Long): Boolean {
+            return currentTimeInMillis.currentTime() - time > 24 * 3600 * 1000 || rate == 0.0
+        }
+
+    }
+}
+
 interface UpdatedRate {
 
-    suspend fun updatedRate(currentPair: CurrencyPair): Double
+    suspend fun updatedRate(from: String, to: String): Double
 
     class Base @Inject constructor(
         private val cacheDataSource: FavoritePairCacheDataSource.Save,
@@ -51,14 +73,14 @@ interface UpdatedRate {
         private val rateCloudDataSource: CurrencyRateCloudDataSource,
     ) : UpdatedRate {
 
-        override suspend fun updatedRate(currentPair: CurrencyPair): Double {
+        override suspend fun updatedRate(from: String, to: String): Double {
             val updateRate = rateCloudDataSource.rate(
-                currentPair.fromCurrency,
-                currentPair.toCurrency
+                fromCurrency = from,
+                toCurrency = to
             )
-            val updatePair = CurrencyPair(
-                currentPair.fromCurrency,
-                currentPair.toCurrency,
+            val updatePair = CurrencyPairCache(
+                fromCurrency = from,
+                toCurrency = to,
                 updateRate,
                 currentTimeInMillis.currentTime()
             )

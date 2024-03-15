@@ -6,7 +6,6 @@ import com.kliachenko.presentation.databinding.FavoritePairLayoutBinding
 
 interface FavoritePairUi: ListItem {
 
-
     fun type(): TypeUi
 
     fun show(binding: FavoritePairLayoutBinding) = Unit

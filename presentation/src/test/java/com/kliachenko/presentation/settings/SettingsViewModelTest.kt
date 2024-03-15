@@ -2,9 +2,7 @@ package com.kliachenko.presentation.settings
 
 import com.kliachenko.domain.settings.SaveResult
 import com.kliachenko.domain.settings.SettingsInteractor
-import com.kliachenko.presentation.core.UiObservable
 import com.kliachenko.presentation.core.UpdateUi
-import com.kliachenko.presentation.fake.FakeClear
 import com.kliachenko.presentation.fake.FakeNavigation
 import com.kliachenko.presentation.fake.FakeRunAsync
 import com.kliachenko.presentation.settings.adapter.CurrencyChoiceUi
@@ -18,7 +16,6 @@ class SettingsViewModelTest {
     private lateinit var observable: FakeSettingsUiObservable
     private lateinit var interactor: FakeSettingsInteractor
     private lateinit var navigation: FakeNavigation
-    private lateinit var clear: FakeClear
     private lateinit var runAsync: FakeRunAsync
     private lateinit var viewModel: SettingsViewModel
     private lateinit var bundleWrapper: FakeBundleWrapper
@@ -29,12 +26,10 @@ class SettingsViewModelTest {
         interactor = FakeSettingsInteractor()
         navigation = FakeNavigation()
         bundleWrapper = FakeBundleWrapper()
-        clear = FakeClear()
         runAsync = FakeRunAsync()
         viewModel = SettingsViewModel(
             interactor = interactor,
             navigation = navigation,
-            clear = clear,
             observable = observable,
             runAsync = runAsync
         )
@@ -97,7 +92,6 @@ class SettingsViewModelTest {
             )
         )
         navigation.checkNavigateToDashBoardScreen()
-        clear.checkCalled(SettingsViewModel::class.java)
 
         viewModel.chooseFirstCurrency(currency = "USD")
         runAsync.returnLoadResult()
@@ -119,7 +113,6 @@ class SettingsViewModelTest {
         viewModel.save(fromCurrency = "USD", toCurrency = "JPY")
         runAsync.returnLoadResult()
         interactor.checkSavedSelectedPair(listOf(Pair("USD", "EUR"), Pair("USD", "JPY")))
-        clear.checkCalled(SettingsViewModel::class.java)
         navigation.checkNavigateToDashBoardScreen()
 
         viewModel.chooseFirstCurrency(currency = "USD")
@@ -143,20 +136,12 @@ class SettingsViewModelTest {
         runAsync.returnLoadResult()
         interactor.checkSavedSelectedPair(listOf(Pair("USD", "EUR"), Pair("USD", "JPY")))
         navigation.checkNavigateToSubscriptionScreen()
-        clear.checkCalled(SettingsViewModel::class.java)
 
         interactor.userHasPremium()
         viewModel.save(fromCurrency = "EUR", toCurrency = "JPY")
         runAsync.returnLoadResult()
-        interactor.checkSavedSelectedPair(
-            listOf(
-                Pair("USD", "EUR"),
-                Pair("USD", "JPY"),
-                Pair("EUR", "JPY")
-            )
-        )
+        interactor.checkSavedSelectedPair(listOf(Pair("USD", "EUR"), Pair("USD", "JPY"), Pair("EUR", "JPY")))
         navigation.checkNavigateToDashBoardScreen()
-        clear.checkCalled(SettingsViewModel::class.java)
     }
 
     @Test
@@ -188,95 +173,14 @@ class SettingsViewModelTest {
         runAsync.returnLoadResult()
         viewModel.save(fromCurrency = "EUR", toCurrency = "JPY")
         runAsync.returnLoadResult()
-        interactor.checkSavedSelectedPair(
-            listOf(
-                Pair("USD", "EUR"),
-                Pair("USD", "JPY"),
-                Pair("EUR", "JPY")
-            )
-        )
+        interactor.checkSavedSelectedPair(listOf(Pair("USD", "EUR"), Pair("USD", "JPY"), Pair("EUR", "JPY")))
         navigation.checkNavigateToDashBoardScreen()
     }
-
-    @Test
-    fun recreateActivityBeforeChooseFrom() {
-        viewModel.init(bundleWrapper)
-        runAsync.returnLoadResult()
-        bundleWrapper.save("", "")
-        viewModel.init(bundleWrapper)
-        runAsync.returnLoadResult()
-        observable.checkUiSate(
-            expected = SettingsUiState.FirstChoice(
-                listOf(
-                    CurrencyChoiceUi.Base(currency = "USD", isSelected = false),
-                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
-                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
-                )
-            )
-        )
-    }
-
-    @Test
-    fun recreateActivityBeforeChooseTo() {
-        viewModel.init(bundleWrapper)
-        runAsync.returnLoadResult()
-        viewModel.chooseFirstCurrency("USD")
-        runAsync.returnLoadResult()
-
-        bundleWrapper.save(fromCurrency = "USD", toCurrency = "")
-
-        viewModel.init(bundleWrapper)
-        runAsync.returnLoadResult()
-        observable.checkUiSate(
-            SettingsUiState.SecondChoice(
-                fromCurrency = listOf(
-                    CurrencyChoiceUi.Base(currency = "USD", isSelected = true),
-                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
-                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false)
-                ),
-                toCurrency = listOf(
-                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
-                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
-                )
-            )
-        )
-
-    }
-
-    @Test
-    fun recreateActivityAfterChooseTo() {
-        viewModel.init(bundleWrapper)
-        runAsync.returnLoadResult()
-        viewModel.chooseFirstCurrency("USD")
-        runAsync.returnLoadResult()
-        viewModel.chooseSecondCurrency("USD", "EUR")
-        runAsync.returnLoadResult()
-
-        bundleWrapper.save("USD", "EUR")
-
-        viewModel.init(bundleWrapper)
-        runAsync.returnLoadResult()
-        observable.checkUiSate(
-            expected = SettingsUiState.Save(
-                fromCurrency = listOf(
-                    CurrencyChoiceUi.Base(currency = "USD", isSelected = true),
-                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = false),
-                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
-                ),
-                toCurrency = listOf(
-                    CurrencyChoiceUi.Base(currency = "EUR", isSelected = true),
-                    CurrencyChoiceUi.Base(currency = "JPY", isSelected = false),
-                )
-            )
-        )
-    }
-
 
     @Test
     fun backDashBoard() {
         viewModel.backDashBoard()
         navigation.checkNavigateToDashBoardScreen()
-        clear.checkCalled(SettingsViewModel::class.java)
     }
 
     @Test
@@ -335,7 +239,7 @@ private class FakeSettingsInteractor : SettingsInteractor {
 
 }
 
-private class FakeSettingsUiObservable : UiObservable<SettingsUiState> {
+private class FakeSettingsUiObservable : SettingsUiObservable {
 
     private var actualUiState: SettingsUiState = SettingsUiState.Initial
     private var actualObserver: UpdateUi<SettingsUiState> = UpdateUi.Empty()

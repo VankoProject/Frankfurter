@@ -9,6 +9,7 @@ import javax.inject.Inject
 class BaseSaveResultMapper @Inject constructor(
     private val navigation: Navigation,
 ) : SaveResult.Mapper {
+
     override fun mapSuccessSave() {
         navigation.updateUi(DashBoardScreen)
     }

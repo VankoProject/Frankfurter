@@ -44,10 +44,8 @@ interface TypeUi {
     object FavoritePair : TypeUi {
 
         override fun viewHolder(
-            parent: ViewGroup,
-            clickActions: ClickActions,
-
-            ): DashboardViewHolder {
+            parent: ViewGroup, clickActions: ClickActions,
+        ): DashboardViewHolder {
             return DashboardViewHolder.CurrencyPair(
                 binding = FavoritePairLayoutBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false

@@ -7,7 +7,6 @@ interface Delimiter {
 
     fun concat(from: String, to: String): String
 
-
     class Base(private val value: String = "/"): Delimiter {
 
         override fun split(item: String): List<String> {

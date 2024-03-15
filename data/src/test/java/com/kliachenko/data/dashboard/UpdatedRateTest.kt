@@ -1,8 +1,8 @@
 package com.kliachenko.data.dashboard
 
-import com.kliachenko.data.dashboard.cache.CurrencyPair
-import com.kliachenko.data.dashboard.cache.CurrentTimeInMillis
-import com.kliachenko.data.dashboard.cloud.CurrencyRateCloudDataSource
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPairCache
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrentTimeInMillis
+import com.kliachenko.data.dashboard.cloud.currencyRate.CurrencyRateCloudDataSource
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
@@ -31,16 +31,13 @@ class UpdatedRateTest {
     fun testSaveUpdateRate() = runBlocking {
         val expectedRate = 1.5
         rateCloudDataSource.expectRate(rate = expectedRate)
-        val actual = updatedRate.updatedRate(
-            CurrencyPair("A", "B")
-        )
-        Assert.assertEquals(expectedRate, actual, 0.01)
-        val expectedUpdatedRate = CurrencyPair(
+        val actualRate = updatedRate.updatedRate("A", "B")
+        Assert.assertEquals(expectedRate, actualRate, 0.01)
+        val expectedUpdateCurrencyPair = CurrencyPairCache(
             "A", "B", 1.5, 999
         )
-        cacheDataSource.checkSaveData(expectedUpdatedRate)
+        cacheDataSource.checkSaveData(expectedUpdateCurrencyPair)
         rateCloudDataSource.check("A", "B")
-
     }
 
 }

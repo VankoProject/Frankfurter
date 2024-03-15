@@ -1,41 +1,42 @@
 package com.kliachenko.data.dashboard
 
-import com.kliachenko.data.dashboard.cache.CurrencyPair
-import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPairCache
+import com.kliachenko.data.dashboard.cache.currencyPair.FavoritePairCacheDataSource
 import org.junit.Assert
 
 class FakeFavoritePairCacheDataSource : FavoritePairCacheDataSource.Mutable {
 
-    private var actualListCurrencyPair: MutableList<CurrencyPair> = mutableListOf()
+    private var actualListCurrencyPairCache: MutableList<CurrencyPairCache> = mutableListOf()
 
-    override suspend fun favoriteCurrencyPairs(): List<CurrencyPair> {
-        return actualListCurrencyPair
+    override suspend fun favoriteCurrencyPairs(): List<CurrencyPairCache> {
+        return actualListCurrencyPairCache
     }
 
-    override suspend fun saveFavoritePair(currencyPair: CurrencyPair) {
-        actualListCurrencyPair.add(currencyPair)
+    override suspend fun saveFavoritePair(currencyPairCache: CurrencyPairCache) {
+        actualListCurrencyPairCache.add(currencyPairCache)
     }
 
-    override suspend fun removeCurrencyPair(currencyPair: CurrencyPair) {
-        actualListCurrencyPair.remove(currencyPair)
+    override suspend fun removeCurrencyPair(currencyPairCache: CurrencyPairCache) {
+        actualListCurrencyPairCache.remove(currencyPairCache)
     }
 
     fun emptyList() {
-        actualListCurrencyPair = mutableListOf()
+        actualListCurrencyPairCache = mutableListOf()
     }
 
     fun hasData() {
-        actualListCurrencyPair = mutableListOf(
-            CurrencyPair(fromCurrency = "A", toCurrency = "B", rate = 1.0, time = 1)
+        actualListCurrencyPairCache = mutableListOf(
+            CurrencyPairCache(fromCurrency = "A", toCurrency = "B"),
+            CurrencyPairCache(fromCurrency = "C", toCurrency = "D")
         )
     }
 
-    fun checkSaveData(updatePair: CurrencyPair) {
-        Assert.assertEquals(updatePair, actualListCurrencyPair[0])
+    fun checkSaveData(updatePair: CurrencyPairCache) {
+        Assert.assertEquals(updatePair, actualListCurrencyPairCache[0])
     }
 
-    fun checkSaved(expected: List<CurrencyPair>) {
-        Assert.assertEquals(expected, actualListCurrencyPair)
+    fun checkSaved(expected: List<CurrencyPairCache>) {
+        Assert.assertEquals(expected, actualListCurrencyPairCache)
     }
 
 }

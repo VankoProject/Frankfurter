@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.kliachenko.data.dashboard.cache.CurrencyPair
-import com.kliachenko.data.dashboard.cache.CurrencyPairDao
-import com.kliachenko.data.loading.cache.CurrencyDataBase
+import com.kliachenko.data.dashboard.cache.currencyCache.CurrencyDataBase
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPairCache
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPairDao
 import kotlinx.coroutines.runBlocking
 import okio.IOException
 import org.junit.After
@@ -40,18 +40,28 @@ class RoomTest {
     }
 
     @Test
-    fun test() = runBlocking {
-        assertEquals(emptyList<CurrencyPair>(), dao.favoriteCurrencyPair())
-        dao.insertCurrencyPair(CurrencyPair("A", "B"))
-        var expected = listOf(CurrencyPair("A", "B"))
+    fun testInsert() = runBlocking {
+        assertEquals(emptyList<CurrencyPairCache>(), dao.favoriteCurrencyPair())
+        dao.insertCurrencyPair(CurrencyPairCache("A", "B"))
+        var expected = listOf(CurrencyPairCache("A", "B"))
         assertEquals(expected, dao.favoriteCurrencyPair())
 
-        dao.insertCurrencyPair(CurrencyPair("A", "B"))
-        expected = listOf(CurrencyPair("A", "B"))
+        dao.insertCurrencyPair(CurrencyPairCache("A", "B"))
+        expected = listOf(CurrencyPairCache("A", "B"))
         assertEquals(expected, dao.favoriteCurrencyPair())
 
-        dao.insertCurrencyPair(CurrencyPair("A", "C"))
-        expected = listOf(CurrencyPair("A", "B"), CurrencyPair("A", "C"))
+        dao.insertCurrencyPair(CurrencyPairCache("A", "C"))
+        expected = listOf(CurrencyPairCache("A", "B"), CurrencyPairCache("A", "C"))
         assertEquals(expected, dao.favoriteCurrencyPair())
     }
+
+    @Test
+    fun tstRemove() = runBlocking {
+        dao.insertCurrencyPair(CurrencyPairCache("A", "B", 1.0))
+        assertEquals(listOf(CurrencyPairCache("A", "B", 1.0)), dao.favoriteCurrencyPair())
+
+        dao.removeCurrencyPair(CurrencyPairCache("A", "B"))
+        assertEquals(emptyList<CurrencyPairCache>(), dao.favoriteCurrencyPair())
+    }
+
 }

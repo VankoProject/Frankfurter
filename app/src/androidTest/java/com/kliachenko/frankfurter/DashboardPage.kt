@@ -43,7 +43,6 @@ class DashboardPage {
             )
         ).check(matches(DrawableMatcher(R.drawable.settings_icon_48px)))
             .perform(click())
-
     }
 
     fun clickRetry() {

@@ -43,7 +43,6 @@ class DashBoardViewModel @Inject constructor(
         }
     }
 
-
     fun openSettings() {
         navigation.updateUi(SettingsScreen.Initial)
     }

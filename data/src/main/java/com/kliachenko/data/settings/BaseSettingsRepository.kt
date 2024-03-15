@@ -1,8 +1,8 @@
 package com.kliachenko.data.settings
 
-import com.kliachenko.data.dashboard.cache.CurrencyPair
-import com.kliachenko.data.dashboard.cache.FavoritePairCacheDataSource
-import com.kliachenko.data.loading.cache.CurrencyCacheDataSource
+import com.kliachenko.data.dashboard.cache.currencyCache.CurrencyCacheDataSource
+import com.kliachenko.data.dashboard.cache.currencyPair.CurrencyPairCache
+import com.kliachenko.data.dashboard.cache.currencyPair.FavoritePairCacheDataSource
 import com.kliachenko.domain.settings.SettingsRepository
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ class BaseSettingsRepository @Inject constructor(
     }
 
     override suspend fun save(from: String, to: String) {
-        favoritePairCacheDataSource.saveFavoritePair(CurrencyPair(from, to))
+        favoritePairCacheDataSource.saveFavoritePair(CurrencyPairCache(from, to))
     }
 
     override suspend fun savedPairsCount(): Int {
